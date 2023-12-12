@@ -36,7 +36,7 @@ header{
 .header_nav_content{
     display: none;
     width: 290px;
-    height: 560px;
+    height: 590px;
     position: fixed;
     top: 60px;
     right: 0;
@@ -55,7 +55,9 @@ header{
     margin-right: 18px;
     user-select: none;
     color: black;
+    margin-left: -2rem;
 }
+
 .user_data{
     display: flex;
     flex-direction: row;
@@ -102,7 +104,7 @@ header{
     margin-top: 20px;
 }
 .logo{
-    margin-left: 55px;
+    margin-left: 25px;
 }
 .min_nav {
     width: 290px;
@@ -171,9 +173,9 @@ footer {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    /* background-color: white; */
     padding: 0 13px;
     font-size: 12px;
+    white-space: nowrap;
 }
 footer span {
     letter-spacing: 1px;
@@ -214,7 +216,7 @@ footer span {
     }
     .min_nav{
         background-color: white;
-        width: 280px;
+        max-width: 280px;
     }
     .radiosNone{
         background: #F3F3F3;
@@ -236,7 +238,7 @@ footer span {
     }
     .header_nav_content{
         margin-right: 0;
-        width: 260px;
+        max-width: 280px;
     }
     .navbar__list  .swiper-wrapper {
         display: flex;
@@ -270,9 +272,21 @@ footer span {
     .header_nav{
         margin-top: 60px;
     }
+    .logo{
+        margin-left: 50px;
+    }
+    .min_nav{
+        max-width: 250px;
+        width: 100%;
+    }
     .navbar__link:hover{
         background-color: none;
         border-radius: 20px;
+    }
+    .header_nav_content{
+        margin-right: 0;
+        max-width: 250px;
+        width: 100%;
     }
     .navbar__menu{
         top: 125px
@@ -293,10 +307,25 @@ footer span {
     .d-none{
         display: none !important;
     }
-    footer {
+    footer{
+        background: white;
+    }
+    .footer_mob{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    footer p{
         font-size: 13px;
     }
     footer span{
-        margin-left: 100px;
+        /*margin-left: 100px;*/
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .logo{
+        margin-left: 25px;
     }
 }

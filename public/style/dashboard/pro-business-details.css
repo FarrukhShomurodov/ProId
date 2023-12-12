@@ -76,7 +76,7 @@
 .banks_rekvizit_container{
     margin-bottom: 20px;
     max-width: 510px;
-    height: 144px;
+    height: auto;
     border-radius: 20px;
     background: #F3F3F3;
     padding: 25px 10px 25px 20px;
@@ -164,7 +164,7 @@
     position: relative;
     top: 35px
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
     .business_details_container{
         max-width: 510px;
         width: 100%;
@@ -183,5 +183,17 @@
         top: 150px;
         z-index: 1;
         left: 30px;
+    }
+    .details{
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 390px){
+    .back{
+        display: block;
+        position: relative;
+        top: 35px;
+        left: 0;
     }
 }

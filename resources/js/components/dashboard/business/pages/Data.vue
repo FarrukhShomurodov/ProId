@@ -112,7 +112,7 @@ export default {
                     <div v-for="details in banking_details">
                         <div class="banks_rekvizit_container">
                             <div class="d-row">
-                                <h4>Счет : Основной</h4>
+                                <h4>Счет : {{ details.name_of_banking_akkaunt }}</h4>
                                 <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content" @click="showUpdateBanksDataModal(details.id)">
                             </div>
                             <div class="d-column">

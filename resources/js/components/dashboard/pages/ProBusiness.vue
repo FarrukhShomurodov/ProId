@@ -55,7 +55,7 @@ export default {
 
 <template>
     <div class="main_container" v-if="!businessDetail && loading">
-        <p><b>Мои бизнесы</b></p>
+        <p>Мои бизнесы</p>
         <div class="business_container" v-for=" data in businessData ">
             <div class="business_block" @click="showBusinessDetails(data.id)">
                 <div class="business_image" style="width: 80px; height: 80px; border-radius: 25px" :style="{
@@ -73,18 +73,18 @@ export default {
         <!-- Add Business -->
         <div class="add_business" @click="createBusiness = true">
             <img src="/images/icons/dashboard/add.svg" alt="">
-            <p><b>Добавить новый бизнес</b></p>
+            <p>Добавить новый бизнес</p>
         </div>
     </div>
 
     <!-- Links to Government services -->
     <div class="links_to_services" v-if="!businessDetail && loading">
-        <p><b>Полезные ссылки</b></p>
+        <p>Полезные ссылки</p>
         <div class="add_business links">
-            <span><b>Открытие Юридического лица в Республике Узбекистан</b></span>
+            <span>Открытие Юридического лица в Республике Узбекистан</span>
         </div>
         <div class="add_business links">
-            <span><b>Получение ЭЦП (Электронная цифровая подпись)</b></span>
+            <span>Получение ЭЦП (Электронная цифровая подпись)</span>
         </div>
     </div>
     <!-- Loading indicator -->

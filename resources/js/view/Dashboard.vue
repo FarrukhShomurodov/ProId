@@ -262,7 +262,7 @@ export default {
     <!--Footer-->
     <footer>
         <p class="d-none">Используйте режим инкогнито на чужом компьютере </p>
-        <p>Справка и поддержка <span>©2021-2023 PRO GROUP</span></p>
+        <p class="footer_mob"><span>Справка и поддержка </span><span>©2021-2023 PRO GROUP</span></p>
     </footer>
 </template>
 

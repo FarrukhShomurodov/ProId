@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export default {
     props:[
-      'userId'
+        'userId'
     ],
     data(){
         return{
@@ -176,17 +176,20 @@ label{
 
 @media screen and (max-width: 500px) {
     .modal-container-create-business {
-        width: 420px; /* Set width to 100% for smaller screens */
-        height: 730px !important; /* Let the height adjust based on content */
+        width: 400px; /* Set width to 100% for smaller screens */
+        height: 525px !important; /* Let the height adjust based on content */
         border-radius: 25px 25px 0px 0px;
         overflow-y: auto; /* Add this line to enable vertical scrolling */
     }
+    .create-business-content {
+        margin-left: 2px;
+    }
     /* Adjust other styles for smaller screens as needed */
     .form-input {
-        width: 100%; /* Set width to 100% for smaller screens */
+        width: 380px !important; /* Set width to 100% for smaller screens */
     }
     .create-business-content{
-        margin-left: 0;
+        margin-left: 0 !important;
     }
 }
 </style>

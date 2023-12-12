@@ -175,7 +175,7 @@ export default {
     justify-content: center;
 }
 .create-box-office-content{
-    margin-left: 17px;
+    margin-left: 17px !important;
 }
 label{
     margin-top: 10px;
@@ -236,11 +236,14 @@ label{
         height: 492px;
         border-radius: 25px 25px 0 0;
     }
+    .create-box-office-content{
+        margin-left: 0 !important;
+    }
     .form-input{
-        width: 345px;
+        width: 380px;
     }
     .select2-selection{
-        width: 345px;
+        width: 380px;
     }
 }
 </style>
