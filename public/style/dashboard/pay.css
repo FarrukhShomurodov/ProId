@@ -1,0 +1,43 @@
+.cards{
+    width: 500px;
+}
+.card_container{
+    justify-content: space-between;
+    margin-top: 15px;
+}
+.d-row{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+.h3{
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.card_template{
+    width: 48px;
+    height: 48px;
+    border-radius: 13px;
+    background: #F3F3F3;
+    justify-content: center;
+}
+.cart_margin_top{
+    margin-top: 40px;
+}
+.card_text{
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.card_number{
+    margin-left: 20px;
+    color: #000;
+    font-size: 16px;
+}
+
+@media screen and (max-width: 500px) {
+    .cards{
+        width: 100%;
+        max-width: 500px !important;
+    }
+}

@@ -1,0 +1,213 @@
+@import url("https://gistcdn.githack.com/mfd/7c7a915eb31474cc8c6a65066a4c4dc3/raw/f0f2fb94c21dea904812a53e0eb6cf0bc87f3754/GTWalsheimPro.css");
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "GT Walsheim Pro";
+}
+
+body {
+    background-color: #F6F5F7;
+}
+
+/* -----------------font import---------------------- */
+
+@font-face {
+    font-family: 'GT Walsheim Pro';
+    src: url('../fonts/GT Walsheim Pro-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+/* -----------------basic style--------------------- */
+
+h1, h2, h3, h4, h5, p, span, a {
+    color: #000;
+    font-family: 'GT Walsheim Pro', serif;
+}
+.reSend {
+    color: #545454;
+    text-align: center;
+    font-family: 'GT Walsheim Pro', serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border: none;
+    background-color: #FFF;
+}
+p {
+    color: #B0B0B0;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: 1.05px;
+}
+
+h2 {
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+button {
+    color: #000;
+    font-family: 'GT Walsheim Pro', selif, serif;
+    cursor: pointer;
+}
+.otc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    max-width: 100%;
+    margin: 0 auto;
+    margin-top: -20px;
+}
+
+.otc-form {
+    margin: 43px 0;
+}
+.otc .phone{
+    margin-top: -10px;
+    margin-left: -23px;
+}
+.otc .correct-signal{
+    margin-top: -10px;
+    margin-right: -20px;
+    margin-left: 10px;
+}
+.otc input {
+    width: 37px;
+    height: 30px;
+    font-size: 20px;
+    margin-left: 9px;
+    text-align: center;
+    justify-content: center;
+    border-radius: 9px;
+    border: 0.8px solid #FFF;
+    background: #FFF;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+    margin-bottom: 10px;
+}
+
+.otc input:focus {
+    outline: none;
+    box-shadow: 0 0 7px 0 #5FE0D8;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.page {
+    display: flex;
+    flex-direction: column;
+    max-width: 360px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.card {
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 0 0 40px -25px #000;
+    padding: 45px;
+    max-width: 360px;
+    height: 460px;
+    width: 100%;
+}
+.card__i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card__i img {
+    max-width: 35%;
+}
+.card__txt {
+    display: flex;
+    justify-content: center;
+}
+.card__txt span{
+    color: #000;
+    text-align: center;
+    font-family: '"GT Walsheim Pro"', ;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin: 50px 0;
+}
+.form span{
+    text-align: end;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.form label {
+    font-family: '"GT Walsheim Pro"', serif;
+    margin-bottom: 5px;
+    color: #989898;
+    font-size: 16px;
+}
+
+.input {
+    font-size: 16px;
+    font-family: '"GT Walsheim Pro"', serif;
+    border-radius: 9px;
+    border: 0.8px solid #FFF;
+    background: #FFF;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+    margin-bottom: 10px;
+    padding: 11px;
+}
+
+.input:focus {
+    outline: none;
+    box-shadow: 0 0 7px 0 #5FE0D8;
+}
+
+.sub-section button{
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: #000;
+    text-align: center;
+    font-family: GT Walsheim Pro, serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: 1.05px;
+}
+
+.button {
+    font-size: 16px;
+    font-family: "GT Walsheim Pro";
+    width: 271px;
+    background-color: #5FE0D8;
+    color: #fff;
+    padding: 13px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.card__paragraph {
+    margin-top: 20px;
+}

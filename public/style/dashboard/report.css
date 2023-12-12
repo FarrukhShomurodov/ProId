@@ -1,0 +1,46 @@
+.kassa_by_one{
+    margin-top: 20px;
+    width: 510px;
+    height: 116px;
+    border-radius: 20px;
+    background: #F3F3F3;
+    padding: 5px 5px 120px 5px;
+    margin-left: 4px;
+}
+.d_row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+p{
+    color: #0A0A0A;
+    font-size: 17px;
+}
+.price{
+    background-color: white;
+    padding: 5px 18px 5px 55px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+}
+.back{
+    margin-top: -70px;
+}
+@media screen and (max-width: 500px) {
+    .back{
+        position: absolute;
+        top: 30px;
+        z-index: 1;
+        left: 30px;
+    }
+    .kassa_by_one{
+        margin-left: -25px;
+        height: 130px;
+    }
+    .price{
+        padding: 2px 15px 1px 27px;
+    }
+}

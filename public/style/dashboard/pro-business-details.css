@@ -1,0 +1,187 @@
+.business_details_container{
+    width: 510px;
+    margin-top: 5px;
+}
+.business_details{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.business_details div:nth-child(1){
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.business_details div:nth-child(1) div{
+    margin-left: 16px;
+    margin-top: 10px
+}
+.business_image{
+    width: 93px;
+    height: 93px;
+    border-radius: 20px;
+    background: url('/images/icons/proBusiness/proConnect.jpg'), lightgray 50%;
+    background-size: cover;
+    box-shadow: 0 0 10px -5px #000;
+}
+.business_image img{
+    float: right;
+    width: 21px;
+    height: 21px;
+}
+.details_nav{
+    display: flex;
+    flex-direction: row;
+}
+.details{
+    margin-left: 25px;
+}
+.details_nav p{
+    font-size: 20px;
+    border-radius: 20px;
+    background: #F3F3F3;
+    padding: 10px 15px 10px 15px;
+    margin-right: 12px;
+}
+.details_content{
+    margin-top: 20px
+}
+.rekvizit_container{
+    max-width: 510px;
+    height: 125px;
+    border-radius: 20px;
+    background: #F3F3F3;
+    padding: 25px 10px 25px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.d-row{
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 17px;
+    color: #0A0A0A;
+}
+.edit_content{
+    width: 50px;
+    height: 30px;
+}
+.oked{
+    margin-right: 120px;
+}
+.banks_rekvizit_container{
+    margin-bottom: 20px;
+    max-width: 510px;
+    height: 144px;
+    border-radius: 20px;
+    background: #F3F3F3;
+    padding: 25px 10px 25px 20px;
+}
+.d-column{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-around;
+    color: #0A0A0A;
+    font-size: 17px;
+}
+.d-column p{
+    margin-top: 3px;
+}
+.add_banking_data{
+    margin-top: 15px;
+    margin-buttom: 15px;
+    max-width: 510px;
+    height: 42px;
+    border-radius: 20px;
+    background: #F3F3F3;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 11px;
+
+}
+.add_banking_data img{
+    margin-right: 11px;
+}
+
+.add_banking_data p{
+    font-size: 17px;
+    font-weight: 500;
+    color: #000;
+}
+.kassa{
+    max-width: 510px;
+    min-height: 125px;
+    border-radius: 20px;
+    padding: 10px 10px 25px 20px;
+    background: #F3F3F3;
+    margin-bottom: 20px;
+}
+.status{
+    margin-top: 15px;
+}
+.reports{
+    border: none;
+    border-radius: 8px;
+    background: #A0A0A0;
+    color: #FFF;
+    font-size: 17px;
+    padding: 5px 8px 5px 8px;
+}
+.business_name{
+    color: black !important;
+    font-weight: 500;
+}
+.add_box_office{
+    max-width: 510px;
+    width: 100%;
+    height: 42px;
+    background: #F3F3F3;
+    display: flex;
+    flex-direction: row;
+    border-radius: 20px;
+    margin-top: 13px;
+    align-items: center;
+}
+.add_box_office img{
+    width: 18px;
+    height: 18px;
+    margin-left: 15px;
+}
+.add_box_office p{
+    text-align: center;
+    white-space: nowrap;
+    margin-left: 11px;
+    font-weight: 500 !important;
+}
+.back{
+    display: block;
+    position: relative;
+    top: 35px
+}
+@media screen and (max-width: 500px) {
+    .business_details_container{
+        max-width: 510px;
+        width: 100%;
+    }
+    .business_name{
+        font-size: 17px;
+    }
+    .address{
+        margin-top: 7px;
+    }
+    .status{
+        margin-top: 0;
+    }
+    .back{
+        position: absolute;
+        top: 30px;
+        z-index: 1;
+        left: 30px;
+    }
+}

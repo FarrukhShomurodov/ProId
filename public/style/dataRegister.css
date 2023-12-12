@@ -1,0 +1,132 @@
+@import url("https://gistcdn.githack.com/mfd/7c7a915eb31474cc8c6a65066a4c4dc3/raw/f0f2fb94c21dea904812a53e0eb6cf0bc87f3754/GTWalsheimPro.css");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "GT Walsheim Pro";
+  font-weight: 300;
+  text-decoration: none;
+}
+
+a {
+  color: inherit;
+}
+.register {
+    background: #F6F5F7;
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 25px);
+    align-items: center;
+    justify-content: center;
+}
+.register .form {
+    background: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background: #FFF;
+  padding: 11px 45px;
+  padding-top: 21px;
+  width: 361px;
+  height: 470px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 40px -25px #000;
+  gap: 40px;
+}
+.top .entrance {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+.top .entrance .image {
+  display: flex;
+  justify-content: center;
+}
+.top .entrance .text {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
+}
+.top .main-form {
+  margin-top: -26px;
+  display: flex;
+  flex-direction: column;
+  align-items: start !important;
+  gap: 20px;
+}
+.top .main-form label {
+  margin-bottom: -20px;
+  color: #808080;
+}
+.top .main-form input:nth-child(2) {
+  font-size: 20px;
+  outline: none;
+  box-shadow: 0px 0px 10px -5px #000;
+  border-radius: 10px;
+  border: none;
+  padding: 9px 14px;
+  width: 100%;
+}
+.top .main-form input:nth-child(4) {
+  font-size: 20px;
+  outline: none;
+  box-shadow: 0px 0px 10px -5px #000;
+  border-radius: 10px;
+  border: none;
+  padding: 9px 14px;
+  width: 100%;
+}
+.top .main-form input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.top .main-form input:nth-child(5) {
+  cursor: pointer;
+  width: 100%;
+  padding: 5px;
+  background: #5FE0D8;
+  border-radius: 9px;
+    height: 47px;
+  color: #FFF;
+  font-size: 23px;
+  border: solid 2px #5FE0D8;
+  transition: 0.3s ease-in-out;
+}
+.top .main-form input:nth-child(5):hover {
+  background: none;
+  color: #5FE0D8;
+}
+.top > .text {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.top > .text p:nth-child(1) {
+  font-size: 15px;
+  text-align: center;
+  color: #808080;
+  letter-spacing: 1px;
+}
+.top > .text p:nth-child(1) span {
+  color: #000;
+}
+.top > .text p:nth-child(2) {
+  font-size: 15px;
+  text-align: center;
+  color: #808080;
+}
+.top > .text p:nth-child(2) span {
+  color: #000;
+}
+.register .form .bottom {
+    color: #000;
+    text-align: center;
+}
+/*# sourceMappingURL=dataRegister.css.map */
