@@ -94,7 +94,7 @@
 }
 .add_banking_data{
     margin-top: 15px;
-    margin-buttom: 15px;
+    margin-bottom: 15px;
     max-width: 510px;
     height: 42px;
     border-radius: 20px;
@@ -179,8 +179,8 @@
         margin-top: 0;
     }
     .back{
-        position: absolute;
-        top: 30px;
+        position: fixed;
+        top: 150px;
         z-index: 1;
         left: 30px;
     }

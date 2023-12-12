@@ -34,7 +34,11 @@ export default {
     methods:{
         async getBankData(){
             try {
-                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`);
+                const headers = {
+                    'Authorization': `Bearer ` + localStorage.token,
+                    'Content-Type': 'application/json',
+                };
+                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`,{headers});
 
                 //assuming the response contains an array of objects with 'id' and 'name_of_banking_akkaunt' properties
                 this.dankData = banksResponse.data;
@@ -50,7 +54,11 @@ export default {
                 'service': this.service,
                 'bank_data_id': this.bank_data_id
             }
-            axios.post('/api/box-offices', box_office_data).then( res => {
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.post('/api/box-offices', box_office_data, {headers}).then( res => {
                 this.$emit('close');
             });
         },
@@ -128,10 +136,9 @@ export default {
 </template>
 
 <style>
-//Add Banking Data
-.add_bank{
+.add_bank {
     margin-top: 15px;
-    margin-buttom: 15px;
+    margin-bottom: 15px; /* Corrected property name */
     max-width: 510px;
     height: 42px;
     border-radius: 20px;
@@ -141,6 +148,7 @@ export default {
     align-items: center;
     padding-left: 11px;
 }
+
 .add_bank p{
     font-size: 17px;
     font-weight: 500;

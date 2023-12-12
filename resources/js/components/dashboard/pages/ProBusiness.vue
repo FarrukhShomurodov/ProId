@@ -34,7 +34,7 @@ export default {
                 this.userId = res.data.id
 
                 // Business
-                axios.get(`/api/fetch-by-user/${this.userId}`).then(res => {
+                axios.get(`/api/fetch-by-user/${this.userId}`, {headers}).then(res => {
                     this.businessData = res.data
                     this.loading = true;
                 });
@@ -59,7 +59,7 @@ export default {
         <div class="business_container" v-for=" data in businessData ">
             <div class="business_block" @click="showBusinessDetails(data.id)">
                 <div class="business_image" style="width: 80px; height: 80px; border-radius: 25px" :style="{
-                                    'background-image': `url(${data.image === '/images/icons/proBusiness/proConnect.jpg' ? data.image : 'storage/' + data.image})`,
+                                    'background-image': `url(${data.image === '/images/icons/proBusiness/proConnect.jpg' ? data.image : '/storage/' + data.image})`,
                                     'background-size': 'cover',
                                     'background-position': 'center'
                                   }"></div>

@@ -18,7 +18,11 @@ export default {
                 user_id: this.userId,
                 name: this.address,
             }
-            axios.post('/api/address', data).then(() => {
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.post('/api/address', data,{headers}).then(() => {
                 this.$emit('goBack')
             })
         },

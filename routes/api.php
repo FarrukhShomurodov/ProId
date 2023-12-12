@@ -71,11 +71,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/upload-avatar/{user}', [UserController::class,'uploadAvatar']);
     Route::delete('/delete-avatar/{user}', [UserController::class,'deleteAvatar']);
 
-    // OTP
-    Route::post('/sendOTP', [OTPController::class,'sendOTP']);
-    Route::post('/checkCode', [OTPController::class,'checkCode']);
-    Route::delete('/deleteCode', [OTPController::class,'deleteCode']);
-
     // Addresses
     Route::get('/address/{user}', [AddressController::class, 'fetchByUser']);
     Route::get('/address-show/{address}', [AddressController::class, 'show']);
@@ -107,3 +102,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/box-offices/', [BoxOfficeController::class, 'store']);
     Route::delete('/box-offices/{boxOffice}', [BoxOfficeController::class, 'destroy']);
 });
+
+// OTP
+Route::post('/sendOTP', [OTPController::class,'sendOTP']);
+Route::post('/checkCode', [OTPController::class,'checkCode']);
+Route::delete('/deleteCode', [OTPController::class,'deleteCode']);

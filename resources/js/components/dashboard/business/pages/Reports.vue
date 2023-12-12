@@ -28,14 +28,19 @@ export default {
     },
     methods:{
         async getboxOffice(){
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+
             //getting box office data
-            const boxOfficeResponse = await axios.get(`api/box-offices-show/${this.box_office_id}`);
+            const boxOfficeResponse = await axios.get(`api/box-offices-show/${this.box_office_id}`, {headers});
             this.service = boxOfficeResponse.data.service
             this.name = boxOfficeResponse.data.name
             this.active = boxOfficeResponse.data.isActive === 1 ? true : false;
 
             //getting banking data by box office
-            const bankResponse = await axios.get(`api/banking-data-show/${boxOfficeResponse.data.bank_data_id}`);
+            const bankResponse = await axios.get(`api/banking-data-show/${boxOfficeResponse.data.bank_data_id}`, {headers});
             this.nameOfBankingAkkaunt = bankResponse.data.name_of_banking_akkaunt;
             this.loading = true
         },

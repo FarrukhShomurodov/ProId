@@ -13,7 +13,11 @@ export default {
     },
 
     mounted() {
-        axios.get(`/api/pro-business-show/${this.business_id}`).then(res => {
+        const headers = {
+            'Authorization': `Bearer ` + localStorage.token,
+            'Content-Type': 'application/json',
+        };
+        axios.get(`/api/pro-business-show/${this.business_id}`,{headers}).then(res => {
             this.avatarUrl = res.data.image;
             console.log(this.avatarUrl)
         })
@@ -38,13 +42,19 @@ export default {
             this.avatarFile = e.target.files[0];
         },
         uploadAvatar() {
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'multipart/form-data',
+            };
             if (this.avatarFile) {
                 const formData = new FormData();
                 formData.append("image", this.avatarFile);
 
-                axios.post(`/api/pro-business-image/${this.business_id}`, formData).then(response => {
+                axios.post(`/api/pro-business-image/${this.business_id}`, formData,{headers}).then(response => {
                     this.avatarUrl = response.data.image;
                     this.$emit('close');
+                }).catch(error => {
+                    console.error('Error uploading avatar:', error);
                 });
             }
         },
@@ -75,7 +85,7 @@ export default {
                                     style="width: 92px; height: 92px;"
                                     :style="{
                                     'background-image': `url(${
-                                      avatarUrl === '/images/icons/proBusiness/proConnect.jpg' ? imageData : 'storage/' + avatarUrl
+                                      avatarUrl === '/images/icons/proBusiness/proConnect.jpg' ? imageData : '/storage/' + avatarUrl
                                     })`,
                                     'background-size': 'cover',
                                     'background-position': 'center'

@@ -52,10 +52,14 @@ export default {
             // Implement the method if needed
         },
         save(){
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
             const data = {
                 name: this.address,
             }
-            axios.put(`/api/address/${this.address_id}`, data).then(() => {
+            axios.put(`/api/address/${this.address_id}`, data,{headers}).then(() => {
 
                 this.$emit('goBack')
             })

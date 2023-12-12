@@ -42,7 +42,11 @@ export default {
     },
     methods:{
         async getboxOffice(){
-            const boxOfficeResponse = await axios.get(`/api/box-offices-show/${this.box_office_id}`);
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            const boxOfficeResponse = await axios.get(`/api/box-offices-show/${this.box_office_id}`,{headers});
             this.service = boxOfficeResponse.data.service
             this.name = boxOfficeResponse.data.name
             this.active = boxOfficeResponse.data.isActive === 1 ? true : false;
@@ -50,7 +54,11 @@ export default {
         },
         async getBankData(){
             try {
-                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`);
+                const headers = {
+                    'Authorization': `Bearer ` + localStorage.token,
+                    'Content-Type': 'application/json',
+                };
+                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`,{headers});
 
                 //assuming the response contains an array of objects with 'id' and 'name_of_banking_akkaunt' properties
                 this.dankData = banksResponse.data;
@@ -65,16 +73,32 @@ export default {
                 'service': this.service,
                 'bank_data_id': this.bank_data_id
             }
-            axios.put(`/api/box-offices/${this.box_office_id}`, box_office_data).then( () => this.$emit('close'));
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.put(`/api/box-offices/${this.box_office_id}`, box_office_data,{headers}).then( () => this.$emit('close'));
         },
         disActivate(){
-            axios.get(`/api/box-offices-disActivate/${this.box_office_id}`).then(() => this.$emit('close'))
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.get(`/api/box-offices-disActivate/${this.box_office_id}`,{headers}).then(() => this.$emit('close'))
         },
         activate(){
-            axios.get(`/api/box-offices-activate/${this.box_office_id}`).then(() => this.$emit('close'))
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.get(`/api/box-offices-activate/${this.box_office_id}`,{headers}).then(() => this.$emit('close'))
         },
         destroy(){
-            axios.delete(`/api/box-offices/${this.box_office_id}`).then(() => this.$emit('close'))
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.delete(`/api/box-offices/${this.box_office_id}`,{headers}).then(() => this.$emit('close'))
         }
     },
     watch: {
@@ -164,7 +188,7 @@ export default {
 /* Add Banking Data */
 .add_bank{
     margin-top: 15px;
-    margin-buttom: 15px;
+    margin-bottom: 15px; /* Corrected property name */
     max-width: 510px;
     height: 42px;
     border-radius: 20px;

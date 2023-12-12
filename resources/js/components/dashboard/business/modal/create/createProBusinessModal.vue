@@ -30,6 +30,10 @@ export default {
                 'oked': this.oked,
                 'address': this.address,
             }
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
             axios.post('/api/pro-business',data).then(res => {
                 const business_id = res.data.id;
                 const banks_data = {
@@ -39,14 +43,17 @@ export default {
                     'mfo': this.mfo,
                     'payment_account': this.payment_account
                 }
-                axios.post('/api/banks-data', banks_data).then( () =>{
+                axios.post('/api/banks-data', banks_data, {headers}).then( () =>{
                     this.$emit('close');
                 });
             })
         },
         mfoBank(){
-
-            axios.get('api/bank-data-by-mfo').then(res => {
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.get('api/bank-data-by-mfo',{headers}).then(res => {
                 for(let i = 0; i < res.data.length; i++){
                     if(res.data[i].code === this.mfo){
                         this.name_of_bank = res.data[i].name

@@ -22,18 +22,18 @@ import Map from './view/Map.vue'
 
 //Routes
 const routes = [
-    {
-        path: '/',
-        component: Login,
-        name: 'login',
-        beforeEnter(to, from, next) {
-            if (token && from.name === 'dashboard'){
-                next({name: 'dashboard'})
-            }else{
-                next()
-            }
-        }
-    },
+    // {
+    //     path: '/',
+    //     component: Login,
+    //     name: 'login',
+    //     beforeEnter(to, from, next) {
+    //         if (token && from.name === 'dashboard'){
+    //             next({name: 'dashboard'})
+    //         }else{
+    //             next()
+    //         }
+    //     }
+    // },
     {
         path: '/oauth/authorize',
         component: AuthFromAnotherApp
@@ -96,13 +96,17 @@ const routes = [
                 name: 'dashboard-business', //assign unique names for navigation
             },
         ],
-        beforeEnter(to, from, next){
-            if(from.name === 'register' || from.name === 'confirmNumber'){
-                next()
-            }else{
-                next({name: 'login'})
-            }
-        }
+            // beforeEnter(to, from, next){
+            //     if(token){
+            //         next()
+            //     }else{
+            //         if(from.name === 'register' || from.name === 'confirmNumber'){
+            //             next()
+            //         }else{
+            //             next({name: 'login'})
+            //         }
+            //     }
+            // }
     },
     // Passport
     {
@@ -126,45 +130,36 @@ const router = createRouter({
 })
 
 
+/// Is Admin
 let token = localStorage.token;
+const headers = {
+    'Authorization': `Bearer ` + token,
+    'Content-Type': 'application/json',
+};
 
-// Function to check if the user is logged in
-const checkLogin = async () => {
+// Guard
+router.beforeEach(async (to, from, next) => {
     if (token) {
         try {
             const response = await axios.get('/api/user', { headers });
             const isAdmin = response.data.is_admin;
-            return response.status === 200 && isAdmin === "1";
+            const isLogin = response.status === 200;
+
+            if (isLogin) {
+                if (to.name === 'client' && isAdmin !== "1") {
+                    next({ name: 'dashboard' });
+                } else {
+                    next();
+                }
+            } else {
+                next({ name: 'login' });
+            }
         } catch (error) {
             console.error('Error fetching user data:', error);
-            return false;
+            next();
         }
     } else {
-        return false;
-    }
-};
-
-// Initial check on page load
-router.beforeEach(async (to, from, next) => {
-    const isLoggedIn = await checkLogin();
-
-    if (to.name === 'login' && isLoggedIn) {
-        next({ name: 'dashboard' });
-    } else if (to.name === 'dashboard' && !isLoggedIn) {
-        next({ name: 'login' });
-    } else {
         next();
-    }
-});
-
-// Guard for other routes
-router.beforeEach(async (to, from, next) => {
-    const isLoggedIn = await checkLogin();
-
-    if (isLoggedIn) {
-        next();
-    } else {
-        next({ name: 'login' });
     }
 });
 

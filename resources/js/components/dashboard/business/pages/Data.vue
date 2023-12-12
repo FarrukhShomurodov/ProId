@@ -36,12 +36,16 @@ export default {
     },
     methods:{
         fetchBusinesses(){
-            axios.get(`/api/pro-business-show/${this.business_id}`).then(res => {
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.get(`/api/pro-business-show/${this.business_id}`,{headers}).then(res => {
                 this.business_details = res.data;
             })
 
             // fetching banking data by business
-            axios.get(`/api/banking-data-fetch/${this.business_id}` ).then(res => {
+            axios.get(`/api/banking-data-fetch/${this.business_id}`,{headers} ).then(res => {
                 this.banking_details = res.data
                 this.loading = true
             })
@@ -75,7 +79,7 @@ export default {
                 </div>
             </div>
             <div class="business_image" :style="{
-                                    'background-image': `url(${business_details.image === '/images/icons/proBusiness/proConnect.jpg' ? business_details.image : 'storage/' + business_details.image})`,
+                                    'background-image': `url(${business_details.image === '/images/icons/proBusiness/proConnect.jpg' ? business_details.image : '/storage/' + business_details.image})`,
                                     'background-size': 'cover',
                                     'background-position': 'center'
                                   }">

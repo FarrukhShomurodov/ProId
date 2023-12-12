@@ -13,7 +13,7 @@ export default {
             date: '',
             gender: '',
             avatarUrl: '',
-            avatarFile: null,
+            avatarFile: '',
             editAVA: false,
             loading: false, // Loading state
         };
@@ -62,7 +62,11 @@ export default {
             }
         },
         deleteImage() {
-            axios.delete(`/api/delete-avatar/${this.userId}`).then(res => console.log(res));
+            const headers = {
+                Authorization: `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.delete(`/api/delete-avatar/${this.userId}`,{headers}).then(res => console.log(res));
             this.avatarUrl = ''
             this.imageData = ''
             this.editAVA = true
@@ -71,13 +75,22 @@ export default {
             this.avatarFile = e.target.files[0];
         },
         uploadAvatar() {
+            const headers = {
+                Authorization: `Bearer ` + localStorage.token,
+                'Content-Type': 'multipart/form-data',
+            };
+
             if (this.avatarFile) {
                 const formData = new FormData();
-                formData.append("avatar", this.avatarFile);
+                formData.append('avatar', this.avatarFile);
 
-                axios.post(`/api/upload-avatar/${this.userId}`, formData).then(response => {
-                    this.avatarUrl = response.data.avatar;
-                });
+                axios.post(`/api/upload-avatar/${this.userId}`, formData, { headers })
+                    .then(response => {
+                        this.avatarUrl = response.data.avatar_url;
+                    })
+                    .catch(error => {
+                        console.error('Error uploading avatar:', error);
+                    });
             }
         },
         save() {
@@ -88,8 +101,11 @@ export default {
                 date_of_birth: this.date,
                 gender: this.gender,
             };
-
-            axios.put(`/api/update/${this.userId}`, data).then(() => {
+            const headers = {
+                Authorization: `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.put(`/api/update/${this.userId}`, data,{headers}).then(() => {
                 this.$emit('close');
             });
         },
@@ -119,7 +135,7 @@ export default {
                                     style="width: 92px; height: 92px;"
                                     :style="{
                                     'background-image': `url(${
-                                      avatarUrl !== '' ? 'storage/' + avatarUrl : imageData
+                                      avatarUrl !== '' ? '/storage/' + avatarUrl : imageData
                                     })`,
                                     'background-size': 'cover',
                                     'background-position': 'center'

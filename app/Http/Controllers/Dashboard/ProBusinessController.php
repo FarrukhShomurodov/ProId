@@ -96,8 +96,8 @@ class ProBusinessController extends Controller
         ]);
 
         //delete old avatar if exists
-        if ($proBusiness->avatar) {
-            Storage::disk('public')->delete($proBusiness->avatar);
+        if ($proBusiness->image) {
+            Storage::disk('public')->delete($proBusiness->image);
         }
 
         //store new avatar

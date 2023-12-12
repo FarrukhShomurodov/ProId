@@ -80,7 +80,7 @@ export default {
                 this.mail = data.email
 
                 //getting addresses
-                axios.get(`/api/address/${this.userId}`).then(res =>
+                axios.get(`/api/address/${this.userId}`, {headers}).then(res =>
                 {
                     this.addresses = res.data
                     if(this.addresses.length != 0){
@@ -121,7 +121,7 @@ export default {
         <div class="data_container" v-if="!mailShow && !phoneInfoShow">
             <div class="data">
                 <div class="ava" :style="{
-                            'background-image': `url(${avatarUrl !== null ? 'storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
+                            'background-image': `url(${avatarUrl !== null ? '/storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
                             'background-size': 'cover',
                             'background-position': 'center',
                              'background-color': 'white'

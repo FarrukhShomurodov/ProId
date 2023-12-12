@@ -74,7 +74,6 @@ export default {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
             }).then(() => {
-                location.reload()
                 localStorage.removeItem('token');
                 router.push({ name: 'login' });
             })
@@ -112,7 +111,7 @@ export default {
                 <div class="min_nav" :class="{'radiosNone': showUserMenu || showServiceMenu}">
                     <img src="/images/icons/dashboard/menu.svg" alt="" @click="showServices">
                     <div class="ava" style="width: 47px; height: 47px;" :style="{
-                            'background-image': `url(${avatarUrl !== null ? 'storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
+                            'background-image': `url(${avatarUrl !== null ? '/storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
                             'background-size': 'cover',
                             'background-position': 'center',
                             'background-color': 'white'
@@ -124,7 +123,7 @@ export default {
                 <div class="header_nav_content_container">
                     <div class="user_data">
                         <div class="ava" style="width: 66px; height: 66px;" :style="{
-                            'background-image': `url(${avatarUrl !== null ? 'storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
+                            'background-image': `url(${avatarUrl !== null ? '/storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
                             'background-size': 'cover',
                             'background-position': 'center',
                             'background-color': 'white'

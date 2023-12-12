@@ -15,7 +15,11 @@ export default {
         }
     },
     mounted() {
-        axios.get(`/api/banking-data-show/${this.banking_id}`).then(res => {
+        const headers = {
+            'Authorization': `Bearer ` + localStorage.token,
+            'Content-Type': 'application/json',
+        };
+        axios.get(`/api/banking-data-show/${this.banking_id}`,{headers}).then(res => {
             const data = res.data;
             this.name = data.name
             this.name_of_banking_akkaunt = data.name_of_banking_akkaunt
@@ -26,20 +30,27 @@ export default {
     },
     methods:{
         save(){
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
             const banks_data = {
                 'mfo': this.mfo,
                 'payment_account': this.payment_account,
                 'name': this.name,
                 'name_of_banking_akkaunt': this.name_of_banking_akkaunt
             }
-            axios.put(`/api/banks-data/${this.banking_id}`, banks_data).then( res => {
+            axios.put(`/api/banks-data/${this.banking_id}`, banks_data,{headers}).then( res => {
 
                 this.$emit('close')
             });
         },
         mfoBank(){
-
-            axios.get('/api/bank-data-by-mfo').then(res => {
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.get('/api/bank-data-by-mfo',{headers}).then(res => {
                 for(let i = 0; i < res.data.length; i++){
                     if(res.data[i].code === this.mfo){
                         this.name = res.data[i].name

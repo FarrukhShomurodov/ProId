@@ -54,6 +54,7 @@ header{
     font-size: 20px;
     margin-right: 18px;
     user-select: none;
+    color: black;
 }
 .user_data{
     display: flex;
@@ -235,16 +236,16 @@ footer span {
     }
     .header_nav_content{
         margin-right: 0;
-        width: 280px;
+        width: 260px;
     }
-    .navbar__list >>> .swiper-wrapper {
+    .navbar__list  .swiper-wrapper {
         display: flex;
         border-radius: 35px 0 0 35px;
         background: #F3F3F3;
         flex-direction: row;
         padding: 15px 20px 15px 20px;
     }
-    .navbar__list >>> .swiper-wrapper .navbar__link{
+    .navbar__list  .swiper-wrapper .navbar__link{
         padding: 10px !important;
         width: auto !important;
         white-space: nowrap;
@@ -268,6 +269,10 @@ footer span {
 @media screen and (max-width: 600px) {
     .header_nav{
         margin-top: 60px;
+    }
+    .navbar__link:hover{
+        background-color: none;
+        border-radius: 20px;
     }
     .navbar__menu{
         top: 125px

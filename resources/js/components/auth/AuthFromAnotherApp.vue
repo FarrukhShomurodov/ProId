@@ -139,7 +139,7 @@ export default {
             }
         },
         redirect() {
-            axios.post('authorize', {
+            axios.post('/authorize', {
                 state: this.requestState,
                 client_id: this.clientId,
                 auth_token: this.authToken

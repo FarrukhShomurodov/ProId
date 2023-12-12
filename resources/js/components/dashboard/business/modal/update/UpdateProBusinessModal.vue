@@ -15,7 +15,11 @@ export default {
         }
     },
     mounted() {
-        axios.get(`/api/pro-business-show/${this.business_id}`).then(res => {
+        const headers = {
+            'Authorization': `Bearer ` + localStorage.token,
+            'Content-Type': 'application/json',
+        };
+        axios.get(`/api/pro-business-show/${this.business_id}`,{headers}).then(res => {
             const data = res.data;
             this.id = data.id;
             this.inn = data.inn;
@@ -28,6 +32,10 @@ export default {
     },
     methods:{
         save(){
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
             const data = {
                 'inn':  this.inn,
                 'name_of_business': this.name_of_business,
@@ -35,7 +43,7 @@ export default {
                 'oked': this.oked,
                 'address': this.address,
             }
-            axios.put(`/api/pro-business/${this.id}`,data).then(res => {
+            axios.put(`/api/pro-business/${this.id}`,data,{headers}).then(res => {
 
                 this.$emit('close')
             })

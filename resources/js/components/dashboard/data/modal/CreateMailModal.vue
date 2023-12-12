@@ -12,9 +12,13 @@ export default {
     },
     methods:{
         save(){
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
             axios.post(`/api/add-mail/${this.userId}`, {
                 email: this.mail
-            }).then(() => {
+            },{headers}).then(() => {
 
                 this.$emit('goBack')
             } )

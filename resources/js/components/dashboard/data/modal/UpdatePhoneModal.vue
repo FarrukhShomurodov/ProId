@@ -85,16 +85,24 @@ export default {
                 this.changeNum = false
             }
             if(this.showCorrectSignal){
+                const headers = {
+                    'Authorization': `Bearer ` + localStorage.token,
+                    'Content-Type': 'application/json',
+                };
                 axios.post(`/api/change-phone-number/${this.userId}`, {
                     phone_number: this.changedPhoneNumber
-                }).then((res) => console.log(res))
+                },{headers}).then((res) => console.log(res))
             }
         },
         save(){
             if(this.showCorrectSignal){
+                const headers = {
+                    'Authorization': `Bearer ` + localStorage.token,
+                    'Content-Type': 'application/json',
+                };
                 axios.post(`/api/change-phone-number/${this.userId}`, {
                     phone_number: this.changedPhoneNumber
-                }).then(() => $emit('close'))
+                },{headers}).then(() => $emit('close'))
             }
         },
         watch: {

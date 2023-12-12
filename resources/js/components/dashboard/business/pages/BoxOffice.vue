@@ -40,7 +40,11 @@ export default {
     methods:{
         async fetchBoxOffice() {
             try {
-                const res = await axios.get(`/api/box-offices/${this.business_id}`);
+                const headers = {
+                    'Authorization': `Bearer ` + localStorage.token,
+                    'Content-Type': 'application/json',
+                };
+                const res = await axios.get(`/api/box-offices/${this.business_id}`,{headers});
                 this.boxOfficeDetails = res.data;
                 this.loading = true;
             } catch (error) {
@@ -49,7 +53,11 @@ export default {
         },
         async getBankData() {
             try {
-                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`);
+                const headers = {
+                    'Authorization': `Bearer ` + localStorage.token,
+                    'Content-Type': 'application/json',
+                };
+                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`,{headers});
                 //update bankData object with bank data using the unique id as key
                 const  data =  banksResponse.data
                 for(let i = 0; i < data.length; i++){
