@@ -272,6 +272,13 @@ footer span {
     .header_nav{
         margin-top: 60px;
     }
+    .header_nav_list *{
+        white-space: nowrap;
+    }
+    .secure_link *{
+        margin-top: 9px;
+        font-size: 15px;
+    }
     .logo{
         margin-left: 50px;
     }
@@ -290,6 +297,9 @@ footer span {
     }
     .navbar__menu{
         top: 125px
+    }
+    .nav_service{
+        max-width: 220px;
     }
     .content_container{
         top: 120px
