@@ -4,19 +4,20 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name') }} - Authorization</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-    <!-- Styles -->
-
+    <link rel="shortcut icon" href="{{ asset('images/logo/ProIDLogo.svg') }}" />
     <link href="{{ asset('/style/authFromAnotherApp.css') }}" rel="stylesheet">
 </head>
 <body class="passport-authorize">
-@php
-    $user = \Illuminate\Support\Facades\Auth::user();
-@endphp
+
+{{--Fetching User--}}
+@php $user = \Illuminate\Support\Facades\Auth::user() @endphp
+
+{{-- Authitificated User From --}}
 <div class="login">
     <div class="form">
         <div class="top">
@@ -60,14 +61,21 @@
         </div>
     </div>
 </div>
+
+{{-- Fotter --}}
 <div class="bottom-part">
     <p>Используйте режим инкогнито на чужом компьютере</p>
     <p>Справка и поддержка <span>©2021-2023 PRO GROUP</span></p>
 </div>
 
 <script>
+    // Set default value in second
     let second = 5;
+
+    // Getting second element form html
     let secondEl = document.querySelector('#second');
+
+    // Setting second value in element and decreasing value each second
     function timer() {
         if (second > 0) {
             second -= 1;
@@ -78,6 +86,8 @@
         }
     }
     let timerInterval = setInterval(timer, 1000)
+
+    // Clear interval if time out
     if (second <= 0) {
         clearInterval(timerInterval);
     }
