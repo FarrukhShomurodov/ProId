@@ -14,25 +14,73 @@
     <link href="{{ asset('/style/authFromAnotherApp.css') }}" rel="stylesheet">
 </head>
 <body class="passport-authorize">
-    <div id="app">
-        <router-view 
-        :request-state="{{ json_encode($request->state) }}"
-        :client-id="{{ json_encode($client->getKey()) }}"
-        :auth-token="{{ json_encode($authToken) }}"
-        :client-name="{{ json_encode($client->name) }}"
-    ></router-view>
+@php
+    $user = \Illuminate\Support\Facades\Auth::user();
+@endphp
+<div class="login">
+    <div class="form">
+        <div class="top">
+            <div class="image">
+                <img src="{{asset('/images/logo/pro_id_logo.svg')}}" alt="">
+            </div>
+            <div>
+                <a href="" class="link">Что такое PRO ID <img src="{{asset('/images/icons/question.svg')}}"></a>
+            </div>
+        </div>
+        <div class="bottom top-aqua">
+            <div class="enterence">
+                <div class="text">
+                    <p>{{  $client->name  }}</p>
+                    <p>Вход c помощью PRO ID</p>
+                </div>
+                <div class="image">
+                    <img src="{{asset('/images/logo/pro_id_logo_mini.svg')}}" alt="">
+                </div>
+            </div>
+
+            <div class="oauth_redirect oauth_redirect_true">
+                <img src="{{asset('/images/icons/oauthTrue.svg')}}">
+                <p class="oauth_entrance"><span>{{ $user->name }} {{ $user->surname }}</span><br> Вы успешно вошли в систему.</p>
+                <p class="redirect_timer">Через <span id="second">{{ 5 }}</span> секунд вы вернетесь на сайт
+                    {{  $client->name  }} </p>
+                <form method="post" action="{{ route('passport.authorizations.approve') }}" id="approvalForm">
+                    @csrf
+
+                    <input type="hidden" name="state" value="{{ $request->state }}">
+                    <input type="hidden" name="client_id" value="{{ $client->getKey() }}">
+                    <input type="hidden" name="auth_token" value="{{ $authToken }}">
+                    <button type="submit" class="reirect_link">Перейти на сайт {{  $client->name  }}</button>
+                </form>
+            </div>
+
+            <div class="text">
+                <p>Продолжая использовать PRO ID,<br>я принимаю <span>условия оферты.</span></p>
+                <p>PRO ID - ключ от всех сервисов</p>
+            </div>
+        </div>
     </div>
+</div>
+<div class="bottom-part">
+    <p>Используйте режим инкогнито на чужом компьютере</p>
+    <p>Справка и поддержка <span>©2021-2023 PRO GROUP</span></p>
+</div>
+
+<script>
+    let second = 5;
+    let secondEl = document.querySelector('#second');
+    function timer() {
+        if (second > 0) {
+            second -= 1;
+            secondEl.innerHTML = second;
+        } else {
+            clearInterval(timerInterval)
+            document.getElementById('approvalForm').submit();
+        }
+    }
+    let timerInterval = setInterval(timer, 1000)
+    if (second <= 0) {
+        clearInterval(timerInterval);
+    }
+</script>
 </body>
 </html>
-
-
-{{-- auth --}}
-
-{{-- <form method="post" action="{{ route('passport.authorizations.approve') }}">
-    @csrf
-
-    <input type="hidden" name="state" value="{{ $request->state }}">
-    <input type="hidden" name="client_id" value="{{ $client->getKey() }}">
-    <input type="hidden" name="auth_token" value="{{ $authToken }}">
-    <button type="submit" class="btn btn-success btn-approve">Перейти на сайт {{ $client->name }}</button>
-</form> --}}

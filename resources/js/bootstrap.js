@@ -1,6 +1,10 @@
+// Import bootstrap
 import 'bootstrap';
 
+// Import Axios
 import axios from 'axios';
+
+// Initiliase axios
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

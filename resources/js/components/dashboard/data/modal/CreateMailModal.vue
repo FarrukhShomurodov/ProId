@@ -5,25 +5,67 @@ export default {
     props:['userId'],
     data(){
         return{
-            mail:''
+            otp: Array(6).fill(''),
+            email:'',
+            showCorrectSignal: false,
         }
     },
     mounted(){
     },
     methods:{
+        handleInput(index) {
+            if (index < 6) {
+                if (this.otp[index - 1] !== '' && this.otp[index] === '') {
+                    this.$refs[`otcInput`][index].focus();
+                }
+            }
+        },
+        handleKeyDown(index) {
+            if (index > 1 && this.otp[index - 1] === '' && event.key === 'Backspace') {
+                this.$refs[`otcInput`][index - 2].focus();
+            } else if (index === 6 && event.key >= '0' && event.key <= '9') {
+                this.otp[index - 1] = event.key;
+                event.preventDefault();
+            }
+        },
         save(){
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
             };
-            axios.post(`/api/add-mail/${this.userId}`, {
-                email: this.mail
+            axios.post(`/api/add-email/${this.userId}`, {
+                email: this.email
             },{headers}).then(() => {
 
                 this.$emit('goBack')
             } )
         },
-    }
+    },
+    watch: {
+        otp: {
+            handler: function (newVal, oldVal) {
+                const allDigitsFilled = newVal.every(digit => digit !== '');
+                if (allDigitsFilled) {
+                    const code = this.otp.join('');
+                    if (code.length === 6) {
+                        axios.post('/api/checkCode', {
+                            phoneNumber: this.phoneNumberForSend,
+                            code: parseInt(code, 10)
+                        }).then(() => {
+                            this.showCorrectSignal = true
+                        }).catch(err => {
+                            this.showCorrectSignal = false
+
+                        })
+                    } else {
+                        this.showCorrectSignal = false
+                    }
+
+                }
+            },
+            deep: true,
+        },
+    },
 };
 </script>
 
@@ -41,16 +83,46 @@ export default {
                                 alt="exit icon"
                             />
                         </div>
-                        <div class="email_content">
-                            <span>Введите email, который поможет восстановить доступ<br> к аккаунту</span>
-                            <input
-                            required
-                            type="email"
-                            class="email"
-                            v-model=mail
-                            placeholder="Введите email"
-                            />
-                            <p>Если нету. Создайте почтовый ящик в PRO MAIL.</p>
+<!--                        <div class="email_content">-->
+<!--                            <span>Введите email, который поможет восстановить доступ<br> к аккаунту</span>-->
+<!--                            <input-->
+<!--                            required-->
+<!--                            type="email"-->
+<!--                            class="email"-->
+<!--                            v-model=email-->
+<!--                            placeholder="Введите email"-->
+<!--                            />-->
+<!--                            <p>Если нету. Создайте почтовый ящик в PRO MAIL.</p>-->
+<!--                        </div>-->
+
+                        <!--send code to Email-->
+                        <div class="otc ">
+                            <p>
+                                Введите код из сообщения.<br>
+                                Мы отправили его на почту<br>
+                                {{ email }}
+                            </p>
+                            <div class="conf_num"  style="margin-top: 30px; width: 300px">
+<!--                                <img class='phone' src="/images/icons/phone.png" style="width: 21px; height: 21px" alt="" srcset="">-->
+                                <input
+                                    v-for="i in 6"
+                                    :key="i"
+                                    ref="otcInput"
+                                    v-model="otp[i-1]"
+                                    @input="handleInput(i)"
+                                    @keydown="handleKeyDown(i)"
+                                    type="number"
+                                    inputmode="numeric"
+                                    :placeholder="'_'"
+                                    :id="'otc-' + i"
+                                    maxlength="1"
+                                    required>
+                                <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">
+                            </div>
+                            <div>
+                                <button @click="" class="reSend">отправить код еще раз</button>
+                                <button @click="" class="reSend">Изменить почтовый адрес</button>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <slot name="footer">

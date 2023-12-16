@@ -11,49 +11,13 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get('redirect', function (Request $request) {
-//     $request->session()->put('state', $state = Str::random(40));
-
-//     $query = http_build_query([
-//         'client_id' => 3,
-//         'redirect_uri' => 'https://id.in-pro.net/api/oauth/callback',
-//         'response_type' => 'code',
-//         'scope' => '',
-//         'prompt' => 'consent',
-//         'state' => $state,
-//     ]);
-
-//     return redirect('https://id.in-pro.net/oauth/authorize?'.$query);
-// });
-
-
-
-// Route::get('oauth/callback', function (Request $request) {
-//     $state = $request->session()->pull('state');
-
-//     throw_unless(
-//         strlen($state) > 0 && $state === $request->state,
-//         InvalidArgumentException::class,
-//         'Invalid state value.'
-//     );
-
-//     $response = Http::asForm()->post('https://id.in-pro.net/oauth/token', [
-//         'grant_type' => 'authorization_code',
-//         'client_id' => 3,
-//         'client_secret' => 'aoqf9l9Ovl35PzVhBgq6qYZ7cvK0wFHxH0GWkyYi',
-//         'redirect_uri' => 'https://id.in-pro.net/api/oauth/callback',
-//         'code' => $request->code,
-//     ]);
-
-//     return $response->json();
-// });
-
 //Auth
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class,'register']);
 Route::post('/token',[AuthController::class, 'token'])->name('token');
 Route::middleware('auth:api')->post('logout', [AuthController::class, 'logout']);

@@ -31,7 +31,9 @@ export default {
             isAuth: false,
             phone_number: '',
             oauth: false,
-            second: 5
+            second: 5,
+            count: 0,
+            limit: false
         };
     },
     mounted() {
@@ -105,14 +107,22 @@ export default {
                         phone_number: this.phone_number,
                     }
                 ).then(response => {
-                    if (response.data.user.name && response.data.user.surname) {
-                        this.authAction = 'Войти';
-                        this.name = response.data.user.name;
-                        this.surname = response.data.user.surname;
-                        this.notFound = '';
-                        this.auth = false;
-                        this.isAuth = true;
-                        localStorage.token = response.data.token
+                    if (response.data.name && response.data.surname) {
+                        this.count++
+                        if(this.count < 5) {
+                            this.authAction = 'Войти';
+                            this.name = response.data.name;
+                            this.surname = response.data.surname;
+                            this.notFound = '';
+                            this.auth = false;
+                            this.isAuth = true;
+                        }else{
+                            this.authAction = 'Войти';
+
+                            this.limit = true
+                            this.name = '';
+                            this.surname = '';
+                        }
                     }
                 })
                     .catch(error => {
@@ -135,17 +145,20 @@ export default {
                 }).then(() => {
                     this.$router.replace('/confirmNumber')
                     localStorage.phoneNumber = this.phone_number
+                    localStorage.isAuth = this.isAuth;
                 })
             }
         },
         redirect() {
-            axios.post('/authorize', {
+            axios.post('/oauth/authorize', {
                 state: this.requestState,
                 client_id: this.clientId,
                 auth_token: this.authToken
             }).then(res => {
                 console.log(res)
-            })
+            }).catch(error => {
+                console.error(error);
+            });
         },
         timer() {
             if (this.second > 0) {
@@ -188,18 +201,18 @@ export default {
                     </div>
                 </div>
                 <form :class="{'oauth_redirect_false': oauth}" @submit.prevent class="main-form">
-                    <p :class="{ 'not-found': notFound }">{{ name }} {{ surname }} {{ notFound }}</p>
+                    <p :class="{ 'not-found': notFound }">{{ surname }} {{ name !== '' ? name[0] + '.' : '' }} {{ notFound }}</p>
                     <input v-model="phoneNumber" required type="text" class="phone-number"
                            placeholder="+998 (--) --- -- -- " @input="formatPhoneNumber" maxlength="19">
                     <input @click="Auth" v-on:keyup.enter="Auth" type="submit" name="phoneNum"
-                           :class="{ 'light-button': name || auth}" class="phone-number-button" :value="authAction">
+                           :class="{ 'light-button': name || auth || limit}" class="phone-number-button" :value="authAction">
                     <div id="recaptcha-container" ref="recaptcha"></div>
                 </form>
 
                 <!-- oauth -->
                 <div :class="{'oauth_redirect_true': oauth}" class="oauth_redirect">
                     <img src="/images/icons/oauthTrue.svg">
-                    <p class="oauth_entrance"><span>{{ name }} {{ surname }},</span><br> Вы успешно вошли в систему.</p>
+                    <p class="oauth_entrance"><span>{{ surname }} {{ name !== '' ? name[0] + '.' : '' }}</span><br> Вы успешно вошли в систему.</p>
                     <p class="redirect_timer">Через <span>{{ second }}</span> секунд вы вернетесь на сайт
                         {{ this.clientName }} </p>
                     <button class="reirect_link" @click="redirect">Перейти на сайт {{ this.clientName }}</button>
