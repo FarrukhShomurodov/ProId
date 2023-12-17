@@ -28,7 +28,6 @@ header{
     width: 100%;
     top: 0;
     z-index: 1;
-    background-color: white;
 }
 .header_nav{
     justify-content: space-between;
@@ -269,6 +268,9 @@ footer span {
 }
 
 @media screen and (max-width: 600px) {
+    header{
+        background-color: white;
+    }
     .header_nav{
         margin-top: 60px;
     }
