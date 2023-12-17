@@ -118,100 +118,103 @@ export default {
                         }" @click="showUserAccesses"></div>
                 </div>
             </div>
-
-            <div class="header_nav_content" :class="{'user_data': showUserMenu}">
-                <div class="header_nav_content_container">
-                    <div class="user_data">
-                        <div class="ava" style="width: 66px; height: 66px;" :style="{
-                            'background-image': `url(${avatarUrl !== null ? '/storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
-                            'background-size': 'cover',
-                            'background-position': 'center',
-                            'background-color': 'white'
-                        }"></div>
-                        <h4>{{ name }}<br>{{ surname }}</h4>
+            <transition name="fade">
+                    <div class="header_nav_content user_data" v-show=showUserMenu>
+                        <div class="header_nav_content_container">
+                            <div class="user_data">
+                                <div class="ava" style="width: 66px; height: 66px;" :style="{
+                                'background-image': `url(${avatarUrl !== null ? '/storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
+                                'background-size': 'cover',
+                                'background-position': 'center',
+                                'background-color': 'white'
+                            }"></div>
+                                <h4>{{ name }}<br>{{ surname }}</h4>
+                            </div>
+                            <nav>
+                                <ul class="header_nav_list flex-column">
+                                    <a href="#" class="">Почта</a>
+                                    <a href="#" class="">Диск</a>
+                                    <a href="#" class="">Управление аккаунтом</a>
+                                    <hr>
+                                    <a href="#" class="">Внешний вид</a>
+                                    <hr>
+                                    <a @click="logout" class="">Выйти</a>
+                                    <a href="#" class="">Справка</a>
+                                    <a href="#" class="">Обратная связь</a>
+                                    <hr>
+                                </ul>
+                            </nav>
+                            <div class="secure_link">
+                                <p>Пользовательское соглашение</p>
+                                <p>Политика конфиденциальности</p>
+                            </div>
+                        </div>
                     </div>
-                    <nav>
-                        <ul class="header_nav_list flex-column">
-                            <a href="#" class="">Почта</a>
-                            <a href="#" class="">Диск</a>
-                            <a href="#" class="">Управление аккаунтом</a>
-                            <hr>
-                            <a href="#" class="">Внешний вид</a>
-                            <hr>
-                            <a @click="logout" class="">Выйти</a>
-                            <a href="#" class="">Справка</a>
-                            <a href="#" class="">Обратная связь</a>
-                            <hr>
-                        </ul>
-                    </nav>
-                    <div class="secure_link">
-                        <p>Пользовательское соглашение</p>
-                        <p>Политика конфиденциальности</p>
+            </transition>
+            <transition name="fade">
+                <div class="header_nav_content service_block" v-show="showServiceMenu">
+                    <div class="header_nav_content_container">
+                        <div>
+                            <h4 class="pro__service">PRO Сервисы</h4>
+                        </div>
+                        <nav class="nav_service">
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+                            <div class="service_block">
+                                <div class="services"></div>
+                                <p>Good Look</p>
+                            </div>
+
+                        </nav>
+                        <div class="secure_link">
+                            <p>Пользовательское соглашение</p>
+                            <p>Политика конфиденциальности</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="header_nav_content" :class="{'user_service': showServiceMenu}">
-                <div class="header_nav_content_container">
-                    <div>
-                        <h4 class="pro__service">PRO Сервисы</h4>
-                    </div>
-                    <nav class="nav_service">
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-                        <div class="service_block">
-                            <div class="services"></div>
-                            <p>Good Look</p>
-                        </div>
-
-                    </nav>
-                    <div class="secure_link">
-                        <p>Пользовательское соглашение</p>
-                        <p>Политика конфиденциальности</p>
-                    </div>
-                </div>
-            </div>
+            </transition>
         </div>
     </header>
 
