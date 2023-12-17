@@ -75,7 +75,7 @@ header{
 }
 .service_block p{
     text-align: center;
-    font-size: 11px;
+    font-size: 16px;
 }
 .nav_service{
     display: grid;
@@ -83,6 +83,9 @@ header{
     gap: 10px;
     width: 240px;
     margin-top: 20px;
+}
+.nav_service p{
+    margin-left: -1rem;
 }
 .pro__service{
     margin-left: 10px;
@@ -313,6 +316,10 @@ footer span {
     }
     .nav_service{
         max-width: 220px;
+    }
+    .secure_link p{
+        text-align: start;
+        font-size: 11px;
     }
     .content_container{
         top: 120px

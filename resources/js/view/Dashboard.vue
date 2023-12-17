@@ -158,53 +158,59 @@ export default {
                             <h4 class="pro__service">PRO Сервисы</h4>
                         </div>
                         <nav class="nav_service">
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
+                            <div class="service_block" onclick="window.location.href='https://cloud.in-pro.net'">
+                                <div class="services" :style="{
+                                'background-image': `url('/images/ProEcoSystemIcons/Cloud.png')`,
+                                'background-size': 'cover',
+                                'background-position': 'center',
+                                'background-color': 'white'
+                            }"></div>
+                                <p>Cloud</p>
                             </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
+                            <div class="service_block" onclick="window.location.href='https://pay.in-pro.net'">
+                                <div class="services" :style="{
+                                'background-image': `url('/images/ProEcoSystemIcons/Pay.png')`,
+                                'background-size': 'cover',
+                                'background-position': 'center',
+                                'background-color': 'white'
+                            }"></div>
+                                <p>Pay</p>
                             </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
+                            <div class="service_block" onclick="window.location.href='https://crm.in-pro.net'">
+                                <div class="services" :style="{
+                                'background-image': `url('/images/ProEcoSystemIcons/Crm.png')`,
+                                'background-size': 'cover',
+                                'background-position': 'center',
+                                'background-color': 'white'
+                            }"></div>
+                                <p>CRM</p>
                             </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
+                            <div class="service_block" onclick="window.location.href='https://support.in-pro.net'">
+                                <div class="services" :style="{
+                                'background-image': `url('/images/ProEcoSystemIcons/Support.png')`,
+                                'background-size': 'cover',
+                                'background-position': 'center',
+                                'background-color': 'white'
+                            }"></div>
+                                <p>Support</p>
                             </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
+                            <div class="service_block" onclick="window.location.href='https://donate.in-pro.net'">
+                                <div class="services" :style="{
+                                'background-image': `url('/images/ProEcoSystemIcons/Donate.png')`,
+                                'background-size': 'cover',
+                                'background-position': 'center',
+                                'background-color': 'white'
+                            }"></div>
+                                <p>Donate</p>
                             </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
-                            </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
-                            </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
-                            </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
-                            </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
-                            </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
-                            </div>
-                            <div class="service_block">
-                                <div class="services"></div>
-                                <p>Good Look</p>
+                            <div class="service_block" onclick="window.location.href='https://goodlook.uz'">
+                                <div class="services" :style="{
+                                'background-image': `url('/images/ProEcoSystemIcons/GoodLook.png')`,
+                                'background-size': 'cover',
+                                'background-position': 'center',
+                                'background-color': 'white'
+                            }"></div>
+                                <p>GoodLook</p>
                             </div>
 
                         </nav>
@@ -245,8 +251,8 @@ export default {
                     </swiper-slide>
                     <swiper-slide class="navbar__link">Подписки</swiper-slide>
                     <div class="border"></div>
-                    <swiper-slide class="navbar__link">Поддержка</swiper-slide>
-                    <swiper-slide class="navbar__link">Справка</swiper-slide>
+                    <swiper-slide class="navbar__link" onclick="window.location.href='https://support.in-pro.net'">Поддержка</swiper-slide>
+                    <swiper-slide class="navbar__link" onclick="window.location.href='https://support.in-pro.net'">Справка</swiper-slide>
                 </swiper>
             </nav>
         </div>

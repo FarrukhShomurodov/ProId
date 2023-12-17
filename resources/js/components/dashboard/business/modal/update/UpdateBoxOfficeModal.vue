@@ -15,7 +15,7 @@ export default {
     data(){
         return{
             name: '',
-            service: 'Сервис PRO SFERA',
+            service: 'Сервис Cloud',
             bank_data_id: 1,
             dankData: [],
             addBanking: false,
@@ -132,9 +132,12 @@ export default {
                             <div>
                                 <label>Выберите Сервис *</label>
                                 <select v-model="service" class="form-input" id="select" required>
-                                    <option value="Сервис PRO SFERA">Сервис PRO SFERA</option>
-                                    <option value="Сервис PRO SFERA2">Сервис PRO SFERA2</option>
-                                    <option value="Сервис PRO SFERA3">Сервис PRO SFERA3</option>
+                                    <option value="Сервис Cloud">Сервис Cloud</option>
+                                    <option value="Сервис Pay">Сервис Pay</option>
+                                    <option value="Сервис CRM">Сервис CRM</option>
+                                    <option value="Сервис Support">Сервис Support</option>
+                                    <option value="Сервис Donate">Сервис Donate</option>
+                                    <option value="Сервис GoodLook">Сервис GoodLook</option>
                                 </select>
                             </div>
                             <div>
