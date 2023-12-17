@@ -118,7 +118,7 @@ export default {
                         }" @click="showUserAccesses"></div>
                 </div>
             </div>
-            <transition name="fade">
+            <transition :duration="{ enter: 800, leave: 800 }" name="fade">
                     <div class="header_nav_content user_data" v-show=showUserMenu>
                         <div class="header_nav_content_container">
                             <div class="user_data">
@@ -151,7 +151,7 @@ export default {
                         </div>
                     </div>
             </transition>
-            <transition name="fade">
+            <transition :duration="{ enter: 800, leave: 800 }" name="fade">
                 <div class="header_nav_content service_block" v-show="showServiceMenu">
                     <div class="header_nav_content_container">
                         <div>

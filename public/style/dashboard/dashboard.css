@@ -107,7 +107,7 @@ header{
     justify-content: end;
     margin-right: 14px;
     border-radius: 0 0 35px 35px;
-    transition: 0.5s;
+    transition: border-radius 0.5s;
 }
 .min_nav img{
     width: 47px;
@@ -218,19 +218,23 @@ footer span {
     header{
         background-color: white;
     }
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity 0s;
-    }
     .border{
         display: none
     }
     .min_nav{
         background-color: white;
         max-width: 280px;
-        transition: 0s;
+        transition: 0.5s;
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.5s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
     }
     .radiosNone{
         background: #F3F3F3;
+        transition: 0s;
     }
     .content_container{
         flex-direction: column;
