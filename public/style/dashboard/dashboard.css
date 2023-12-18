@@ -45,7 +45,7 @@ header{
     overflow: hidden;
 }
 .fade-enter-active, .fade-leave-active {
-    transition: opacity 0.5s;
+    transition: opacity 0.2s;
 }
 .fade-enter, .fade-leave-to {
     opacity: 0;
@@ -110,7 +110,7 @@ header{
     justify-content: end;
     margin-right: 14px;
     border-radius: 0 0 35px 35px;
-    transition: border-radius 0.5s;
+    transition: border-radius 0.3s;
 }
 .min_nav img{
     width: 47px;
@@ -227,10 +227,10 @@ footer span {
     .min_nav{
         background-color: white;
         max-width: 280px;
-        transition: 0.5s;
+        transition: 0.2s;
     }
     .fade-enter-active, .fade-leave-active {
-        transition: opacity 0.5s;
+        transition: opacity 0.2s;
     }
     .fade-enter, .fade-leave-to {
         opacity: 0;
