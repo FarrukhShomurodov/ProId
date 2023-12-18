@@ -30,7 +30,7 @@ export default {
             this.name = res.data.name;
             this.surname = res.data.surname;
             res.data.gender === 'male' ? this.activeMale() : this.activeFemale();
-            this.date = res.data.data_of_birth;
+            this.date = res.data.date_of_birth;
             this.avatarUrl = res.data.avatar;
             this.loading = true; // Set loading to false once data is loaded
         });

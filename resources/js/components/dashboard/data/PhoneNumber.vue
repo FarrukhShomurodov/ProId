@@ -1,23 +1,38 @@
 <script>
 import UpdatePhoneModal from './modal/UpdatePhoneModal.vue';
+import axios from "axios";
 export default {
     components: {
         UpdatePhoneModal
     },
-    props:['phoneNumber', 'userId'],
+    props:['userId'],
     data(){
         return{
-            showModal: false
+            showModal: false,
+            phoneNumber: ''
         }
     },
+    mounted() {
+        this.fetchUser()
+    },
     methods: {
-        goBack() {
-            this.$emit('goBack');
+        fetchUser(){
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+
+            //getting user data
+            axios.get('/api/user', {headers}).then(res => {
+                const data = res.data;
+                this.phoneNumber = data.phone_number
+            });
         },
         modal(){
-            this.showModal = true
+            this.showModal = true;
         },
         close(){
+            this.fetchUser()
             this.showModal = false
         }
     },
@@ -27,7 +42,7 @@ export default {
 <template>
     <div>
         <div class="phone_edition">
-            <img src="/images/icons/dashboard/back.svg" alt="" @click="goBack">
+            <img src="/images/icons/dashboard/back.svg" alt="" @click="$emit('goBack');">
             <div class="kon_header">
                 <h3>Телефон</h3>
                 <span>Узнайте, как телефон помогает защитить ваши данные</span>

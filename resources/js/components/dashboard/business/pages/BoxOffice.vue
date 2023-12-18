@@ -86,20 +86,22 @@ export default {
             <div class="details_content">
                 <h3>Кассы</h3>
             </div>
-            <div class="kassa" v-if="loading" v-for="data in boxOfficeDetails">
-                <div class="d-row">
-                    <h4>{{ data.name }}</h4>
-                    <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content" @click="box_office_id = data.id; showUpdateBoxOffice = true">
+            <TransitionGroup name="list">
+                <div class="kassa" v-if="loading" v-for="data in boxOfficeDetails" :key="data.id">
+                    <div class="d-row">
+                        <h4>{{ data.name }}</h4>
+                        <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content" @click="box_office_id = data.id; showUpdateBoxOffice = true">
+                    </div>
+                    <div class="d-row">
+                        <p>Сервис: {{ data.service }}</p>
+                        <p class="oked">Счет : {{ bankData[data.bank_data_id].id === data.bank_data_id ? bankData[data.bank_data_id].name : "unalienable"}}</p>
+                    </div>
+                    <div class="d-row">
+                        <p class="status">Статус: {{ data.isActive === 1 ? "Активный" : "Деактивированый"}}</p>
+                        <button class="status reports" @click="this.showReportPage(); showReport = true; box_office_id = data.id;">Отчеты</button>
+                    </div>
                 </div>
-                <div class="d-row">
-                    <p>Сервис: {{ data.service }}</p>
-                    <p class="oked">Счет : {{ bankData[data.bank_data_id].id === data.bank_data_id ? bankData[data.bank_data_id].name : "unalienable"}}</p>
-                </div>
-                <div class="d-row">
-                    <p class="status">Статус: {{ data.isActive === 1 ? "Активный" : "Деактивированый"}}</p>
-                    <button class="status reports" @click="this.showReportPage(); showReport = true; box_office_id = data.id;">Отчеты</button>
-                </div>
-            </div>
+            </TransitionGroup>
             <div class="add_box_office" @click="showCreateBoxOffice = true">
                 <img src="/images/icons/dashboard/add.svg" alt="">
                 <p><b>Добавить новую кассу</b></p>

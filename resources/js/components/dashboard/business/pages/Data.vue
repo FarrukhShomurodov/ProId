@@ -109,19 +109,21 @@ export default {
                 </div>
                 <div class="details_content">
                     <h3>Банкоские реквизиты</h3>
-                    <div v-for="details in banking_details">
-                        <div class="banks_rekvizit_container">
-                            <div class="d-row">
-                                <h4>Счет : {{ details.name_of_banking_akkaunt }}</h4>
-                                <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content" @click="showUpdateBanksDataModal(details.id)">
+                    <TransitionGroup name="list">
+                        <div v-for="details in banking_details" :key="details.id">
+                            <div class="banks_rekvizit_container">
+                                <div class="d-row">
+                                    <h4>Счет : {{ details.name_of_banking_akkaunt }}</h4>
+                                    <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content" @click="showUpdateBanksDataModal(details.id)">
+                                </div>
+                                <div class="d-column">
+                                    <p>Банк: {{ details.name }}</p>
+                                    <p>МФО: {{ details.mfo }}</p>
+                                    <p>Расчетный счет: {{ details.payment_account }}</p>
+                                </div>
                             </div>
-                            <div class="d-column">
-                                <p>Банк: {{ details.name }}</p>
-                                <p>МФО: {{ details.mfo }}</p>
-                                <p>Расчетный счет: {{ details.payment_account }}</p>
-                            </div>
-                        </div>
                     </div>
+                    </TransitionGroup>
                 </div>
 
                 <div class="add_banking_data" @click="addBanking = true">

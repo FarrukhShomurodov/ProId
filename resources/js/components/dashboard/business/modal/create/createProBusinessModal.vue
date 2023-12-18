@@ -34,7 +34,7 @@ export default {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
             };
-            axios.post('/api/pro-business',data).then(res => {
+            axios.post('/api/pro-business',data, {headers}).then(res => {
                 const business_id = res.data.id;
                 const banks_data = {
                     'business_id': business_id,

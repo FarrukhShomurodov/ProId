@@ -35,8 +35,9 @@ export default {
 
                 // Business
                 axios.get(`/api/fetch-by-user/${this.userId}`, {headers}).then(res => {
-                    this.businessData = res.data
-                    this.loading = true;
+                    this.businessData = res.data;
+                    let loading = setInterval(this.loading = true, 1000)
+                    this.loading === true ? clearInterval(loading) : loading;
                 });
             })
         },
@@ -56,20 +57,21 @@ export default {
 <template>
     <div class="main_container" v-if="!businessDetail && loading">
         <p>Мои бизнесы</p>
-        <div class="business_container" v-for=" data in businessData ">
-            <div class="business_block" @click="showBusinessDetails(data.id)">
-                <div class="business_image" style="width: 80px; height: 80px; border-radius: 25px" :style="{
-                                    'background-image': `url(${data.image === '/images/icons/proBusiness/proConnect.jpg' ? data.image : '/storage/' + data.image})`,
-                                    'background-size': 'cover',
-                                    'background-position': 'center'
-                                  }"></div>
-                <div class="business_content">
-                    <p>{{data.name_of_business}}</p>
-                    <span>{{ data.address }}</span>
+        <TransitionGroup name="list">
+            <div class="business_container" v-for=" data in businessData" :key="data.id">
+                <div class="business_block" @click="showBusinessDetails(data.id)">
+                    <div class="business_image" style="width: 80px; height: 80px; border-radius: 25px" :style="{
+                                        'background-image': `url(${data.image === '/images/icons/proBusiness/proConnect.jpg' ? data.image : '/storage/' + data.image})`,
+                                        'background-size': 'cover',
+                                        'background-position': 'center'
+                                      }"></div>
+                    <div class="business_content">
+                        <p>{{data.name_of_business}}</p>
+                        <span>{{ data.address }}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        </TransitionGroup>
         <!-- Add Business -->
         <div class="add_business" @click="createBusiness = true">
             <img src="/images/icons/dashboard/add.svg" alt="">
@@ -83,7 +85,7 @@ export default {
         <div class="add_business links">
             <span>Открытие Юридического лица в Республике Узбекистан</span>
         </div>
-        <div class="add_business links">
+        <div class="add_business links" onclick="window.location.href='https://my.gov.uz/ru/service/357'">
             <span>Получение ЭЦП (Электронная цифровая подпись)</span>
         </div>
     </div>
@@ -107,5 +109,14 @@ export default {
     padding: 20px;
     border-radius: 8px;
     z-index: 9999;
+}
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
 }
 </style>

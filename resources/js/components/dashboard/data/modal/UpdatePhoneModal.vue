@@ -14,10 +14,6 @@ export default {
             changedPhoneNumber: '',
         }
     },
-    mounted(){
-        this.phoneNumberToPaste = this.phoneNumber
-        this.phone()
-    },
     methods:{
         handleInput(index) {
             if (index < 6) {
@@ -77,22 +73,27 @@ export default {
             }
             this.codeLength = phoneNumber.length
             this.changedPhoneNumber = phoneNumber
+            this.phoneNumberToPaste = this.changedPhoneNumber
         },
         edit(){
+            this.phone()
             this.changeNum = true
-            this.codeLength == 13 || this.codeLength == 12 ? this.showConfirmNumber = true : this.showConfirmNumber = false;
+            this.codeLength === 13 || this.codeLength === 12 ? this.showConfirmNumber = true : this.showConfirmNumber = false;
             if(this.showConfirmNumber){
                 this.changeNum = false
-            }
-            if(this.showCorrectSignal){
-                const headers = {
-                    'Authorization': `Bearer ` + localStorage.token,
-                    'Content-Type': 'application/json',
-                };
-                axios.post(`/api/change-phone-number/${this.userId}`, {
+                axios.post('/api/sendOTP', {
                     phone_number: this.changedPhoneNumber
-                },{headers}).then((res) => console.log(res))
+                })
             }
+            this.$nextTick(() => {
+                this.$refs.otcInput[0].focus();
+            });
+
+        },
+        reSend() {
+            axios.post('/api/sendOTP', {
+                phone_number: this.changedPhoneNumber
+            })
         },
         save(){
             if(this.showCorrectSignal){
@@ -100,9 +101,9 @@ export default {
                     'Authorization': `Bearer ` + localStorage.token,
                     'Content-Type': 'application/json',
                 };
-                axios.post(`/api/change-phone-number/${this.userId}`, {
+                axios.post(`/api/edit-phone-number/${this.userId}`, {
                     phone_number: this.changedPhoneNumber
-                },{headers}).then(() => $emit('close'))
+                },{headers}).then(() => this.$emit('close'))
             }
         },
         watch: {
@@ -162,7 +163,7 @@ export default {
                             v-if="changeNum"
                         />
                         <div class="otc " v-if="showConfirmNumber">
-                            <p>
+                            <p class="text_phone_edit">
                                 Введите код из смс.<br>
                                 Мы отправили его на<br>
                                 номер {{ phoneNumberToPaste }}
@@ -188,7 +189,7 @@ export default {
                             <button @click="reSend" class="reSend">отправить код еще раз</button>
                         </div>
                         <div class="modal-footer">
-                            <button class="changeNumber modal-default-button" @click="edit">
+                            <button class="changeNumber modal-default-button" v-show="!showConfirmNumber" @click="edit">
                                     Заменить на новый номер
                             </button>
                             <slot name="footer">
@@ -205,6 +206,9 @@ export default {
 </template>
 
 <style>
+.text_phone_edit{
+    margin-bottom: 10px !important;
+}
 .modal-container-phone-number-edit{
     width: 512px;
     height: 411px;
@@ -311,7 +315,6 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 @media screen and (max-width: 500px){
     .modal-container-phone-number-edit{
         width: 406px;
