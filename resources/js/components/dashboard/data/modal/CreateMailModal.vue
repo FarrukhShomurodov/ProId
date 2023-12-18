@@ -83,47 +83,47 @@ export default {
                                 alt="exit icon"
                             />
                         </div>
-<!--                        <div class="email_content">-->
-<!--                            <span>Введите email, который поможет восстановить доступ<br> к аккаунту</span>-->
-<!--                            <input-->
-<!--                            required-->
-<!--                            type="email"-->
-<!--                            class="email"-->
-<!--                            v-model=email-->
-<!--                            placeholder="Введите email"-->
-<!--                            />-->
-<!--                            <p>Если нету. Создайте почтовый ящик в PRO MAIL.</p>-->
-<!--                        </div>-->
+                        <div class="email_content">
+                            <span>Введите email, который поможет восстановить доступ<br> к аккаунту</span>
+                            <input
+                            required
+                            type="email"
+                            class="email"
+                            v-model=email
+                            placeholder="Введите email"
+                            />
+                            <p>Если нету. Создайте почтовый ящик в PRO MAIL.</p>
+                        </div>
 
                         <!--send code to Email-->
-                        <div class="otc ">
-                            <p>
-                                Введите код из сообщения.<br>
-                                Мы отправили его на почту<br>
-                                {{ email }}
-                            </p>
-                            <div class="conf_num"  style="margin-top: 30px; width: 300px">
-<!--                                <img class='phone' src="/images/icons/phone.png" style="width: 21px; height: 21px" alt="" srcset="">-->
-                                <input
-                                    v-for="i in 6"
-                                    :key="i"
-                                    ref="otcInput"
-                                    v-model="otp[i-1]"
-                                    @input="handleInput(i)"
-                                    @keydown="handleKeyDown(i)"
-                                    type="number"
-                                    inputmode="numeric"
-                                    :placeholder="'_'"
-                                    :id="'otc-' + i"
-                                    maxlength="1"
-                                    required>
-                                <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">
-                            </div>
-                            <div>
-                                <button @click="" class="reSend">отправить код еще раз</button>
-                                <button @click="" class="reSend">Изменить почтовый адрес</button>
-                            </div>
-                        </div>
+<!--                        <div class="otc ">-->
+<!--                            <p>-->
+<!--                                Введите код из сообщения.<br>-->
+<!--                                Мы отправили его на почту<br>-->
+<!--                                {{ email }}-->
+<!--                            </p>-->
+<!--                            <div class="conf_num"  style="margin-top: 30px; width: 300px">-->
+<!--&lt;!&ndash;                                <img class='phone' src="/images/icons/phone.png" style="width: 21px; height: 21px" alt="" srcset="">&ndash;&gt;-->
+<!--                                <input-->
+<!--                                    v-for="i in 6"-->
+<!--                                    :key="i"-->
+<!--                                    ref="otcInput"-->
+<!--                                    v-model="otp[i-1]"-->
+<!--                                    @input="handleInput(i)"-->
+<!--                                    @keydown="handleKeyDown(i)"-->
+<!--                                    type="number"-->
+<!--                                    inputmode="numeric"-->
+<!--                                    :placeholder="'_'"-->
+<!--                                    :id="'otc-' + i"-->
+<!--                                    maxlength="1"-->
+<!--                                    required>-->
+<!--                                <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">-->
+<!--                            </div>-->
+<!--                            <div>-->
+<!--                                <button @click="" class="reSend">отправить код еще раз</button>-->
+<!--                                <button @click="" class="reSend">Изменить почтовый адрес</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="modal-footer">
                             <slot name="footer">
                                 <button class="modal-default-button save_email" @click="save" >

@@ -55,7 +55,7 @@ export default {
             };
             axios.get('api/bank-data-by-mfo',{headers}).then(res => {
                 for(let i = 0; i < res.data.length; i++){
-                    if(res.data[i].code === this.mfo){
+                    if(res.data[i].code == this.mfo){
                         this.name_of_bank = res.data[i].name
                     }
                 }

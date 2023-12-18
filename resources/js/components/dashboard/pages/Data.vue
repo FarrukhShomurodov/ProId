@@ -118,7 +118,7 @@ export default {
 
 <template>
     <div v-if="loading">
-        <div class="data_container" v-if="!mailShow && !phoneInfoShow">
+        <div class="data_container" v-if="!phoneInfoShow">
             <div class="data">
                 <div class="ava" :style="{
                             'background-image': `url(${avatarUrl !== null ? '/storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,

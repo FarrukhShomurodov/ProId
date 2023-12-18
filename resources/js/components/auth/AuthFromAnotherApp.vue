@@ -17,22 +17,7 @@
                 phoneNumber: '',
             };
         },
-        mounted() {
-            this.getUser()
-        },
         methods: {
-            getUser() {
-                let token = localStorage.token
-                const headers = {
-                    'Authorization': `Bearer ` + token,
-                    'Content-Type': 'application/json',
-                };
-                axios.get('/api/user', {headers})
-                    .then(res => {
-                        this.name = res.data.name
-                        this.surname = res.data.surname
-                    }).catch(err => console.log(err))
-            },
             formatPhoneNumber(event) {
                 const phoneNumber = event.target.value.replace(/\D/g, '');
                 const isBackspace = event.inputType === 'deleteContentBackward';
