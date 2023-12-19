@@ -74,6 +74,22 @@ class UserController extends Controller
     }
 
     /**
+     * Delete user email from db
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function deleteEmail(User $user): JsonResponse
+    {
+        //set null in email
+        $user->update([
+            'email' => null
+        ]);
+
+        //return response
+        return new JsonResponse('email delete successfully');
+    }
+
+    /**
      * Upload user photo
      * @param Request $request
      * @param User $user

@@ -5,6 +5,7 @@ import axios from "axios";
 //Components
 import authModal from '../data/modal/authModal.vue'
 import PhoneNumber from '../data/PhoneNumber.vue'
+import Email from "@/components/dashboard/data/Email.vue";
 import CreateMailModal from '../data/modal/CreateMailModal.vue';
 import CreateAddressModal from "../data/modal/CreateAddressModal.vue";
 import UpdateAddressModal from "../data/modal/UpdateAddressModal.vue";
@@ -25,7 +26,8 @@ export default {
         PhoneNumber,
         CreateMailModal,
         CreateAddressModal,
-        UpdateAddressModal
+        UpdateAddressModal,
+        Email
     },
 
     data() {
@@ -43,11 +45,12 @@ export default {
 
             //fontend
             showModal: false,
-            phoneInfoShow: false,
+            showPhoneEdition: false,
             mailShow: false,
             hasMail: false,
             addressShow: false,
             showUpdateAddressModal: false,
+            showEmailEdition: false,
             loading:  false,
         }
     },
@@ -91,22 +94,10 @@ export default {
             })
         },
 
-        //frontend
-        showPhoneNumberInfo() {
-            this.phoneInfoShow = true
-        },
-        showMain() {
-            this.mailShow = true
-        },
-        showAddressModal(){
-            this.addressShow = true;
-        },
-        showUpdateAddress(){
-            this.showUpdateAddressModal = true;
-        },
         goBack() {
+            this.showEmailEdition = false;
             this.showModal = false
-            this.phoneInfoShow = false;
+            this.showPhoneEdition = false;
             this.mailShow = false;
             this.addressShow = false;
             this.showUpdateAddressModal = false;
@@ -118,7 +109,7 @@ export default {
 
 <template>
     <div v-if="loading">
-        <div class="data_container" v-if="!phoneInfoShow">
+        <div class="data_container" v-if="!showPhoneEdition && !showEmailEdition">
             <div class="data">
                 <div class="ava" :style="{
                             'background-image': `url(${avatarUrl !== null ? '/storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
@@ -143,7 +134,7 @@ export default {
                                 <swiper-slide class="swiper-address">
                                     <div class="address_container">
                                         <img src="/images/icons/dashboard/location.svg" alt="">
-                                        <div class="address_text" @click="showAddressModal">
+                                        <div class="address_text" @click="addressShow = true;">
                                             <p>
                                                 Добавить еще один адрес
                                             </p>
@@ -153,7 +144,7 @@ export default {
                                 <swiper-slide v-for="address in addresses">
                                     <div class="address_container">
                                         <img src="/images/icons/dashboard/location.svg" alt="">
-                                        <div class="address_text" @click="showUpdateAddress">
+                                        <div class="address_text" @click="showUpdateAddressModal = true">
                                             <p>
                                                 {{address.name}}
                                             </p>
@@ -185,7 +176,7 @@ export default {
                                 <p>+{{ phoneNumber }}</p>
                             </div>
                         </div>
-                        <img src="/images/icons/dashboard/next.svg" @click="showPhoneNumberInfo">
+                        <img src="/images/icons/dashboard/next.svg" @click="showPhoneEdition = true">
                     </div>
                     <!-- Has Email -->
                     <div class="phone__number kon_container" v-if="hasMail">
@@ -196,7 +187,19 @@ export default {
                                 <p>{{ mail }}</p>
                             </div>
                         </div>
-                        <img src="/images/icons/dashboard/next.svg">
+                        <img src="/images/icons/dashboard/next.svg" @click="showEmailEdition = true">
+                    </div>
+
+                    <!-- Pro Mail-->
+                    <div class="phone__number kon_container" v-if="hasMail">
+                        <div class="kon_info_template">
+                            <div class="kon_icon"></div>
+                            <div>
+                                <p>Добавить почтовый ящик в ProMail</p>
+                                <span>Еще больше возможностей и безопасность</span>
+                            </div>
+                        </div>
+                        <img src="/images/icons/dashboard/add.svg">
                     </div>
                     <!-- Does Not have email -->
                     <div class="phone__number kon_container" v-if="!hasMail">
@@ -207,7 +210,7 @@ export default {
                                 <span>Еще больше возможностей и безопасность</span>
                             </div>
                         </div>
-                        <img src="/images/icons/dashboard/add.svg" @click="showMain">
+                        <img src="/images/icons/dashboard/add.svg" @click="mailShow = true">
                     </div>
                 </div>
             </div>
@@ -225,10 +228,14 @@ export default {
         </div>
 
         <!-- Other pages -->
-        <PhoneNumber v-if="phoneInfoShow" @goBack="goBack"
+        <PhoneNumber  v-if="showPhoneEdition" @goBack="goBack"
                      :phoneNumber=phoneNumber
                      :userId=userId
         ></PhoneNumber>
+        <Email v-if="showEmailEdition" @goBack="goBack"
+               :email=mail
+               :userId=userId
+        ></Email>
         <CreateMailModal v-if="mailShow" @goBack="goBack"
                          :phoneNumber=phoneNumber
                          :userId=userId

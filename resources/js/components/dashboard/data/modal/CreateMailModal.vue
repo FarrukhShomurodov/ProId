@@ -8,6 +8,8 @@ export default {
             otp: Array(6).fill(''),
             email:'',
             showCorrectSignal: false,
+            showConfirmNumber: false,
+            code: null,
         }
     },
     mounted(){
@@ -33,12 +35,22 @@ export default {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
             };
-            axios.post(`/api/add-email/${this.userId}`, {
+            axios.post('/api/send-verify-code-email',{
                 email: this.email
-            },{headers}).then(() => {
+            }, {headers}).then(res => {
+                this.code = res.data
+            })
+            this.showConfirmNumber = true;
 
-                this.$emit('goBack')
-            } )
+            if(this.code && this.showCorrectSignal){
+                const headers = {
+                    'Authorization': `Bearer ` + localStorage.token,
+                    'Content-Type': 'application/json',
+                };
+                axios.post(`/api/add-email/${this.userId}`, {
+                    email: this.email
+                },{headers}).then(() => {this.$emit('goBack')})
+            }
         },
     },
     watch: {
@@ -46,21 +58,8 @@ export default {
             handler: function (newVal, oldVal) {
                 const allDigitsFilled = newVal.every(digit => digit !== '');
                 if (allDigitsFilled) {
-                    const code = this.otp.join('');
-                    if (code.length === 6) {
-                        axios.post('/api/checkCode', {
-                            phoneNumber: this.phoneNumberForSend,
-                            code: parseInt(code, 10)
-                        }).then(() => {
-                            this.showCorrectSignal = true
-                        }).catch(err => {
-                            this.showCorrectSignal = false
-
-                        })
-                    } else {
-                        this.showCorrectSignal = false
-                    }
-
+                    const code = this.otp.map(digit => digit || '0').join('');
+                    this.showCorrectSignal = parseInt(code) === this.code;
                 }
             },
             deep: true,
@@ -83,7 +82,7 @@ export default {
                                 alt="exit icon"
                             />
                         </div>
-                        <div class="email_content">
+                        <div class="email_content" v-show="!showConfirmNumber">
                             <span>Введите email, который поможет восстановить доступ<br> к аккаунту</span>
                             <input
                             required
@@ -96,34 +95,33 @@ export default {
                         </div>
 
                         <!--send code to Email-->
-<!--                        <div class="otc ">-->
-<!--                            <p>-->
-<!--                                Введите код из сообщения.<br>-->
-<!--                                Мы отправили его на почту<br>-->
-<!--                                {{ email }}-->
-<!--                            </p>-->
-<!--                            <div class="conf_num"  style="margin-top: 30px; width: 300px">-->
-<!--&lt;!&ndash;                                <img class='phone' src="/images/icons/phone.png" style="width: 21px; height: 21px" alt="" srcset="">&ndash;&gt;-->
-<!--                                <input-->
-<!--                                    v-for="i in 6"-->
-<!--                                    :key="i"-->
-<!--                                    ref="otcInput"-->
-<!--                                    v-model="otp[i-1]"-->
-<!--                                    @input="handleInput(i)"-->
-<!--                                    @keydown="handleKeyDown(i)"-->
-<!--                                    type="number"-->
-<!--                                    inputmode="numeric"-->
-<!--                                    :placeholder="'_'"-->
-<!--                                    :id="'otc-' + i"-->
-<!--                                    maxlength="1"-->
-<!--                                    required>-->
-<!--                                <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">-->
-<!--                            </div>-->
-<!--                            <div>-->
-<!--                                <button @click="" class="reSend">отправить код еще раз</button>-->
-<!--                                <button @click="" class="reSend">Изменить почтовый адрес</button>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <div class="otc " v-show="showConfirmNumber">
+                            <p>
+                                Введите код из сообщения.<br>
+                                Мы отправили его на почту<br>
+                                {{ email }}
+                            </p>
+                            <div class="conf_num"  style="margin-top: 30px; width: 300px">
+                                <input
+                                    v-for="i in 6"
+                                    :key="i"
+                                    ref="otcInput"
+                                    v-model="otp[i-1]"
+                                    @input="handleInput(i)"
+                                    @keydown="handleKeyDown(i)"
+                                    type="number"
+                                    inputmode="numeric"
+                                    :placeholder="'_'"
+                                    :id="'otc-' + i"
+                                    maxlength="1"
+                                    required>
+                                <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">
+                            </div>
+                            <div>
+                                <button @click="" class="reSend">отправить код еще раз</button>
+                                <button @click="" class="reSend">Изменить почтовый адрес</button>
+                            </div>
+                        </div>
                         <div class="modal-footer">
                             <slot name="footer">
                                 <button class="modal-default-button save_email" @click="save" >

@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\BanksDataController;
 use App\Http\Controllers\Dashboard\BoxOfficeController;
 use App\Http\Controllers\Dashboard\MFOController;
 use App\Http\Controllers\Dashboard\ProBusinessController;
+use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +30,11 @@ Route::middleware('auth:api')->group(function () {
     // User
     Route::put('/update/{user}', [UserController::class,'update']);
     Route::post('/edit-phone-number/{user}', [UserController::class,'editPhoneNumber']);
+
+    // Email
+    Route::post('/send-verify-code-email', [SendEmailController::class,'sendEmail']);
     Route::post('/add-email/{user}', [UserController::class,'addEmail']);
+    Route::delete('/add-delete/{user}', [UserController::class,'deleteEmail']);
 
     // User photo
     Route::post('/upload-avatar/{user}', [UserController::class,'uploadAvatar']);
