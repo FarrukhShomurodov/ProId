@@ -35,11 +35,13 @@ export default {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
             };
-            axios.post('/api/send-verify-code-email',{
-                email: this.email
-            }, {headers}).then(res => {
-                this.code = res.data
-            })
+            if(this.code == null){
+                axios.post('/api/send-verify-code-email',{
+                    email: this.email
+                }, {headers}).then(res => {
+                    this.code = res.data
+                })
+            }
             this.showConfirmNumber = true;
 
             if(this.code && this.showCorrectSignal){
@@ -52,6 +54,17 @@ export default {
                 },{headers}).then(() => {this.$emit('goBack')})
             }
         },
+        reSend(){
+            const headers = {
+                'Authorization': `Bearer ` + localStorage.token,
+                'Content-Type': 'application/json',
+            };
+            axios.post('/api/send-verify-code-email',{
+                email: this.email
+            }, {headers}).then(res => {
+                this.code = res.data
+            })
+        }
     },
     watch: {
         otp: {
@@ -118,8 +131,8 @@ export default {
                                 <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">
                             </div>
                             <div>
-                                <button @click="" class="reSend">отправить код еще раз</button>
-                                <button @click="" class="reSend">Изменить почтовый адрес</button>
+                                <button @click="reSend" class="reSend">отправить код еще раз</button>
+                                <button @click="showConfirmNumber = false" class="reSend">Изменить почтовый адрес</button>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -176,6 +189,9 @@ export default {
     flex-direction: column;
     width: 438px;
     height: 100%;
+}
+.reSend{
+    margin-left: 20px;
 }
 .email_content p{
     color: #000;
