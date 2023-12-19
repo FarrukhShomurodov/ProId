@@ -85,9 +85,6 @@ export default {
                     phone_number: this.changedPhoneNumber
                 })
             }
-            this.$nextTick(() => {
-                this.$refs.otcInput[0].focus();
-            });
 
         },
         reSend() {
@@ -106,32 +103,33 @@ export default {
                 },{headers}).then(() => this.$emit('close'))
             }
         },
-        watch: {
-            otp: {
-                handler: function (newVal, oldVal) {
-                    const allDigitsFilled = newVal.every(digit => digit !== '');
-                    if (allDigitsFilled) {
-                        const code = this.otp.join('');
-                        if (code.length === 6) {
-                            axios.post('/api/checkCode', {
-                                phoneNumber: this.phoneNumberForSend,
-                                code: parseInt(code, 10)
-                            }).then(() => {
-                                this.showCorrectSignal = true
-                            }).catch(err => {
-                                this.showCorrectSignal = false
-
-                            })
-                        } else {
+    },
+    watch: {
+        otp: {
+            handler: function (newVal, oldVal) {
+                const allDigitsFilled = newVal.every(digit => digit !== '');
+                if (allDigitsFilled) {
+                    const code = this.otp.join('');
+                    console.log(code)
+                    if (code.length === 6) {
+                        axios.post('/api/checkCode', {
+                            phoneNumber: this.changedPhoneNumber,
+                            code: parseInt(code, 10)
+                        }).then(() => {
+                            this.showCorrectSignal = true
+                        }).catch(err => {
                             this.showCorrectSignal = false
-                        }
 
+                        })
+                    } else {
+                        this.showCorrectSignal = false
                     }
-                },
-                deep: true,
+
+                }
             },
+            deep: true,
         },
-    }
+    },
 };
 </script>
 
@@ -190,7 +188,7 @@ export default {
                         </div>
                         <div class="modal-footer">
                             <button class="changeNumber modal-default-button" v-show="!showConfirmNumber" @click="edit">
-                                    Заменить на новый номер
+                                Заменить на новый номер
                             </button>
                             <slot name="footer">
                                 <button class="modal-default-button" @click="save" >
@@ -312,8 +310,8 @@ export default {
 }
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 @media screen and (max-width: 500px){
     .modal-container-phone-number-edit{
