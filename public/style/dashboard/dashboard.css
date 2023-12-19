@@ -227,10 +227,10 @@ footer span {
     .min_nav{
         background-color: white;
         max-width: 280px;
-        transition: 0.2s;
+        transition: 0.1s;
     }
     .fade-enter-active, .fade-leave-active {
-        transition: opacity 0.2s;
+        transition: opacity 0.1s;
     }
     .fade-enter, .fade-leave-to {
         opacity: 0;
