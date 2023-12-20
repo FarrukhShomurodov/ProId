@@ -44,8 +44,12 @@ class AddressController extends Controller
         //validate
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'coords' => 'required'
         ]);
+
+        //set coords array to json
+        $validated['coords'] = json_encode($validated['coords']);
 
         //store address in db
         $address = Address::query()->create($validated);
@@ -64,8 +68,12 @@ class AddressController extends Controller
     {
         //validate
         $validated = $request->validate([
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'coords' => 'required'
         ]);
+
+        //set coords array to json
+        $validated['coords'] = json_encode($validated['coords']);
 
         //update value
         $address->update($validated);

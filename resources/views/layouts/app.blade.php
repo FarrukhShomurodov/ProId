@@ -18,6 +18,9 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="{{asset('js/reg.js')}}"></script>
+
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=3d92b1e0-8884-4b1f-912d-7659c829e4f7&lang=en_US" type="text/javascript"></script>
+
 </head>
 <body>
     <div id="app">

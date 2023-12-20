@@ -16,10 +16,9 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
-        "@yandex/ymaps3-types": "^0.0.19",
         "swiper": "^11.0.5",
         "vue-loader": "^17.3.1",
         "vue-router": "^4.2.5",
-        "vue-yandex-maps": "^2.0.0-rc.7"
+        "vue-yandex-maps": "^2.0.0-rc.9"
     }
 }

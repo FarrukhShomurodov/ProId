@@ -10,6 +10,13 @@ import CreateMailModal from '../data/modal/CreateMailModal.vue';
 import CreateAddressModal from "../data/modal/CreateAddressModal.vue";
 import UpdateAddressModal from "../data/modal/UpdateAddressModal.vue";
 import {Swiper, SwiperSlide} from "swiper/vue";
+import {
+    YandexMap,
+    YandexMapDefaultSchemeLayer,
+    YandexMapDefaultFeaturesLayer,
+    YandexMapMarker,
+    YandexMapListener,
+} from 'vue-yandex-maps';
 
 export default {
     props: {
@@ -27,7 +34,12 @@ export default {
         CreateMailModal,
         CreateAddressModal,
         UpdateAddressModal,
-        Email
+        Email,
+        YandexMap,
+        YandexMapDefaultSchemeLayer,
+        YandexMapDefaultFeaturesLayer,
+        YandexMapMarker,
+        YandexMapListener,
     },
 
     data() {
@@ -51,7 +63,7 @@ export default {
             addressShow: false,
             showUpdateAddressModal: false,
             showEmailEdition: false,
-            loading:  false,
+            loading: false,
         }
     },
 
@@ -83,10 +95,9 @@ export default {
                 this.mail = data.email
 
                 //getting addresses
-                axios.get(`/api/address/${this.userId}`, {headers}).then(res =>
-                {
+                axios.get(`/api/address/${this.userId}`, {headers}).then(res => {
                     this.addresses = res.data
-                    if(this.addresses.length != 0){
+                    if (this.addresses.length != 0) {
                         this.address_id = res.data[0].id
                     }
                     this.loading = true;
@@ -128,30 +139,82 @@ export default {
                 <h3>Адреса</h3>
                 <span>Для заказа в один клик и что бы не вводить в Навигаторе</span>
                 <div class="address_content_container">
-                        <swiper
-                                :slides-per-view="3"
-                                @swiper="onSwiper">
-                                <swiper-slide class="swiper-address">
-                                    <div class="address_container">
-                                        <img src="/images/icons/dashboard/location.svg" alt="">
-                                        <div class="address_text" @click="addressShow = true;">
-                                            <p>
-                                                Добавить еще один адрес
-                                            </p>
-                                        </div>
-                                    </div>
-                                </swiper-slide>
-                                <swiper-slide v-for="address in addresses">
-                                    <div class="address_container">
-                                        <img src="/images/icons/dashboard/location.svg" alt="">
-                                        <div class="address_text" @click="showUpdateAddressModal = true">
-                                            <p>
-                                                {{address.name}}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </swiper-slide>
-                        </swiper>
+                    <div>
+                        <div class="address_container">
+                            <yandex-map
+                                :settings="{
+                                location: {
+                                  center:   [69.240562, 41.2800],
+                                  zoom: 9,
+                                },
+                              }" class="yandexDataMap">
+                                <yandex-map-default-scheme-layer/>
+                                <yandex-map-default-features-layer/>
+                                <yandex-map-marker
+                                    :settings="{
+                                        coordinates:  [69.240562, 41.2800],
+                                    }"
+                                >
+                                    <template #default>
+                                        <img
+                                            alt=""
+                                            :src="'/images/icons/marker.svg'"
+                                            :style="{
+                                            width: '40px',
+                                            position: 'relative',
+                                            boxSizing: 'border-box',
+                                            transform: 'translate(-50%, calc(-50% - 58px))',
+                                            cursor: 'pointer',
+                                          }"
+                                        />
+                                    </template>
+                                </yandex-map-marker>
+                            </yandex-map>
+                        </div>
+                        <div class="address_text" @click="addressShow = true;">
+                            <p>
+                                Добавить еще один адрес
+                            </p>
+                        </div>
+                    </div>
+                    <div v-for="address in addresses">
+                        <div class="address_container">
+                            <yandex-map
+                                :settings="{
+                                location: {
+                                  center:  JSON.parse(address.coords),
+                                  zoom: 10,
+                                },
+                              }" class="yandexDataMap">
+                                <yandex-map-default-scheme-layer/>
+                                <yandex-map-default-features-layer/>
+                                <yandex-map-marker
+                                    :settings="{
+                                        coordinates:  JSON.parse(address.coords),
+                                    }"
+                                >
+                                    <template #default>
+                                        <img
+                                            alt=""
+                                            :src="'/images/icons/marker.svg'"
+                                            :style="{
+                                            width: '40px',
+                                            position: 'relative',
+                                            boxSizing: 'border-box',
+                                            transform: 'translate(-50%, calc(-50% - 58px))',
+                                            cursor: 'pointer',
+                                          }"
+                                        />
+                                    </template>
+                                </yandex-map-marker>
+                            </yandex-map>
+                        </div>
+                        <div class="address_text" @click="showUpdateAddressModal = true; address_id = address.id">
+                            <p>
+                                {{ address.name.slice(0, 30) + "..." }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <div class="phone__number kon_container all_addresses">
                     <div class="kon_info_template">
@@ -162,7 +225,7 @@ export default {
                             <p class="delete_pro_id_akk">Все адреса</p>
                         </div>
                     </div>
-                    <img src="/images/icons/dashboard/next.svg" >
+                    <img src="/images/icons/dashboard/next.svg">
                 </div>
             </div>
             <div class="kontacts">
@@ -228,7 +291,7 @@ export default {
         </div>
 
         <!-- Other pages -->
-        <PhoneNumber  v-if="showPhoneEdition" @goBack="goBack"
+        <PhoneNumber v-if="showPhoneEdition" @goBack="goBack"
                      :phoneNumber=phoneNumber
                      :userId=userId
         ></PhoneNumber>

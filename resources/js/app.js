@@ -1,6 +1,9 @@
 // Import bootstrap
 import './bootstrap';
 
+//import yandexMap
+import { createYmaps } from 'vue-yandex-maps';
+
 // Import create app from vue module
 import { createApp } from 'vue/dist/vue.esm-bundler';
 
@@ -10,8 +13,13 @@ import router from "@/router.js";
 // Create vue app
 const app = createApp({});
 
-// Use router in vue app
+
+// Use components in vue app
 app.use(router);
+
+app.use(createYmaps({
+    apikey: '3d92b1e0-8884-4b1f-912d-7659c829e4f7',
+}))
 
 // For use components in app
 app.mount('#app');

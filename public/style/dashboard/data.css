@@ -66,24 +66,22 @@
     height: 23px;
 }
 /*address*/
-.address_content_container{
+.address_content_container {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-top: 12px;
+    max-width: 565px;
     width: 100%;
+    overflow-y: hidden;
+    /*overflow-x: auto;*/
 }
-
 
 .address_content_container .address_container{
     margin-right: 10px;
 }
-
-.address_content_container .swiper .swiper-wrapper{
-    max-width: 500px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
+.address_content_container *{
+    max-height: 175px;
 }
 .address_container{
     width: 125px;
@@ -99,6 +97,9 @@
     margin-top: 20px;
 }
 .address_text{
+    position: relative;
+    top: -100px;
+    left: 3px;
     width: 118px;
     height: 76px;
     border-radius: 20px;
@@ -109,8 +110,13 @@
     margin-top: 20px;
     font-size: 14px;
 }
+.yandexDataMap{
+    position: relative !important;
+    border-radius: 20px;
+}
 .address_text p{
     text-align: center;
+    user-select: none;
 }
 
 .name_surname_data{

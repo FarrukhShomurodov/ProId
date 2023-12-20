@@ -18,7 +18,6 @@ import Main from './components/dashboard/pages/Main.vue'
 import Data from './components/dashboard/pages/Data.vue'
 import ProBusiness from './components/dashboard/pages/ProBusiness.vue';
 import Pay from './components/dashboard/pages/Pay.vue'
-import Map from './view/Map.vue'
 
 //Routes
 const routes = [
