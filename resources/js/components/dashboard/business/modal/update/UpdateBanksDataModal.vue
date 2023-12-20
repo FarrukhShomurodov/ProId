@@ -90,7 +90,7 @@ export default {
                                 <input type="number" v-model=payment_account class="form-input" placeholder="Введите Расчетный счет" required>
                             </div>
                             <div>
-                                <input type="text" v-model=name class="form-input" placeholder="Наимонование банка">
+                                <input type="text" v-model=name class="form-input" placeholder="Наимонование банка" readonly>
                             </div>
                         </div>
                         <div class="modal-footer">
