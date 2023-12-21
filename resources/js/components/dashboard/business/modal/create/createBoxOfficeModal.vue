@@ -301,7 +301,16 @@ label {
     }
 
     .select2-selection {
-        width: 380px;
+        width: 380px !important;
+    }
+}
+@media screen and (max-width: 390px) {
+    .create-box-office-content div {
+        width: 340px !important;
+    }
+
+    .select2-selection {
+        width: 340px !important;
     }
 }
 </style>

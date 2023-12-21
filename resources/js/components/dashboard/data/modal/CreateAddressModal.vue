@@ -310,4 +310,17 @@ export default {
         width: 380px !important;
     }
 }
+
+
+@media screen and (max-width: 390px) {
+    .modal-container-phone-number-edit {
+        width: 340px !important;
+    }
+    .yaMap {
+        width: 320px !important;
+    }
+    .suggestions{
+        width: 320px !important;
+    }
+}
 </style>

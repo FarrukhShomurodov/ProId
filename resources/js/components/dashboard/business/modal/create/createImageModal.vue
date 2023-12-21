@@ -161,7 +161,12 @@ export default {
 @media screen and (max-width: 500px) {
     /* Responsive styling for smaller screens */
     .update_business_foto{
-        width: 400px;
+        width: 400px !important;
+    }
+}
+@media screen and (max-width: 390px) {
+    .update_business_foto {
+        width: 360px !important;
     }
 }
 </style>

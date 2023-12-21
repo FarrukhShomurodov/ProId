@@ -342,11 +342,18 @@ label{
         width: 345px;
     }
     .unactive{
-        width: 180px;
-
+        width: 180px !important;
     }
     .delete{
         width: 180px;
+    }
+}
+@media screen and (max-width: 390px) {
+    .modal-container-update-banking{
+        width: 360px !important; /* Set width to 100% for smaller screens */
+    }
+    .delete{
+        width: 130px !important;
     }
 }
 </style>

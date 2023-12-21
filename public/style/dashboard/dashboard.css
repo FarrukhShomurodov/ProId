@@ -365,4 +365,7 @@ footer span {
     .logo{
         margin-left: 25px;
     }
+    .header_nav_content{
+        max-width: 242px;
+    }
 }

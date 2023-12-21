@@ -206,6 +206,7 @@
         display: block;
         position: relative;
         top: 35px;
+        z-index: 0 !important;
         left: 0;
     }
 }

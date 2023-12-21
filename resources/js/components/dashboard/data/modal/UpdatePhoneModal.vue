@@ -331,4 +331,9 @@ input[type=number]::-webkit-outer-spin-button {
         width: 380px;
     }
 }
+@media screen and (max-width: 390px) {
+    .phone-number{
+        width: 320px;
+    }
+}
 </style>

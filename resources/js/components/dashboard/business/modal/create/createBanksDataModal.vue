@@ -165,4 +165,9 @@ label{
         width: 345px;
     }
 }
+@media screen and (max-width: 390px) {
+    .modal-container-add-banking{
+        width: 360px !important; /* Set width to 100% for smaller screens */
+    }
+}
 </style>

@@ -269,4 +269,12 @@ export default {
         width: 380px;
     }
 }
+@media screen and (max-width: 390px) {
+    .email{
+        width: 320px;
+    }
+    .email_content{
+        width: 320px;
+    }
+}
 </style>

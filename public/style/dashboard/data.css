@@ -397,3 +397,16 @@ input:focus{
         width: 250px;
     }
 }
+
+@media screen and (max-width: 390px) {
+    .modal-container {
+        width: 340px;
+    }
+    .header_modal, .user_foto, .form_input, .other_information, .modal-default-button {
+        width: 320px !important;
+    }
+    .date {
+        width: 200px;
+    }
+}
+

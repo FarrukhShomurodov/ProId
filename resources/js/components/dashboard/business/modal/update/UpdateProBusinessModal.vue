@@ -203,4 +203,9 @@ label {
         border-radius: 25px 25px 0 0;
     }
 }
+@media screen and (max-width: 390px) {
+    .modal-container-update-business {
+        width: 360px !important; /* Set width to 100% for smaller screens */
+    }
+}
 </style>

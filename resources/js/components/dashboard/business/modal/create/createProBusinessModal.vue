@@ -247,6 +247,7 @@ label {
         width: 400px !important; /* Set width to 100% for smaller screens */
         height: 525px !important; /* Let the height adjust based on content */
         border-radius: 25px 25px 0 0;
+        overflow-x: hidden;
         overflow-y: auto; /* Add this line to enable vertical scrolling */
     }
     .create-business-content div {
@@ -263,6 +264,20 @@ label {
 
     .create-business-content {
         margin-left: 0 !important;
+    }
+}
+@media screen and (max-width: 390px) {
+    .modal-container-create-business {
+        width: 360px !important; /* Set width to 100% for smaller screens */
+    }
+    .header_modal, .user_foto, .form_input, .other_information, .modal-default-button{
+        width: 340px !important; /* Set width to 100% for smaller screens */
+    }
+    .create-business-content div {
+        width: 340px !important;
+    }
+    .form-input{
+        width: 340px !important;
     }
 }
 </style>
