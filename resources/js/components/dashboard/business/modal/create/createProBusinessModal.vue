@@ -228,16 +228,30 @@ label {
     color: #FF0000;
 }
 
+
+/* Styling for modal scrolling on screens with smaller height */
+@media screen and (max-height: 970px) {
+    .modal-container-create-business {
+        height: 930px !important;
+        border-radius: 25px 25px 25px 25px;
+        overflow-y: scroll; /* Add this line to enable vertical scrolling */
+    }
+
+    .modal-container-create-business::-webkit-scrollbar {
+        display: none; /* Safari and Chrome */
+    }
+}
 /* Responsive styling for smaller screens */
 @media screen and (max-width: 500px) {
     .modal-container-create-business {
-        width: 400px; /* Set width to 100% for smaller screens */
+        width: 400px !important; /* Set width to 100% for smaller screens */
         height: 525px !important; /* Let the height adjust based on content */
-        border-radius: 25px 25px 0px 0px;
-        overflow-x: hidden;
+        border-radius: 25px 25px 0 0;
         overflow-y: auto; /* Add this line to enable vertical scrolling */
     }
-
+    .create-business-content div {
+        width: 380px;
+    }
     .create-business-content {
         margin-left: 2px;
     }
@@ -249,21 +263,6 @@ label {
 
     .create-business-content {
         margin-left: 0 !important;
-    }
-}
-
-/* Styling for modal scrolling on screens with smaller height */
-@media screen and (max-height: 970px) {
-    .modal-container-create-business {
-        width: 512px;
-        height: 930px !important;
-        border-radius: 25px 25px 25px 25px;
-        overflow-x: hidden;
-        overflow-y: scroll; /* Add this line to enable vertical scrolling */
-    }
-
-    .modal-container-create-business::-webkit-scrollbar {
-        display: none; /* Safari and Chrome */
     }
 }
 </style>

@@ -6,14 +6,14 @@ import axios from 'axios';
 import createBanksDataModal from "@/components/dashboard/business/modal/create/createBanksDataModal.vue";
 
 export default {
-    props:[
+    props: [
         'business_id'
     ],
-    components:{
+    components: {
         createBanksDataModal,
     },
-    data(){
-        return{
+    data() {
+        return {
             // Vue.js data properties
             name: '',
             service: 'Сервис Cloud',
@@ -38,9 +38,9 @@ export default {
         // Fetch initial bank data
         this.getBankData();
     },
-    methods:{
+    methods: {
         // Async function to fetch bank data
-        async getBankData(){
+        async getBankData() {
             try {
                 const headers = {
                     'Authorization': `Bearer ` + localStorage.token,
@@ -57,7 +57,7 @@ export default {
             }
         },
         // Save function to handle the submission of data
-        save(){
+        save() {
             const box_office_data = {
                 'business_id': this.business_id,
                 'name': this.name,
@@ -70,7 +70,7 @@ export default {
             };
 
             // HTTP POST request to save box office data
-            axios.post('/api/box-offices', box_office_data, {headers}).then( res => {
+            axios.post('/api/box-offices', box_office_data, {headers}).then(res => {
                 this.$emit('close'); // Close the modal after successful save
             }).catch(err => {
                 this.error = err.response.data.message; // Display error message if save fails
@@ -107,7 +107,8 @@ export default {
                             </div>
                             <div>
                                 <label>Наименование кассы *</label>
-                                <input type="text" v-model=name class="form-input" placeholder="Введите наименование кассы" required>
+                                <input type="text" v-model=name class="form-input"
+                                       placeholder="Введите наименование кассы" required>
                             </div>
                             <div>
                                 <label>Выберите Сервис *</label>
@@ -119,7 +120,10 @@ export default {
                             <div>
                                 <label>Выберите банковский счет *</label>
                                 <select v-model="bank_data_id" class="form-input" id="select2" required>
-                                    <option v-for="data in bankData" :value="data.id" >{{ data.name_of_banking_akkaunt }}</option>
+                                    <option v-for="data in bankData" :value="data.id">{{
+                                            data.name_of_banking_akkaunt
+                                        }}
+                                    </option>
                                 </select>
                             </div>
                             <!-- Add new banking option -->
@@ -140,7 +144,7 @@ export default {
                         </div>
                         <div class="modal-footer">
                             <slot name="footer">
-                                <button class="modal-default-button" @click="save" >
+                                <button class="modal-default-button" @click="save">
                                     Сохранить
                                 </button>
                             </slot>
@@ -151,7 +155,8 @@ export default {
         </transition>
 
         <!-- Display createBanksDataModal component when addBanking is true -->
-        <createBanksDataModal v-if="addBanking" @close="$emit('close')" :business_id="this.business_id"></createBanksDataModal>
+        <createBanksDataModal v-if="addBanking" @close="$emit('close')"
+                              :business_id="this.business_id"></createBanksDataModal>
     </div>
 </template>
 
@@ -169,12 +174,13 @@ export default {
     padding-left: 11px;
 }
 
-.add_bank p{
+.add_bank p {
     font-size: 17px;
     font-weight: 500;
     color: #000;
 }
-.modal-container-add-banking{
+
+.modal-container-add-banking {
     width: 512px;
     height: 520px !important;
     margin: 0 auto;
@@ -188,21 +194,26 @@ export default {
     transition: all 0.3s ease;
     border-radius: 40px;
 }
-.modal-default-button{
+
+.modal-default-button {
     margin-top: 10px;
 }
-.modal-footer{
+
+.modal-footer {
     justify-content: center;
 }
-.create-box-office-content{
+
+.create-box-office-content {
     margin-left: 17px !important;
 }
-label{
+
+label {
     margin-top: 10px;
     font-size: 20px;
     margin-left: 5px;
 }
-.form-input{
+
+.form-input {
     width: 438px;
     height: 47px;
     border-radius: 15px;
@@ -213,7 +224,8 @@ label{
     font-size: 20px;
     margin-top: 10px;
 }
-.select2-selection{
+
+.select2-selection {
     width: 438px;
     height: 47px !important;
     border-radius: 15px !important;
@@ -222,56 +234,73 @@ label{
     font-size: 20px;
     margin-top: 10px;
     padding-left: 10px;
-    border:none !important;
+    border: none !important;
 }
-.select2-container--open .select2-selection{
-    border-radius: 15px 15px 0 0  !important;
+
+.select2-container--open .select2-selection {
+    border-radius: 15px 15px 0 0 !important;
     box-shadow: 0 !important;
     border: 1px solid #aaa !important;
 }
-.select2-selection__rendered{
+
+.select2-selection__rendered {
     padding-top: 10px;
 }
-.select2-selection__arrow{
+
+.select2-selection__arrow {
     margin-top: 20px;
     margin-right: 10px;
 }
-.select2-search__field{
+
+.select2-search__field {
     display: none;
 }
-.select2-results__option--highlighted{
+
+.select2-results__option--highlighted {
     background-color: rgba(0, 0, 0, 0.25) !important;
     color: black !important;
     border-radius: 15px !important;
 }
-.select2-results__option{
+
+.select2-results__option {
     border-radius: 10px !important;
 }
-.select2-dropdown{
+
+.select2-dropdown {
     border-radius: 0 0 10px 10px !important;
     z-index: 9999 !important;
 }
-.error{
+
+.error {
     width: 438px;
 }
+
 .error p {
     font-size: 14px;
     text-align: center;
     color: #FF0000;
 }
-@media screen and (max-width: 500px){
-    .modal-container-add-banking{
+
+@media screen and (max-width: 500px) {
+    .modal-container-add-banking {
         width: 406px;
         height: 492px;
         border-radius: 25px 25px 0 0;
     }
-    .create-box-office-content{
+
+    .create-box-office-content {
         margin-left: 0 !important;
     }
-    .form-input{
+
+    .create-box-office-content div {
         width: 380px;
     }
-    .select2-selection{
+
+    .form-input {
+        width: 380px;
+    }
+
+    .select2-selection {
         width: 380px;
     }
 }

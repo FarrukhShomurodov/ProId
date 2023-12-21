@@ -193,7 +193,7 @@
     .back{
         position: fixed;
         top: 150px;
-        z-index: 1;
+        z-index: 6;
         left: 30px;
     }
     .details{

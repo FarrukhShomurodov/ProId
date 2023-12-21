@@ -26,7 +26,7 @@ const routes = [
     //     component: Login,
     //     name: 'login',
     //     beforeEnter(to, from, next) {
-    //         if (token && from.name === 'dashboard'){
+    //         if (token || from.name === 'dashboard'){
     //             next({name: 'dashboard'})
     //         }else{
     //             next()
@@ -72,6 +72,7 @@ const routes = [
     {
         path: '/',
         component: Dashboard,
+        redirect: { name: 'dashboard-main' },
         name: 'dashboard',
         children: [
             {
