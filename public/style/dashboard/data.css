@@ -400,7 +400,7 @@ input:focus{
 
 @media screen and (max-width: 390px) {
     .modal-container {
-        width: 340px;
+        width: 360px;
     }
     .header_modal, .user_foto, .form_input, .other_information, .modal-default-button {
         width: 320px !important;

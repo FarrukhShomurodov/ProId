@@ -10,7 +10,7 @@ export default {
             imageData: '/images/icons/proBusiness/proConnect.jpg',
             avatarUrl: null,
             avatarFile: null,
-            loading: true, // Loading state
+            loading: false, // Loading state
         };
     },
 
@@ -23,7 +23,7 @@ export default {
         axios.get(`/api/pro-business-show/${this.business_id}`, {headers}).then(res => {
             this.avatarUrl = res.data.image;
             console.log(this.avatarUrl);
-            this.loading = false; // Update loading state once data is fetched
+            this.loading = true; // Update loading state once data is fetched
         });
     },
 

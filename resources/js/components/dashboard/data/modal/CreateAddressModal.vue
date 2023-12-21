@@ -314,7 +314,7 @@ export default {
 
 @media screen and (max-width: 390px) {
     .modal-container-phone-number-edit {
-        width: 340px !important;
+        width: 360px !important;
     }
     .yaMap {
         width: 320px !important;
