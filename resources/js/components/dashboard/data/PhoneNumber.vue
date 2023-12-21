@@ -16,6 +16,16 @@ export default {
         this.fetchUser()
     },
     methods: {
+        // Format phone number
+        formatPhoneNumber(phoneNumber) {
+            // Remove any non-digit characters from the phone number
+            const cleanedNumber = phoneNumber.replace(/\D/g, '');
+
+            // Apply the desired formatting
+            const formattedNumber = `+${cleanedNumber.slice(0, 3)} ${cleanedNumber.slice(3, 5)} ${cleanedNumber.slice(5, 8)} ${cleanedNumber.slice(8, 10)} ${cleanedNumber.slice(10, 12)}`;
+
+            return formattedNumber;
+        },
         fetchUser(){
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
@@ -26,6 +36,10 @@ export default {
             axios.get('/api/user', {headers}).then(res => {
                 const data = res.data;
                 this.phoneNumber = data.phone_number
+
+                // format phone number
+                const phoneNumber = `+${this.phoneNumber}`;
+                this.phoneNumber = this.formatPhoneNumber(phoneNumber);
             });
         },
         modal(){
@@ -52,7 +66,7 @@ export default {
             <div class="flex_row">
                 <div>
                     <span>для защиты аккаунта</span><br>
-                    <span>+{{ phoneNumber }}</span>
+                    <span>{{ phoneNumber }}</span>
                 </div>
                 <img src="/images/icons/dashboard/menu-dots-vertical.png" alt="" >
             </div>

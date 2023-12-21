@@ -9,7 +9,7 @@ import Email from "@/components/dashboard/data/Email.vue";
 import CreateMailModal from '../data/modal/CreateMailModal.vue';
 import CreateAddressModal from "../data/modal/CreateAddressModal.vue";
 import UpdateAddressModal from "../data/modal/UpdateAddressModal.vue";
-import { Swiper, SwiperSlide } from "swiper/vue";
+import {Swiper, SwiperSlide} from "swiper/vue";
 import {
     YandexMap,
     YandexMapDefaultSchemeLayer,
@@ -69,6 +69,17 @@ export default {
         this.getUser()
     },
     methods: {
+        // Format phone number
+        formatPhoneNumber(phoneNumber) {
+            // Remove any non-digit characters from the phone number
+            const cleanedNumber = phoneNumber.replace(/\D/g, '');
+
+            // Apply the desired formatting
+            const formattedNumber = `+${cleanedNumber.slice(0, 3)} ${cleanedNumber.slice(3, 5)} ${cleanedNumber.slice(5, 8)} ${cleanedNumber.slice(8, 10)} ${cleanedNumber.slice(10, 12)}`;
+
+            return formattedNumber;
+        },
+
         // Method to fetch user data
         getUser() {
             this.fetchUser()
@@ -88,6 +99,11 @@ export default {
                 this.surname = data.surname;
                 this.avatarUrl = data.avatar;
                 this.phoneNumber = data.phone_number
+
+                // format phone number
+                const phoneNumber = `+${this.phoneNumber}`;
+                this.phoneNumber = this.formatPhoneNumber(phoneNumber);
+
                 this.hasMail = data.email != null ? true : false
                 this.mail = data.email
 
@@ -245,7 +261,7 @@ export default {
                             <div class="kon_icon"></div>
                             <div>
                                 <span>Основной номер телефона</span>
-                                <p>+{{ phoneNumber }}</p>
+                                <p>{{ phoneNumber }}</p>
                             </div>
                         </div>
                         <img src="/images/icons/dashboard/next.svg" @click="showPhoneEdition = true">

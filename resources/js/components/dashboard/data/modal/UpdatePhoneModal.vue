@@ -153,7 +153,7 @@ export default {
                         </div>
                         <!-- Content for editing phone number -->
                         <div class="edit_phone_content" v-if="!changeNum && !showConfirmNumber">
-                            <h3>+{{ phoneNumber }}</h3>
+                            <h3>{{ phoneNumber }}</h3>
                             <p>Этот номер может быть использован для<br> входа и восстановления доступа к аккаунту</p>
                         </div>
                         <!-- Input field for editing phone number -->
