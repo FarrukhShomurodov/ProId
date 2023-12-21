@@ -48,6 +48,12 @@ class BanksDataController extends Controller
             'name_of_banking_akkaunt' => 'required|string|max:100',
             'mfo' => 'required|integer',
             'payment_account' => 'required|integer',
+        ],
+        [
+            'name.required' => 'Поле "Наиминование счета" является обязательным для заполнения.',
+            'name_of_banking_akkaunt.required' => 'Поле "Расчетный счет" является обязательным для заполнения.',
+            'mfo.required' => 'Поле "МФО" является обязательным для заполнения.',
+            'payment_account.required' => 'Поле "Наиминование банка" является обязательным для заполнения.',
         ]);
 
         //store banking data in db
@@ -71,6 +77,12 @@ class BanksDataController extends Controller
             'name_of_banking_akkaunt' => 'required|string|max:100',
             'mfo' => 'required|integer',
             'payment_account' => 'required|integer',
+        ],
+        [
+            'name.required' => 'Поле "Наиминование счета" является обязательным для заполнения.',
+            'name_of_banking_akkaunt.required' => 'Поле "Расчетный счет" является обязательным для заполнения.',
+            'mfo.required' => 'Поле "МФО" является обязательным для заполнения.',
+            'payment_account.required' => 'Поле "Наиминование банка" является обязательным для заполнения.',
         ]);
 
         //update

@@ -2,9 +2,9 @@
 import axios from 'axios';
 
 export default {
-    props:['business_id'],
-    data(){
-        return{
+    props: ['business_id'],
+    data() {
+        return {
             inn: '',
             name_of_business: '',
             form_of_business: '',
@@ -12,14 +12,17 @@ export default {
             address: '',
             id: 0,
             loading: false,
+            error: '',
         }
     },
     mounted() {
+        // Fetch business data when the component is mounted
         const headers = {
             'Authorization': `Bearer ` + localStorage.token,
             'Content-Type': 'application/json',
         };
-        axios.get(`/api/pro-business-show/${this.business_id}`,{headers}).then(res => {
+        axios.get(`/api/pro-business-show/${this.business_id}`, { headers }).then(res => {
+            // Update component data with the retrieved business information
             const data = res.data;
             this.id = data.id;
             this.inn = data.inn;
@@ -27,25 +30,29 @@ export default {
             this.form_of_business = data.form_of_business;
             this.oked = data.oked;
             this.address = data.address;
-            this.loading = true
+            this.loading = true; // Set loading to true after data is fetched
         })
     },
-    methods:{
-        save(){
+    methods: {
+        save() {
+            // Save business data when the "Сохранить" button is clicked
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
             };
             const data = {
-                'inn':  this.inn,
+                'inn': this.inn,
                 'name_of_business': this.name_of_business,
                 'form_of_business': this.form_of_business,
                 'oked': this.oked,
                 'address': this.address,
             }
-            axios.put(`/api/pro-business/${this.id}`,data,{headers}).then(res => {
-
+            axios.put(`/api/pro-business/${this.id}`, data, { headers }).then(res => {
+                // Close the modal after successfully saving data
                 this.$emit('close')
+            }).catch(err => {
+                // Handle errors and update the error message
+                this.error = err.response.data.message;
             })
         }
     }
@@ -54,9 +61,11 @@ export default {
 
 <template>
     <div>
+        <!-- Modal transition -->
         <transition name="modal">
             <div class="modal-mask">
                 <div class="modal-wrapper">
+                    <!-- Modal container for updating business information -->
                     <div class="modal-container-update-business" v-if="loading">
                         <div class="header_modal">
                             <h4>Реквизиты</h4>
@@ -67,6 +76,10 @@ export default {
                             />
                         </div>
                         <div class="create-business-content">
+                            <div class="error">
+                                <p>{{ error }}</p>
+                            </div>
+                            <!-- Form fields for business information -->
                             <div>
                                 <label>ИНН бизнеса *</label>
                                 <input type="number" v-model=inn class="form-input" placeholder="Введите ИНН" required>
@@ -89,6 +102,7 @@ export default {
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <!-- Save button to trigger the save method -->
                             <slot name="footer">
                                 <button class="modal-default-button" @click="save" >
                                     Сохранить
@@ -96,6 +110,7 @@ export default {
                             </slot>
                         </div>
                     </div>
+                    <!-- Loading indicator while data is being fetched -->
                     <div v-if="!loading" class="loading-indicator">
                         Loading...
                     </div>
@@ -106,6 +121,7 @@ export default {
 </template>
 
 <style>
+/* Loading indicator styling */
 .loading-indicator {
     position: fixed;
     top: 50%;
@@ -116,9 +132,11 @@ export default {
     border-radius: 8px;
     z-index: 9999;
 }
-.modal-container-update-business{
+
+/* Modal container for updating business information styling */
+.modal-container-update-business {
     width: 512px;
-    height: 587px;
+    height: 625px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -130,21 +148,31 @@ export default {
     transition: all 0.3s ease;
     border-radius: 40px;
 }
-.modal-default-button{
+
+/* Save button styling */
+.modal-default-button {
     margin-top: 10px;
 }
-.modal-footer{
+
+/* Modal footer styling */
+.modal-footer {
     justify-content: center;
 }
-.create-business-content{
+
+/* Form content styling */
+.create-business-content {
     margin-left: 17px;
 }
-label{
+
+/* Label styling */
+label {
     margin-top: 10px;
     font-size: 20px;
     margin-left: 5px;
 }
-.form-input{
+
+/* Form input styling */
+.form-input {
     width: 438px;
     height: 47px;
     border-radius: 15px;
@@ -156,8 +184,20 @@ label{
     margin-top: 10px;
 }
 
-@media screen and (max-width: 500px){
-    .modal-container-update-business{
+/* Error message styling */
+.error {
+    width: 438px;
+}
+
+.error p {
+    font-size: 14px;
+    text-align: center;
+    color: #FF0000;
+}
+
+/* Responsive styling for smaller screens */
+@media screen and (max-width: 500px) {
+    .modal-container-update-business {
         width: 406px;
         height: 600px;
         border-radius: 25px 25px 0 0;

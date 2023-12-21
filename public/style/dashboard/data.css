@@ -74,7 +74,9 @@
     max-width: 565px;
     width: 100%;
     overflow-y: hidden;
-    /*overflow-x: auto;*/
+    overflow-x: auto;
+    position: relative;
+    z-index: 1;
 }
 
 .address_content_container .address_container{
@@ -305,7 +307,7 @@ p{
 }
 .modal-mask {
     position: fixed;
-    z-index: 9998;
+    z-index: 9998 !important;
     top: 0;
     left: 0;
     width: 100%;

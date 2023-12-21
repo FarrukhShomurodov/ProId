@@ -1,5 +1,5 @@
 <script>
-import axios, {formToJSON} from 'axios';
+import axios, { formToJSON } from 'axios';
 import {
     YandexMap,
     YandexMapDefaultSchemeLayer,
@@ -19,6 +19,7 @@ export default {
     },
     data() {
         return {
+            // State variables for address, coordinates, search query, suggestions, zoom, and loading state
             address: '',
             coords: [69.240562, 41.2800],
             searchQuery: '',
@@ -28,12 +29,12 @@ export default {
         };
     },
     mounted() {
+        // Fetch address data when the component is mounted
         const headers = {
             'Authorization': `Bearer ` + localStorage.token,
             'Content-Type': 'application/json',
         };
-        // getting address
-        axios.get(`/api/address-show/${this.address_id}`,{headers}).then(res => {
+        axios.get(`/api/address-show/${this.address_id}`, { headers }).then(res => {
             this.address = res.data.name
             this.searchQuery = res.data.name
             this.coords = JSON.parse(res.data.coords)
@@ -51,14 +52,14 @@ export default {
                 name: this.address,
                 coords: this.coords
             }
-            axios.put(`/api/address/${this.address_id}`, data, {headers}).then(() => {
+            axios.put(`/api/address/${this.address_id}`, data, { headers }).then(() => {
                 this.$emit('goBack')
             })
         },
         // Method called when the map is clicked
         logMapClick(object, event) {
             // Set zoom and coordinates based on the clicked location
-            this.zoom = {min: 1, max: 9};
+            this.zoom = { min: 1, max: 9 };
             this.coords = event.coordinates;
 
             // Perform reverse geocoding to get the address of the clicked location
@@ -101,7 +102,6 @@ export default {
                 searchControl.search(this.searchQuery).then(() => {
                     var geoObjectsArray = searchControl.getResultsArray();
                     this.suggestions = geoObjectsArray;
-                    console.log(this.suggestions)
                 });
 
             } else {
@@ -133,7 +133,6 @@ export default {
 };
 </script>
 
-
 <template>
     <div>
         <transition name="modal">
@@ -149,10 +148,10 @@ export default {
                             />
                         </div>
 
-                        <!--Map-->
+                        <!-- Map Section -->
                         <div class="custom-search">
                             <input v-model="searchQuery" placeholder="Адрес" class="form_input"
-                                   @input="handleSearchInput"/>
+                                   @input="handleSearchInput" />
                             <div v-if="suggestions.length > 0" class="suggestions">
                                 <div v-for="suggestion in suggestions" :key="suggestion"
                                      @click="selectSuggestion(suggestion)">
@@ -165,13 +164,13 @@ export default {
                             <yandex-map
                                 :settings="{
                                 location: {
-                                  center:  coords,
+                                  center: coords,
                                   zoom: zoom,
                                 },
                               }">
-                                <yandex-map-default-scheme-layer/>
-                                <yandex-map-default-features-layer/>
-                                <yandex-map-listener :settings="{ onClick: logMapClick }"/>
+                                <yandex-map-default-scheme-layer />
+                                <yandex-map-default-features-layer />
+                                <yandex-map-listener :settings="{ onClick: logMapClick }" />
                                 <yandex-map-marker
                                     :settings="{
                                         coordinates: coords,
@@ -187,14 +186,14 @@ export default {
                                             boxSizing: 'border-box',
                                             transform: 'translate(-50%, calc(-50% - 24px))',
                                             cursor: 'pointer',
-                                          }"
+                                        }"
                                         />
                                     </template>
                                 </yandex-map-marker>
                             </yandex-map>
                         </div>
 
-                        <!--Footer-->
+                        <!-- Footer Section -->
                         <div class="modal-footer">
                             <slot name="footer">
                                 <button class="modal-default-button" @click="save">
@@ -203,6 +202,7 @@ export default {
                             </slot>
                         </div>
                     </div>
+                    <!-- Loading indicator -->
                     <div v-if="!loading" class="loading-indicator">
                         Loading...
                     </div>
@@ -212,8 +212,8 @@ export default {
     </div>
 </template>
 
-
 <style>
+/* Styling for modal mask */
 .modal-mask {
     position: fixed;
     z-index: 1 !important;
@@ -226,6 +226,7 @@ export default {
     transition: opacity 0.3s ease;
 }
 
+/* Styling for modal container */
 .modal-container-phone-number-edit {
     width: 512px;
     height: 440px;
@@ -241,29 +242,23 @@ export default {
     border-radius: 40px;
 }
 
+/* Styling for default modal button */
 .modal-default-button {
     margin-top: 10px;
 }
 
+/* Styling for modal footer */
 .modal-footer {
     justify-content: center;
 }
 
-.email_content p {
-    color: #000;
-    font-family: GT Walsheim Pro;
-    font-size: 19px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
-    margin-bottom: 0;
-}
-
+/* Styling for paragraph inside modal content */
 .add_address {
     font-weight: 500;
     font-size: 24px;
 }
 
+/* Styling for Yandex Map */
 .yaMap {
     width: 438px;
     height: 201px;
@@ -271,11 +266,7 @@ export default {
     box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
 }
 
-.ymaps3x0--main-engine-container {
-    border-radius: 15px;
-
-}
-
+/* Styling for suggestions dropdown */
 .suggestions {
     margin-top: 4px;
     position: absolute;
@@ -288,15 +279,18 @@ export default {
     z-index: 1;
 }
 
+/* Styling for suggestion items */
 .suggestions div {
     padding: 8px;
     cursor: pointer;
 }
 
+/* Styling for hover effect on suggestion items */
 .suggestions div:hover {
     background-color: #f0f0f0;
 }
 
+/* Media query for smaller screens */
 @media screen and (max-width: 500px) {
     .modal-container-phone-number-edit {
         width: 406px;

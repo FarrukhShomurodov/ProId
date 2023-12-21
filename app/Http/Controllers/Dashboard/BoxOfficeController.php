@@ -47,6 +47,11 @@ class BoxOfficeController extends Controller
             'name' => 'required|string|max:100',
             'service' => 'required|string',
             'bank_data_id' => 'required|integer|exists:banks_data,id',
+        ],
+        [
+            'name.required' => 'Поле "Наименование кассы" является обязательным для заполнения.',
+            'service.required' => 'Поле "Сервис" является обязательным для заполнения.',
+            'bank_data_id.required' => 'Поле "Банковский счет *" является обязательным для заполнения.',
         ]);
 
         //store box office data in db
@@ -68,6 +73,11 @@ class BoxOfficeController extends Controller
             'name' => 'required|string|max:100',
             'service' => 'required|string',
             'bank_data_id' => 'required|integer|exists:banks_data,id',
+        ],
+        [
+            'name.required' => 'Поле "Наименование кассы" является обязательным для заполнения.',
+            'service.required' => 'Поле "Сервис" является обязательным для заполнения.',
+            'bank_data_id.required' => 'Поле "Банковский счет *" является обязательным для заполнения.',
         ]);
 
         //update box office data in db
@@ -118,7 +128,7 @@ class BoxOfficeController extends Controller
         $boxOffice->delete();
 
         //return response
-        return new JsonResponse('box office successfuly deleted');
+        return new JsonResponse('box office successfully deleted');
     }
 
 }

@@ -1,25 +1,33 @@
 <script>
+// Importing necessary modules
 import axios from 'axios';
 
 export default {
+    // Component properties
     props:[
         'banking_id'
     ],
+    // Component data initialization
     data(){
         return{
+            // Data properties for the component
             name: '',
             name_of_banking_akkaunt: '',
             mfo: '',
             payment_account: '',
-            loading: false
+            loading: false,
+            error: ''
         }
     },
+    // Component lifecycle hook - called when the component is mounted
     mounted() {
+        // Fetch banking data on component mount
         const headers = {
             'Authorization': `Bearer ` + localStorage.token,
             'Content-Type': 'application/json',
         };
         axios.get(`/api/banking-data-show/${this.banking_id}`,{headers}).then(res => {
+            // Populate data from the API response
             const data = res.data;
             this.name = data.name
             this.name_of_banking_akkaunt = data.name_of_banking_akkaunt
@@ -28,7 +36,9 @@ export default {
             this.loading = true
         });
     },
+    // Component methods
     methods:{
+        // Method to save banking data
         save(){
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
@@ -40,17 +50,21 @@ export default {
                 'name': this.name,
                 'name_of_banking_akkaunt': this.name_of_banking_akkaunt
             }
+            // Update banking data via API
             axios.put(`/api/banks-data/${this.banking_id}`, banks_data,{headers}).then( res => {
-
-                this.$emit('close')
+                this.$emit('close'); // Close the modal after successful data update
+            }).catch(err => {
+                this.error = err.response.data.message;
             });
         },
+        // Method to fetch bank data based on MFO
         mfoBank(){
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
             };
             axios.get('/api/bank-data-by-mfo',{headers}).then(res => {
+                // Find and set the bank name based on MFO
                 for(let i = 0; i < res.data.length; i++){
                     if(res.data[i].code == this.mfo){
                         this.name = res.data[i].name
@@ -64,10 +78,13 @@ export default {
 
 <template>
     <div>
+        <!-- Modal transition -->
         <transition name="modal">
             <div class="modal-mask">
                 <div class="modal-wrapper">
+                    <!-- Modal container for updating banking data -->
                     <div class="modal-container-update_banking"  v-if="loading">
+                        <!-- Header of the modal -->
                         <div class="header_modal">
                             <h4>Изменение банковского счета</h4>
                             <img
@@ -76,7 +93,13 @@ export default {
                                 alt="exit icon"
                             />
                         </div>
+                        <!-- Main content of the modal -->
                         <div class="create-business-content">
+                            <!-- Display error message if any -->
+                            <div class="error">
+                                <p>{{ error }}</p>
+                            </div>
+                            <!-- Input fields for banking data -->
                             <div>
                                 <label>Наиминование счета *</label>
                                 <input type="text" v-model=name_of_banking_akkaunt class="form-input" placeholder="Введите наименование счет" required>
@@ -93,6 +116,7 @@ export default {
                                 <input type="text" v-model=name class="form-input" placeholder="Наимонование банка" readonly>
                             </div>
                         </div>
+                        <!-- Modal footer with Save button -->
                         <div class="modal-footer">
                             <slot name="footer">
                                 <button class="modal-default-button" @click="save" >
@@ -101,6 +125,7 @@ export default {
                             </slot>
                         </div>
                     </div>
+                    <!-- Loading indicator -->
                     <div v-if="!loading" class="loading-indicator">
                         Loading...
                     </div>
@@ -111,6 +136,7 @@ export default {
 </template>
 
 <style>
+/* Styling for the modal component */
 .loading-indicator {
     position: fixed;
     top: 50%;
@@ -123,7 +149,7 @@ export default {
 }
 .modal-container-update_banking{
     width: 512px;
-    height: 460px !important;
+    height: 500px !important;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -160,7 +186,15 @@ label{
     font-size: 20px;
     margin-top: 10px;
 }
-
+.error{
+    width: 438px;
+}
+.error p {
+    font-size: 14px;
+    text-align: center;
+    color: #FF0000;
+}
+/* Responsive styling for smaller screens */
 @media screen and (max-width: 500px){
     .modal-container-update_banking{
         width: 406px;

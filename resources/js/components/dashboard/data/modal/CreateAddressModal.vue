@@ -11,6 +11,7 @@ import {
 export default {
     props: ['userId'],
     components: {
+        // Importing Yandex Map components
         YandexMap,
         YandexMapDefaultSchemeLayer,
         YandexMapMarker,
@@ -19,6 +20,7 @@ export default {
     },
     data() {
         return {
+            // State variables for address, coordinates, search, and map settings
             address: '',
             coords: [69.240562, 41.2800],
             searchQuery: '',
@@ -120,13 +122,16 @@ export default {
 };
 </script>
 
-
 <template>
+    <!-- Main container for the address modal -->
     <div>
         <transition name="modal">
+            <!-- Modal mask and wrapper -->
             <div class="modal-mask">
                 <div class="modal-wrapper">
+                    <!-- Modal container for phone number editing -->
                     <div class="modal-container-phone-number-edit">
+                        <!-- Modal header -->
                         <div class="header_modal">
                             <h3 class="add_address">Добавить адрес</h3>
                             <img
@@ -136,7 +141,7 @@ export default {
                             />
                         </div>
 
-                        <!--Map-->
+                        <!-- Map and search input section -->
                         <div class="custom-search">
                             <input v-model="searchQuery" placeholder="Адрес" class="form_input"
                                    @input="handleSearchInput"/>
@@ -149,6 +154,7 @@ export default {
                         </div>
                         <div id="map" style="width: 100px"></div>
                         <div class="yaMap">
+                            <!-- Yandex Map component -->
                             <yandex-map
                                 :settings="{
                                 location: {
@@ -156,15 +162,19 @@ export default {
                                   zoom: zoom,
                                 },
                               }">
+                                <!-- Default layers and features layer -->
                                 <yandex-map-default-scheme-layer/>
                                 <yandex-map-default-features-layer/>
+                                <!-- Map click event listener -->
                                 <yandex-map-listener :settings="{ onClick: logMapClick }"/>
+                                <!-- Marker for the map -->
                                 <yandex-map-marker
                                     :settings="{
                                         coordinates: coords,
                                     }"
                                 >
                                     <template #default>
+                                        <!-- Marker icon -->
                                         <img
                                             alt=""
                                             :src="'/images/icons/marker.svg'"
@@ -181,7 +191,7 @@ export default {
                             </yandex-map>
                         </div>
 
-                        <!--Footer-->
+                        <!-- Footer with save button -->
                         <div class="modal-footer">
                             <slot name="footer">
                                 <button class="modal-default-button" @click="save">
@@ -196,8 +206,8 @@ export default {
     </div>
 </template>
 
-
 <style>
+/* Styling for modal mask */
 .modal-mask {
     position: fixed;
     z-index: 1 !important;
@@ -210,6 +220,7 @@ export default {
     transition: opacity 0.3s ease;
 }
 
+/* Styling for modal container */
 .modal-container-phone-number-edit {
     width: 512px;
     height: 440px;
@@ -225,14 +236,17 @@ export default {
     border-radius: 40px;
 }
 
+/* Styling for default button in the modal */
 .modal-default-button {
     margin-top: 10px;
 }
 
+/* Styling for modal footer */
 .modal-footer {
     justify-content: center;
 }
 
+/* Styling for email content */
 .email_content p {
     color: #000;
     font-family: GT Walsheim Pro;
@@ -243,11 +257,13 @@ export default {
     margin-bottom: 0;
 }
 
+/* Styling for the "Добавить адрес" header */
 .add_address {
     font-weight: 500;
     font-size: 24px;
 }
 
+/* Styling for Yandex Map container */
 .yaMap {
     width: 438px;
     height: 201px;
@@ -255,11 +271,7 @@ export default {
     box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
 }
 
-.ymaps3x0--main-engine-container {
-    border-radius: 15px;
-
-}
-
+/* Styling for suggestions container */
 .suggestions {
     margin-top: 4px;
     position: absolute;
@@ -272,15 +284,18 @@ export default {
     z-index: 1;
 }
 
+/* Styling for individual suggestion item */
 .suggestions div {
     padding: 8px;
     cursor: pointer;
 }
 
+/* Styling for suggestion item on hover */
 .suggestions div:hover {
     background-color: #f0f0f0;
 }
 
+/* Media query for smaller screens */
 @media screen and (max-width: 500px) {
     .modal-container-phone-number-edit {
         width: 406px;

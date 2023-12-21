@@ -12,6 +12,7 @@ export default {
         };
     },
     mounted() {
+        // Retrieve saved phone number and authentication status from localStorage
         if (localStorage.phoneNumber && localStorage.isAuth) {
             this.phoneNumber = localStorage.phoneNumber;
             this.phoneNumberForSend = localStorage.phoneNumber;
@@ -20,18 +21,20 @@ export default {
             localStorage.removeItem('isAuth');
         }
 
-        this.phone();
-        const error = this.$refs.error
+        // Focus on the first OTP input
         this.$refs.otcInput[0].focus();
     },
     methods: {
+        // Handle OTP input
         handleInput(index) {
+            // Move focus to the next input when a digit is entered
             if (index < 6) {
                 if (this.otp[index - 1] !== '' && this.otp[index] === '') {
                     this.$refs[`otcInput`][index].focus();
                 }
             }
         },
+        // Handle Backspace key to move focus backward
         handleKeyDown(index) {
             if (index > 1 && this.otp[index - 1] === '' && event.key === 'Backspace') {
                 this.$refs[`otcInput`][index - 2].focus();
@@ -40,6 +43,7 @@ export default {
                 event.preventDefault();
             }
         },
+        // Verify the entered OTP
         verify() {
             if (this.showCorrectSignal) {
                 if (this.isAuth === "true") {
@@ -47,9 +51,6 @@ export default {
                         phone_number: this.phoneNumberForSend
                     }).then((response)=>{
                         localStorage.token = response.data.token
-                        // axios.delete('/api/deleteCode', {
-                        //     phone_number: this.phoneNumberForSend
-                        // }).then(res => console.log(res))
                         router.push({path: '/dashboard'});
                     })
                 } else {
@@ -58,6 +59,7 @@ export default {
                 }
             }
         },
+        // Resend OTP
         reSend() {
             axios.post('api/sendOTP', {
                 phone_number: this.phoneNumberForSend
@@ -67,6 +69,7 @@ export default {
                 localStorage.isAuth = this.isAuth;
             })
         },
+        // Format and display the masked phone number
         phone() {
             const countryCode = this.phoneNumber.slice(0, 3);
             const operatorCode = this.phoneNumber.slice(3, 5);
@@ -74,50 +77,53 @@ export default {
             const lastDigits = this.phoneNumber.slice(-2);
 
             const formattedPhoneNumber = `+${countryCode} ${operatorCode} *** ** ${lastDigits}`;
-            this.phoneNumber = formattedPhoneNumber
+            this.phoneNumber = formattedPhoneNumber;
         }
     },
     watch: {
+        // Watch for changes in OTP array
         otp: {
             handler: function (newVal, oldVal) {
                 const allDigitsFilled = newVal.every(digit => digit !== '');
                 if (allDigitsFilled) {
                     const code = this.otp.join('');
                     if (code.length === 6) {
+                        // Validate the OTP code
                         axios.post('api/checkCode', {
                             phoneNumber: this.phoneNumberForSend,
                             code: parseInt(code, 10)
                         }).then(() => {
-                            this.showCorrectSignal = true
+                            this.showCorrectSignal = true;
                         }).catch(err => {
-                            this.showCorrectSignal = false
-
-                        })
+                            this.showCorrectSignal = false;
+                        });
                     } else {
-                        this.showCorrectSignal = false
+                        this.showCorrectSignal = false;
                     }
-
                 }
             },
             deep: true,
         },
     },
 };
-
 </script>
 
 <template>
+    <!-- Verification page content -->
     <div class="page" id="verify">
         <div class="card">
+            <!-- PRO ID logo and information -->
             <div class="card__i">
                 <img src="/images/logo/pro_id_logo.svg" alt="" srcset="">
             </div>
             <div class="card__txt">
                 <span>Введите код из смс.<br> Мы отправили его <br>на номер {{ this.phoneNumber }}</span>
             </div>
+            <!-- OTP input form -->
             <div class="otc-form">
                 <form @submit.prevent class="otc" name="one-time-code" action="#">
                     <img class='phone' src="/images/icons/phone.png" style="width: 21px; height: 21px" alt="" srcset="">
+                    <!-- Display OTP input fields -->
                     <input
                         v-for="i in 6"
                         :key="i"
@@ -131,17 +137,21 @@ export default {
                         :id="'otc-' + i"
                         maxlength="1"
                         required>
+                    <!-- Display correct signal on successful verification -->
                     <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">
                 </form>
+                <!-- Verify and resend buttons -->
                 <button @click="verify" v-on:keyup.enter="verify" type="submit" class="button next" :class="{'true_next': showCorrectSignal}">Далее</button>
-                <button @click="reSend" class="reSend">отправить код еще раз</button>
+                <button @click="reSend" class="reSend">Отправить код еще раз</button>
             </div>
-            <p class="card__paragraph">Продолжая использовать PRO ID,<br>я принимаю <a href="#"> условия оферты.</a></p>
+            <!-- Additional information and links -->
+            <p class="card__paragraph">Продолжая использовать PRO ID,<br>я принимаю <a href="#">условия оферты.</a></p>
             <p class="card__paragraph">PRO ID - ключ от всех сервисов</p>
         </div>
         <div class="sub-section">
             <button>Что такое PRO ID?</button>
         </div>
+        <!-- Placeholder for reCAPTCHA integration -->
         <div ref="recaptcha"></div>
     </div>
 </template>

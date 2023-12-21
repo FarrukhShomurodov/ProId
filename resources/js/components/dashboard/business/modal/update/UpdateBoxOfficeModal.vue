@@ -1,10 +1,10 @@
 <script>
+// Importing necessary modules and component
 import axios from 'axios';
-
-//component
 import createBanksDataModal from "@/components/dashboard/business/modal/create/createBanksDataModal.vue";
 
 export default {
+    // Component properties
     props:[
         'box_office_id',
         'business_id'
@@ -12,46 +12,53 @@ export default {
     components:{
         createBanksDataModal,
     },
+    // Component data initialization
     data(){
         return{
+            // Data properties for the component
             name: '',
             service: 'Сервис Cloud',
             bank_data_id: 1,
             dankData: [],
             addBanking: false,
-            active: false
+            active: false,
+            error: '',
         }
     },
+    // Component lifecycle hook - called when the component is mounted
     mounted() {
+        // Initialize Select2 plugin for dropdowns
         $('#select').select2();
 
-        //capture the Vue instance
+        // Capture the Vue instance
         const vm = this;
 
-        //changing select value form string to integer "id"
+        // Change select value from string to integer "id"
         $('#select2').select2().on('change', function () {
-
-            //manually update Vue.js data property
+            // Manually update Vue.js data property
             vm.bank_data_id = $(this).val();
         });
 
-        //return methods
+        // Fetch box office and bank data
         this.getboxOffice();
         this.getBankData();
-
     },
+    // Component methods
     methods:{
+        // Method to fetch box office data
         async getboxOffice(){
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
             };
             const boxOfficeResponse = await axios.get(`/api/box-offices-show/${this.box_office_id}`,{headers});
+            // Populate data from the API response
             this.service = boxOfficeResponse.data.service
             this.name = boxOfficeResponse.data.name
             this.active = boxOfficeResponse.data.isActive === 1 ? true : false;
             vm.bank_data_id = boxOfficeResponse.bank_data_id
         },
+        // Method to fetch bank data
         async getBankData(){
             try {
                 const headers = {
@@ -60,14 +67,14 @@ export default {
                 };
                 const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`,{headers});
 
-                //assuming the response contains an array of objects with 'id' and 'name_of_banking_akkaunt' properties
+                // Assuming the response contains an array of objects with 'id' and 'name_of_banking_akkaunt' properties
                 this.dankData = banksResponse.data;
             } catch (error) {
                 console.error("Error fetching banking data:", error);
             }
         },
+        // Method to save box office data
         save(){
-
             const box_office_data = {
                 'name': this.name,
                 'service': this.service,
@@ -77,8 +84,11 @@ export default {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
             };
-            axios.put(`/api/box-offices/${this.box_office_id}`, box_office_data,{headers}).then( () => this.$emit('close'));
+            axios.put(`/api/box-offices/${this.box_office_id}`, box_office_data,{headers}).then( () => this.$emit('close')).catch(err => {
+                this.error = err.response.data.message;
+            });
         },
+        // Method to deactivate box office
         disActivate(){
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
@@ -86,6 +96,7 @@ export default {
             };
             axios.get(`/api/box-offices-disActivate/${this.box_office_id}`,{headers}).then(() => this.$emit('close'))
         },
+        // Method to activate box office
         activate(){
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
@@ -93,6 +104,7 @@ export default {
             };
             axios.get(`/api/box-offices-activate/${this.box_office_id}`,{headers}).then(() => this.$emit('close'))
         },
+        // Method to delete box office
         destroy(){
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
@@ -101,9 +113,10 @@ export default {
             axios.delete(`/api/box-offices/${this.box_office_id}`,{headers}).then(() => this.$emit('close'))
         }
     },
+    // Component watch property
     watch: {
+        // Watch for changes in bank_data_id and update Select2 dropdown value
         bank_data_id(newVal) {
-            // Update Select2 dropdown value
             $('#select2').val(newVal).trigger('change');
         },
     },
@@ -112,10 +125,13 @@ export default {
 
 <template>
     <div>
+        <!-- Modal transition -->
         <transition name="modal">
             <div class="modal-mask" >
                 <div class="modal-wrapper">
+                    <!-- Modal container for updating banking data -->
                     <div class="modal-container-update-banking">
+                        <!-- Header of the modal -->
                         <div class="header_modal">
                             <h4>Изменение кассы</h4>
                             <img
@@ -124,7 +140,13 @@ export default {
                                 alt="exit icon"
                             />
                         </div>
+                        <!-- Main content of the modal -->
                         <div class="create-business-content">
+                            <!-- Display error message if any -->
+                            <div class="error">
+                                <p>{{ error }}</p>
+                            </div>
+                            <!-- Input fields for box office data -->
                             <div>
                                 <label>Наименование кассы *</label>
                                 <input type="text" v-model=name class="form-input" placeholder="Введите наименование кассы" required>
@@ -146,6 +168,7 @@ export default {
                                     <option v-for="data in dankData" :value="data.id" >{{ data.name_of_banking_akkaunt }}</option>
                                 </select>
                             </div>
+                            <!-- Button to add new banking data -->
                             <div class="add_bank" @click="addBanking = true" style="
                                 margin-top: 15px;
                                 margin-bottom: 20px;
@@ -161,18 +184,23 @@ export default {
                                 <p>Добавить новый банковский счет</p>
                             </div>
                         </div>
+                        <!-- Modal footer with action buttons -->
                         <div class="modal-footer">
                             <div class="d-flex">
+                                <!-- Button to activate box office -->
                                 <button class="modal-default-button unactive" @click="activate" v-if="!active" >
                                     Активировать
                                 </button>
+                                <!-- Button to deactivate box office -->
                                 <button class="modal-default-button unactive" @click="disActivate" v-if="active">
                                     Деактивировать
                                 </button>
+                                <!-- Button to delete box office -->
                                 <button class="modal-default-button delete" @click="destroy" >
                                     Удалить
                                 </button>
                             </div>
+                            <!-- Save button -->
                             <slot name="footer">
                                 <button class="modal-default-button" @click="save" >
                                     Сохранить
@@ -184,6 +212,7 @@ export default {
             </div>
         </transition>
     </div>
+    <!-- Render the createBanksDataModal component if addBanking is true -->
     <createBanksDataModal v-if="addBanking" @close="$emit('close')" :business_id="this.business_id"></createBanksDataModal>
 </template>
 
@@ -208,7 +237,7 @@ export default {
 }
 .modal-container-update-banking{
     width: 512px;
-    height: 540px !important;
+    height: 570px !important;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -294,6 +323,14 @@ label{
 }
 .select2-dropdown{
     border-radius: 0 0 10px 10px !important;
+}
+.error{
+    width: 438px;
+}
+.error p {
+    font-size: 14px;
+    text-align: center;
+    color: #FF0000;
 }
 @media screen and (max-width: 500px){
     .modal-container-update-banking{

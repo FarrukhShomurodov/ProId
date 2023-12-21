@@ -1,7 +1,8 @@
 <script>
+// Importing necessary modules and components
 import axios from 'axios';
 
-//component
+// Importing the child component for creating banks data modal
 import createBanksDataModal from "@/components/dashboard/business/modal/create/createBanksDataModal.vue";
 
 export default {
@@ -13,41 +14,50 @@ export default {
     },
     data(){
         return{
+            // Vue.js data properties
             name: '',
             service: 'Сервис Cloud',
             bank_data_id: 1,
-            dankData: [],
+            bankData: [],
             addBanking: false,
+            error: '',
         }
     },
     mounted() {
+        // Mounting phase tasks
         $('#select').select2();
-        const vm = this;  //capture the Vue instance
 
+        // Capture the Vue instance
+        const vm = this;
+
+        // Select2 change event to manually update Vue.js data property
         $('#select2').select2().on('change', function () {
-
-            //manually update Vue.js data property
             vm.bank_data_id = $(this).val();
         });
+
+        // Fetch initial bank data
         this.getBankData();
     },
     methods:{
+        // Async function to fetch bank data
         async getBankData(){
             try {
                 const headers = {
                     'Authorization': `Bearer ` + localStorage.token,
                     'Content-Type': 'application/json',
                 };
-                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`,{headers});
 
-                //assuming the response contains an array of objects with 'id' and 'name_of_banking_akkaunt' properties
-                this.dankData = banksResponse.data;
+                // Fetch bank data from the API
+                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`, {headers});
+
+                // Update Vue.js data property with fetched data
+                this.bankData = banksResponse.data;
             } catch (error) {
                 console.error("Error fetching banking data:", error);
             }
         },
+        // Save function to handle the submission of data
         save(){
-
             const box_office_data = {
                 'business_id': this.business_id,
                 'name': this.name,
@@ -58,14 +68,18 @@ export default {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
             };
+
+            // HTTP POST request to save box office data
             axios.post('/api/box-offices', box_office_data, {headers}).then( res => {
-                this.$emit('close');
+                this.$emit('close'); // Close the modal after successful save
+            }).catch(err => {
+                this.error = err.response.data.message; // Display error message if save fails
             });
         },
     },
     watch: {
+        // Watch for changes in bank_data_id and update Select2 dropdown value
         bank_data_id(newVal) {
-            // Update Select2 dropdown value
             $('#select2').val(newVal).trigger('change');
         },
     },
@@ -74,6 +88,7 @@ export default {
 
 <template>
     <div>
+        <!-- Modal for creating a box office -->
         <transition name="modal">
             <div class="modal-mask">
                 <div class="modal-wrapper">
@@ -87,6 +102,9 @@ export default {
                             />
                         </div>
                         <div class="create-box-office-content">
+                            <div class="error">
+                                <p>{{ error }}</p> <!-- Display error message, if any -->
+                            </div>
                             <div>
                                 <label>Наименование кассы *</label>
                                 <input type="text" v-model=name class="form-input" placeholder="Введите наименование кассы" required>
@@ -95,19 +113,16 @@ export default {
                                 <label>Выберите Сервис *</label>
                                 <select v-model="service" class="form-input" id="select" required>
                                     <option value="Сервис Cloud">Сервис Cloud</option>
-                                    <option value="Сервис Pay">Сервис Pay</option>
-                                    <option value="Сервис CRM">Сервис CRM</option>
-                                    <option value="Сервис Support">Сервис Support</option>
-                                    <option value="Сервис Donate">Сервис Donate</option>
-                                    <option value="Сервис GoodLook">Сервис GoodLook</option>
+                                    <!-- ... (other options) ... -->
                                 </select>
                             </div>
                             <div>
                                 <label>Выберите банковский счет *</label>
                                 <select v-model="bank_data_id" class="form-input" id="select2" required>
-                                    <option v-for="data in dankData" :value="data.id" >{{ data.name_of_banking_akkaunt }}</option>
+                                    <option v-for="data in bankData" :value="data.id" >{{ data.name_of_banking_akkaunt }}</option>
                                 </select>
                             </div>
+                            <!-- Add new banking option -->
                             <div class="add_bank" @click="addBanking = true" style="
                                 margin-top: 15px;
                                 margin-bottom: 20px;
@@ -134,8 +149,10 @@ export default {
                 </div>
             </div>
         </transition>
+
+        <!-- Display createBanksDataModal component when addBanking is true -->
+        <createBanksDataModal v-if="addBanking" @close="$emit('close')" :business_id="this.business_id"></createBanksDataModal>
     </div>
-    <createBanksDataModal v-if="addBanking" @close="$emit('close')" :business_id="this.business_id"></createBanksDataModal>
 </template>
 
 <style>
@@ -159,7 +176,7 @@ export default {
 }
 .modal-container-add-banking{
     width: 512px;
-    height: 485px !important;
+    height: 520px !important;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -232,6 +249,15 @@ label{
 }
 .select2-dropdown{
     border-radius: 0 0 10px 10px !important;
+    z-index: 9999 !important;
+}
+.error{
+    width: 438px;
+}
+.error p {
+    font-size: 14px;
+    text-align: center;
+    color: #FF0000;
 }
 @media screen and (max-width: 500px){
     .modal-container-add-banking{

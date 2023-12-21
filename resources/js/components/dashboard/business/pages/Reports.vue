@@ -1,20 +1,20 @@
 <script>
 import axios from "axios";
 
-//import components
+// Import components
 import UpdateBoxOfficeModal from "@/components/dashboard/business/modal/update/UpdateBoxOfficeModal.vue";
 
 export default {
-    components:{
+    components: {
         UpdateBoxOfficeModal
     },
-    props:[
+    props: [
         'box_office_id',
         'business_id',
     ],
-    data(){
+    data() {
         return {
-            //frontend
+            // Frontend state
             showUpdateBoxOffice: false,
             name: '',
             service: '',
@@ -23,28 +23,31 @@ export default {
             loading: false
         }
     },
-    mounted(){
-        this.getboxOffice()
+    mounted() {
+        // Fetch box office data and associated banking data when the component is mounted
+        this.getboxOffice();
     },
-    methods:{
-        async getboxOffice(){
+    methods: {
+        async getboxOffice() {
+            // Fetch box office data and associated banking data from the API
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
             };
 
-            //getting box office data
-            const boxOfficeResponse = await axios.get(`api/box-offices-show/${this.box_office_id}`, {headers});
-            this.service = boxOfficeResponse.data.service
-            this.name = boxOfficeResponse.data.name
+            // Get box office data
+            const boxOfficeResponse = await axios.get(`api/box-offices-show/${this.box_office_id}`, { headers });
+            this.service = boxOfficeResponse.data.service;
+            this.name = boxOfficeResponse.data.name;
             this.active = boxOfficeResponse.data.isActive === 1 ? true : false;
 
-            //getting banking data by box office
-            const bankResponse = await axios.get(`api/banking-data-show/${boxOfficeResponse.data.bank_data_id}`, {headers});
+            // Get banking data by box office
+            const bankResponse = await axios.get(`api/banking-data-show/${boxOfficeResponse.data.bank_data_id}`, { headers });
             this.nameOfBankingAkkaunt = bankResponse.data.name_of_banking_akkaunt;
-            this.loading = true
+            this.loading = true;
         },
-        close(){
+        close() {
+            // Close the UpdateBoxOfficeModal
             this.showUpdateBoxOffice = false;
         }
     },
@@ -52,9 +55,12 @@ export default {
 </script>
 
 <template>
+    <!-- Box office details container -->
     <div v-if="loading" class="d_row">
+        <!-- Back button and box office details -->
         <img src="/images/icons/dashboard/back.svg" @click="$emit('close')" class="back">
         <div class="kassa_by_one">
+            <!-- Box office details -->
             <div class="d_row">
                 <h3>Касса: {{ name }}</h3>
                 <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content" @click="showUpdateBoxOffice = true">
@@ -75,11 +81,10 @@ export default {
         Loading...
     </div>
 
-     <!-- Modal -->
-     <update-box-office-modal v-if="showUpdateBoxOffice" @close="close" :box_office_id="this.box_office_id" :business_id="this.business_id"></update-box-office-modal>
+    <!-- Modal -->
+    <update-box-office-modal v-if="showUpdateBoxOffice" @close="close" :box_office_id="this.box_office_id" :business_id="this.business_id"></update-box-office-modal>
 </template>
 
 <style>
 @import "/public/style/dashboard/report.css";
-
 </style>

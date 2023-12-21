@@ -50,6 +50,13 @@ class ProBusinessController extends Controller
             'form_of_business' => 'required|string',
             'oked' => 'required|integer',
             'address' => 'required|string',
+        ],
+        [
+            'inn.required' => 'Поле "ИНН" является обязательным для заполнения.',
+            'name_of_business.required' => 'Поле "Название фирмы" является обязательным для заполнения.',
+            'form_of_business.required' => 'Поле "Форма бизнеса " является обязательным для заполнения.',
+            'oked.required' => 'Поле "ОКЭД бизнеса" является обязательным для заполнения.',
+            'address.required' => 'Поле "Юридический адрес" является обязательным для заполнения.',
         ]);
 
         //store proBusiness data in db
@@ -74,6 +81,13 @@ class ProBusinessController extends Controller
             'form_of_business' => 'required|string',
             'oked' => 'required|integer',
             'address' => 'required|string',
+        ],
+        [
+            'inn.required' => 'Поле "ИНН" является обязательным для заполнения.',
+            'name_of_business.required' => 'Поле "Название фирмы" является обязательным для заполнения.',
+            'form_of_business.required' => 'Поле "Форма бизнеса " является обязательным для заполнения.',
+            'oked.required' => 'Поле "ОКЭД бизнеса" является обязательным для заполнения.',
+            'address.required' => 'Поле "Юридический адрес" является обязательным для заполнения.',
         ]);
 
         //update proBusinesses in db

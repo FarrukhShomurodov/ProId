@@ -2,9 +2,9 @@
 import axios from 'axios';
 
 export default {
-    props:['phoneNumber', 'userId'],
-    data(){
-        return{
+    props: ['phoneNumber', 'userId'],
+    data() {
+        return {
             otp: Array(6).fill(''),
             changeNum: false,
             phoneNumberToPaste: '',
@@ -12,9 +12,10 @@ export default {
             showConfirmNumber: false,
             showCorrectSignal: false,
             changedPhoneNumber: '',
-        }
+        };
     },
-    methods:{
+    methods: {
+        // Handle the input for the OTP input fields
         handleInput(index) {
             if (index < 6) {
                 if (this.otp[index - 1] !== '' && this.otp[index] === '') {
@@ -22,6 +23,7 @@ export default {
                 }
             }
         },
+        // Handle the keydown event for the OTP input fields
         handleKeyDown(index) {
             if (index > 1 && this.otp[index - 1] === '' && event.key === 'Backspace') {
                 this.$refs[`otcInput`][index - 2].focus();
@@ -30,6 +32,7 @@ export default {
                 event.preventDefault();
             }
         },
+        // Format the phone number for display
         phone() {
             const countryCode = this.phoneNumberToPaste.slice(0, 3);
             const operatorCode = this.phoneNumberToPaste.slice(3, 5);
@@ -37,8 +40,9 @@ export default {
             const lastDigits = this.phoneNumberToPaste.slice(-2);
 
             const formattedPhoneNumber = `+${countryCode} ${operatorCode} *** ** ${lastDigits}`;
-            this.phoneNumberToPaste = formattedPhoneNumber
+            this.phoneNumberToPaste = formattedPhoneNumber;
         },
+        // Format the entered phone number
         formatPhoneNumber(event) {
             const phoneNumber = event.target.value.replace(/\D/g, '');
             const isBackspace = event.inputType === 'deleteContentBackward';
@@ -71,60 +75,60 @@ export default {
             } else {
                 event.target.value = '+998 ' + phoneNumber;
             }
-            this.codeLength = phoneNumber.length
-            this.changedPhoneNumber = phoneNumber
-            this.phoneNumberToPaste = this.changedPhoneNumber
+            this.codeLength = phoneNumber.length;
+            this.changedPhoneNumber = phoneNumber;
+            this.phoneNumberToPaste = this.changedPhoneNumber;
         },
-        edit(){
-            this.phone()
-            this.changeNum = true
+        // Edit phone number and show confirmation
+        edit() {
+            this.phone();
+            this.changeNum = true;
             this.codeLength === 13 || this.codeLength === 12 ? this.showConfirmNumber = true : this.showConfirmNumber = false;
-            if(this.showConfirmNumber){
-                this.changeNum = false
+            if (this.showConfirmNumber) {
+                this.changeNum = false;
                 axios.post('/api/sendOTP', {
                     phone_number: this.changedPhoneNumber
-                })
+                });
             }
-
         },
+        // Resend OTP
         reSend() {
             axios.post('/api/sendOTP', {
                 phone_number: this.changedPhoneNumber
-            })
+            });
         },
-        save(){
-            if(this.showCorrectSignal){
+        // Save the edited phone number
+        save() {
+            if (this.showCorrectSignal) {
                 const headers = {
                     'Authorization': `Bearer ` + localStorage.token,
                     'Content-Type': 'application/json',
                 };
                 axios.post(`/api/edit-phone-number/${this.userId}`, {
                     phone_number: this.changedPhoneNumber
-                },{headers}).then(() => this.$emit('close'))
+                }, { headers }).then(() => this.$emit('close'));
             }
         },
     },
     watch: {
+        // Watch for changes in the OTP array
         otp: {
             handler: function (newVal, oldVal) {
                 const allDigitsFilled = newVal.every(digit => digit !== '');
                 if (allDigitsFilled) {
                     const code = this.otp.join('');
-                    console.log(code)
                     if (code.length === 6) {
                         axios.post('/api/checkCode', {
                             phoneNumber: this.changedPhoneNumber,
                             code: parseInt(code, 10)
                         }).then(() => {
-                            this.showCorrectSignal = true
+                            this.showCorrectSignal = true;
                         }).catch(err => {
-                            this.showCorrectSignal = false
-
-                        })
+                            this.showCorrectSignal = false;
+                        });
                     } else {
-                        this.showCorrectSignal = false
+                        this.showCorrectSignal = false;
                     }
-
                 }
             },
             deep: true,
@@ -147,10 +151,12 @@ export default {
                                 alt="exit icon"
                             />
                         </div>
+                        <!-- Content for editing phone number -->
                         <div class="edit_phone_content" v-if="!changeNum && !showConfirmNumber">
                             <h3>+{{ phoneNumber }}</h3>
                             <p>Этот номер может быть использован для<br> входа и восстановления доступа к аккаунту</p>
                         </div>
+                        <!-- Input field for editing phone number -->
                         <input
                             required
                             type="tel"
@@ -160,6 +166,7 @@ export default {
                             maxlength="19"
                             v-if="changeNum"
                         />
+                        <!-- OTP input fields and confirmation message -->
                         <div class="otc " v-if="showConfirmNumber">
                             <p class="text_phone_edit">
                                 Введите код из смс.<br>
@@ -181,17 +188,18 @@ export default {
                                     :id="'otc-' + i"
                                     maxlength="1"
                                     required>
+                                <!-- Correct signal icon -->
                                 <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">
                             </div>
-
                             <button @click="reSend" class="reSend">отправить код еще раз</button>
                         </div>
+                        <!-- Footer buttons -->
                         <div class="modal-footer">
                             <button class="changeNumber modal-default-button" v-show="!showConfirmNumber" @click="edit">
                                 Заменить на новый номер
                             </button>
                             <slot name="footer">
-                                <button class="modal-default-button" @click="save" >
+                                <button class="modal-default-button" @click="save">
                                     Сохранить
                                 </button>
                             </slot>

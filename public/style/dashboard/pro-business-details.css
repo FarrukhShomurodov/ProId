@@ -43,6 +43,7 @@
 .details_nav{
     display: flex;
     flex-direction: row;
+    user-select: none;
 }
 .details{
     margin-left: 25px;
@@ -112,6 +113,7 @@
     flex-direction: row;
     align-items: center;
     padding-left: 11px;
+    user-select: none;
 
 }
 .add_banking_data img{
@@ -156,6 +158,7 @@
     border-radius: 20px;
     margin-top: 13px;
     align-items: center;
+    user-select: none;
 }
 .add_box_office img{
     width: 18px;

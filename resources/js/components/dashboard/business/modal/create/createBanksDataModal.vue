@@ -11,13 +11,15 @@ export default {
             payment_account: '',
             name: '',
             name_of_banking_akkaunt: '',
+            error: '',
         }
     },
     mounted() {
-
+        // Any initialization code can be placed here
     },
     methods:{
         save(){
+            // HTTP POST request to save bank data
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
@@ -30,10 +32,13 @@ export default {
                 'payment_account': this.payment_account,
             }
             axios.post('/api/banks-data', banks_data ,{headers}).then( res => {
-                this.$emit('close');
+                this.$emit('close'); // Close the modal after successful save
+            }).catch(err => {
+                this.error = err.response.data.message; // Display error message if save fails
             });
         },
         mfoBank(){
+            // Retrieve bank data based on MFO code
             const headers = {
                 'Authorization': `Bearer ` + localStorage.token,
                 'Content-Type': 'application/json',
@@ -41,7 +46,7 @@ export default {
             axios.get('/api/bank-data-by-mfo', {headers}).then(res => {
                 for(let i = 0; i < res.data.length; i++){
                     if(res.data[i].code == this.mfo){
-                        this.name = res.data[i].name
+                        this.name = res.data[i].name; // Set bank name based on MFO code
                     }
                 }
             })
@@ -52,6 +57,7 @@ export default {
 
 <template>
     <div>
+        <!-- Modal for adding banking information -->
         <transition name="modal">
             <div class="modal-mask">
                 <div class="modal-wrapper">
@@ -65,6 +71,9 @@ export default {
                             />
                         </div>
                         <div class="create-business-content">
+                            <div class="error">
+                                <p>{{ error }}</p> <!-- Display error message, if any -->
+                            </div>
                             <div>
                                 <label>Наиминование счета *</label>
                                 <input type="text" v-model=name_of_banking_akkaunt class="form-input" placeholder="Введите наименование счет" required>
@@ -96,9 +105,10 @@ export default {
 </template>
 
 <style>
+/* Styling for the modal component */
 .modal-container-add-banking{
     width: 512px;
-    height: 460px !important;
+    height: 500px !important;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -135,7 +145,16 @@ label{
     font-size: 20px;
     margin-top: 10px;
 }
+.error{
+    width: 438px;
+}
+.error p {
+    font-size: 14px;
+    text-align: center;
+    color: #FF0000;
+}
 
+/* Responsive styling for smaller screens */
 @media screen and (max-width: 500px){
     .modal-container-add-banking{
         width: 406px;

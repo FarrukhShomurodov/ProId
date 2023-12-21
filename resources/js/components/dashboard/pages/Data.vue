@@ -1,15 +1,15 @@
 <script>
-//Import axios
+// Import necessary dependencies
 import axios from "axios";
 
-//Components
+// Importing other components
 import authModal from '../data/modal/authModal.vue'
 import PhoneNumber from '../data/PhoneNumber.vue'
 import Email from "@/components/dashboard/data/Email.vue";
 import CreateMailModal from '../data/modal/CreateMailModal.vue';
 import CreateAddressModal from "../data/modal/CreateAddressModal.vue";
 import UpdateAddressModal from "../data/modal/UpdateAddressModal.vue";
-import {Swiper, SwiperSlide} from "swiper/vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
 import {
     YandexMap,
     YandexMapDefaultSchemeLayer,
@@ -25,7 +25,6 @@ export default {
             required: true
         }
     },
-
     components: {
         SwiperSlide,
         Swiper,
@@ -41,10 +40,9 @@ export default {
         YandexMapMarker,
         YandexMapListener,
     },
-
     data() {
         return {
-            //user data
+            // User data
             userId: null,
             image: '',
             name: '',
@@ -55,7 +53,7 @@ export default {
             address_id: 0,
             addresses: [],
 
-            //fontend
+            // Frontend state
             showModal: false,
             showPhoneEdition: false,
             mailShow: false,
@@ -66,13 +64,12 @@ export default {
             loading: false,
         }
     },
-
     mounted() {
+        // Fetch user data when the component is mounted
         this.getUser()
     },
-
     methods: {
-        //getting user
+        // Method to fetch user data
         getUser() {
             this.fetchUser()
             this.showModal = false
@@ -81,11 +78,11 @@ export default {
                 'Content-Type': 'application/json',
             };
 
-            //getting user data
+            // Fetch user data and addresses
             axios.get('/api/user', {headers}).then(res => {
                 const data = res.data;
 
-                //setting user data
+                // Set user data
                 this.userId = data.id
                 this.name = data.name;
                 this.surname = data.surname;
@@ -94,7 +91,7 @@ export default {
                 this.hasMail = data.email != null ? true : false
                 this.mail = data.email
 
-                //getting addresses
+                // Fetch user addresses
                 axios.get(`/api/address/${this.userId}`, {headers}).then(res => {
                     this.addresses = res.data
                     if (this.addresses.length != 0) {
@@ -104,7 +101,7 @@ export default {
                 })
             })
         },
-
+        // Method to go back from subpages
         goBack() {
             this.showEmailEdition = false;
             this.showModal = false
@@ -119,35 +116,45 @@ export default {
 </script>
 
 <template>
+    <!-- Main content section -->
     <div v-if="loading">
+        <!-- User information and actions -->
         <div class="data_container" v-if="!showPhoneEdition && !showEmailEdition">
+            <!-- User info and edit button -->
             <div class="data">
+                <!-- User avatar -->
                 <div class="ava" :style="{
                             'background-image': `url(${avatarUrl !== null ? '/storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
                             'background-size': 'cover',
                             'background-position': 'center',
                              'background-color': 'white'
                         }"></div>
+                <!-- User information -->
                 <div class="info">
                     <p class="uppercase">{{ name }} {{ surname }}</p>
                     <p>Мы будем к вам обращаться так: <span class="uppercase">{{ name }} {{ surname }}</span></p>
                 </div>
+                <!-- Edit button -->
                 <img src="/images/icons/dashboard/edit.svg" alt="" id="show-modal" @click="showModal = true">
+                <!-- Authentication modal -->
                 <authModal v-if="showModal" @close="getUser"></authModal>
             </div>
+            <!-- User addresses -->
             <div class="address">
                 <h3>Адреса</h3>
-                <span>Для заказа в один клик и что бы не вводить в Навигаторе</span>
+                <span>Для заказа в один клик и чтобы не вводить в Навигаторе</span>
+                <!-- Address content container -->
                 <div class="address_content_container">
+                    <!-- Add new address button -->
                     <div>
                         <div class="address_container">
-                            <yandex-map
-                                :settings="{
+                            <!-- Yandex Map for the user's location -->
+                            <yandex-map :settings="{
                                 location: {
-                                  center:   [69.240562, 41.2800],
-                                  zoom: 9,
+                                    center:   [69.240562, 41.2800],
+                                    zoom: 9,
                                 },
-                              }" class="yandexDataMap">
+                            }" class="yandexDataMap">
                                 <yandex-map-default-scheme-layer/>
                                 <yandex-map-default-features-layer/>
                                 <yandex-map-marker
@@ -160,32 +167,32 @@ export default {
                                             alt=""
                                             :src="'/images/icons/marker.svg'"
                                             :style="{
-                                            width: '40px',
-                                            position: 'relative',
-                                            boxSizing: 'border-box',
-                                            transform: 'translate(-50%, calc(-50% - 58px))',
-                                            cursor: 'pointer',
-                                          }"
+                                                width: '40px',
+                                                position: 'relative',
+                                                boxSizing: 'border-box',
+                                                transform: 'translate(-50%, calc(-50% - 58px))',
+                                                cursor: 'pointer',
+                                            }"
                                         />
                                     </template>
                                 </yandex-map-marker>
                             </yandex-map>
                         </div>
+                        <!-- Add new address text -->
                         <div class="address_text" @click="addressShow = true;">
-                            <p>
-                                Добавить еще один адрес
-                            </p>
+                            <p>Добавить еще один адрес</p>
                         </div>
                     </div>
+                    <!-- Display existing addresses -->
                     <div v-for="address in addresses">
                         <div class="address_container">
-                            <yandex-map
-                                :settings="{
+                            <!-- Yandex Map for each address -->
+                            <yandex-map :settings="{
                                 location: {
-                                  center:  JSON.parse(address.coords),
-                                  zoom: 10,
+                                    center:  JSON.parse(address.coords),
+                                    zoom: 10,
                                 },
-                              }" class="yandexDataMap">
+                            }" class="yandexDataMap">
                                 <yandex-map-default-scheme-layer/>
                                 <yandex-map-default-features-layer/>
                                 <yandex-map-marker
@@ -198,24 +205,24 @@ export default {
                                             alt=""
                                             :src="'/images/icons/marker.svg'"
                                             :style="{
-                                            width: '40px',
-                                            position: 'relative',
-                                            boxSizing: 'border-box',
-                                            transform: 'translate(-50%, calc(-50% - 58px))',
-                                            cursor: 'pointer',
-                                          }"
+                                                width: '40px',
+                                                position: 'relative',
+                                                boxSizing: 'border-box',
+                                                transform: 'translate(-50%, calc(-50% - 58px))',
+                                                cursor: 'pointer',
+                                            }"
                                         />
                                     </template>
                                 </yandex-map-marker>
                             </yandex-map>
                         </div>
+                        <!-- Display existing addresses text -->
                         <div class="address_text" @click="showUpdateAddressModal = true; address_id = address.id">
-                            <p>
-                                {{ address.name.slice(0, 30) + "..." }}
-                            </p>
+                            <p>{{ address.name.slice(0, 30) + "..." }}</p>
                         </div>
                     </div>
                 </div>
+                <!-- All addresses button -->
                 <div class="phone__number kon_container all_addresses">
                     <div class="kon_info_template">
                         <div class="kon_icon location_center">
@@ -228,9 +235,11 @@ export default {
                     <img src="/images/icons/dashboard/next.svg">
                 </div>
             </div>
+            <!-- User contacts -->
             <div class="kontacts">
                 <h3>Контакты</h3>
                 <div>
+                    <!-- Main phone number -->
                     <div class="phone__number kon_container">
                         <div class="kon_info_template">
                             <div class="kon_icon"></div>
@@ -241,7 +250,7 @@ export default {
                         </div>
                         <img src="/images/icons/dashboard/next.svg" @click="showPhoneEdition = true">
                     </div>
-                    <!-- Has Email -->
+                    <!-- Display email if exists -->
                     <div class="phone__number kon_container" v-if="hasMail">
                         <div class="kon_info_template">
                             <div class="kon_icon"></div>
@@ -252,8 +261,7 @@ export default {
                         </div>
                         <img src="/images/icons/dashboard/next.svg" @click="showEmailEdition = true">
                     </div>
-
-                    <!-- Pro Mail-->
+                    <!-- Pro Mail (optional) -->
                     <div class="phone__number kon_container" v-if="hasMail">
                         <div class="kon_info_template">
                             <div class="kon_icon"></div>
@@ -264,7 +272,7 @@ export default {
                         </div>
                         <img src="/images/icons/dashboard/add.svg">
                     </div>
-                    <!-- Does Not have email -->
+                    <!-- Add email if none exists -->
                     <div class="phone__number kon_container" v-if="!hasMail">
                         <div class="kon_info_template">
                             <div class="kon_icon"></div>
@@ -277,6 +285,7 @@ export default {
                     </div>
                 </div>
             </div>
+            <!-- Manage account section -->
             <div class="delete_akk">
                 <h3>Управление данными</h3>
                 <div class="phone__number kon_container">
@@ -290,29 +299,35 @@ export default {
             </div>
         </div>
 
-        <!-- Other pages -->
+        <!-- Subpages -->
+        <!-- Edit phone number page -->
         <PhoneNumber v-if="showPhoneEdition" @goBack="goBack"
                      :phoneNumber=phoneNumber
                      :userId=userId
         ></PhoneNumber>
+        <!-- Edit email page -->
         <Email v-if="showEmailEdition" @goBack="goBack"
                :email=mail
                :userId=userId
         ></Email>
+        <!-- Add new email page -->
         <CreateMailModal v-if="mailShow" @goBack="goBack"
                          :phoneNumber=phoneNumber
                          :userId=userId
         ></CreateMailModal>
+        <!-- Add new address page -->
         <CreateAddressModal
             v-if="addressShow" @goBack="goBack"
             :phoneNumber=phoneNumber
             :userId=userId
         ></CreateAddressModal>
+        <!-- Edit existing address page -->
         <UpdateAddressModal
             v-if="showUpdateAddressModal" @goBack="goBack"
             :address_id=address_id
         ></UpdateAddressModal>
     </div>
+
     <!-- Loading indicator -->
     <div v-if="!loading" class="loading-indicator">
         Loading...

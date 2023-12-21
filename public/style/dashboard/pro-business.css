@@ -29,6 +29,7 @@ img{
     border-radius: 20px;
     margin-top: 13px;
     align-items: center;
+    user-select: none;
 }
 .add_business img{
     width: 18px;
@@ -40,6 +41,9 @@ img{
     white-space: nowrap;
     margin-left: 11px;
     font-weight: 500 !important;
+}
+.add_business a{
+    color: #000000;
 }
 .links{
     font-weight: 500 !important;

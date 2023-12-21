@@ -1,7 +1,7 @@
 // Import bootstrap
 import './bootstrap';
 
-//import yandexMap
+// Import yandexMap
 import { createYmaps } from 'vue-yandex-maps';
 
 // Import create app from vue module

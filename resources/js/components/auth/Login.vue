@@ -15,9 +15,10 @@ export default {
         };
     },
     mounted() {
-
+        // This lifecycle hook is empty
     },
     methods: {
+        // Format phone number input
         formatPhoneNumber(event) {
             const phoneNumber = event.target.value.replace(/\D/g, '');
             const isBackspace = event.inputType === 'deleteContentBackward';
@@ -51,34 +52,33 @@ export default {
                 event.target.value = '+998 (' + phoneNumber;
             }
 
-
+            // Save the formatted phone number
             this.phone_number = phoneNumber;
+
+            // Make a login request when the phone number is complete
             if (this.phone_number.length === 12) {
-                axios.post('/api/login',
-                    {
-                        phone_number: this.phone_number,
-                    }).then(response => {
+                axios.post('/api/login', {
+                    phone_number: this.phone_number,
+                }).then(response => {
                     if (response.data.name && response.data.surname) {
-                        this.count++
-                        if(this.count < 5){
+                        this.count++;
+                        if (this.count < 5) {
                             this.name = response.data.name;
                             this.surname = response.data.surname;
                             this.notFound = '';
                             this.isAuth = true;
                             this.authAction = 'Войти';
-                        }else{
-                            this.limit = true
+                        } else {
+                            this.limit = true;
                             this.name = '';
                             this.surname = '';
                         }
-
                     }
-                })
-                    .catch(error => {
-                        this.notFound = error.response.data.message;
-                        this.authAction = 'Создать';
-                        this.auth = true;
-                    });
+                }).catch(error => {
+                    this.notFound = error.response.data.message;
+                    this.authAction = 'Создать';
+                    this.auth = true;
+                });
             } else {
                 this.name = '';
                 this.surname = '';
@@ -86,15 +86,16 @@ export default {
                 this.authAction = 'Войти';
             }
         },
+        // Handle authentication action
         Auth() {
             if (this.phone_number.length === 12) {
                 axios.post('api/sendOTP', {
                     phone_number: this.phone_number
                 }).then(() => {
-                    this.$router.replace('/confirmNumber')
+                    this.$router.replace('/confirmNumber');
                     localStorage.phoneNumber = this.phone_number;
                     localStorage.isAuth = this.isAuth;
-                })
+                });
             }
         },
     }
@@ -102,8 +103,10 @@ export default {
 </script>
 
 <template>
+    <!-- Login/Registration form -->
     <div class="register">
         <div class="form">
+            <!-- Top section with PRO ID logo and form -->
             <div class="top" :class="{ 'top-aqua': name }">
                 <div class="entrance">
                     <div class="image">
@@ -113,6 +116,7 @@ export default {
                         <p>Войдите или создайте PRO ID</p>
                     </div>
                 </div>
+                <!-- Main form for phone number input -->
                 <form @submit.prevent class="main-form">
                     <p :class="{ 'not-found': notFound }">{{ surname }} {{ name !== '' ? name[0] + '.' : '' }}  {{ notFound }}</p>
                     <input
@@ -134,20 +138,24 @@ export default {
                     />
                     <p :class="{ 'revocer': name || auth}">Восстановить PRO ID.</p>
                 </form>
+                <!-- Additional text and links -->
                 <div class="text">
                     <p>Продолжая использовать PRO ID, я принимаю <span>условия оферты.</span></p>
                     <p>PRO ID - ключ от всех сервисов</p>
                 </div>
             </div>
+            <!-- Bottom section with additional link -->
             <div class="bottom">
                 <a href="">Что такое PRO ID?</a>
             </div>
         </div>
     </div>
+    <!-- Bottom part with disclaimers and support information -->
     <div class="bottom-part">
         <p>Используйте режим инкогнито на чужом компьютере</p>
         <p>Справка и поддержка <span>©2021-2023 PRO GROUP</span></p>
     </div>
+    <!-- Placeholder for reCAPTCHA integration -->
     <div id="recaptcha-container" ref="recaptcha"></div>
 </template>
 
