@@ -9,7 +9,7 @@
             <div class="content_container_data ">
                 <div class="main_content_container" @click="$router.push({ name: 'dashboard-data' })">Обо мне</div>
                 <div class="main_content_container" @click="$router.push({ name: 'dashboard-data' })">Адреса</div>
-                <div class="main_content_container" @click="$router.push({ name: 'dashboard-data' })">PRO JOB</div>
+                <div class="main_content_container" @click="$router.push({ name: 'dashboard-pro-job' })">PRO JOB</div>
             </div>
         </div>
         <div class="main_content_parts">
