@@ -17,11 +17,7 @@ export default {
     },
     mounted() {
         // Fetch business data when the component is mounted
-        const headers = {
-            'Authorization': `Bearer ` + localStorage.token,
-            'Content-Type': 'application/json',
-        };
-        axios.get(`/api/pro-business-show/${this.business_id}`, { headers }).then(res => {
+        axios.get(`/api/pro-business-show/${this.business_id}`).then(res => {
             // Update component data with the retrieved business information
             const data = res.data;
             this.id = data.id;
@@ -30,16 +26,19 @@ export default {
             this.form_of_business = data.form_of_business;
             this.oked = data.oked;
             this.address = data.address;
+            this.select()
             this.loading = true; // Set loading to true after data is fetched
-        })
+        }).then(() => {
+            // Initialize Select2 after the component has been fully rendered and data is fetched
+            this.select();
+        });
     },
     methods: {
+        select(){
+            $('#select').select2();
+        },
         save() {
             // Save business data when the "Сохранить" button is clicked
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
             const data = {
                 'inn': this.inn,
                 'name_of_business': this.name_of_business,
@@ -47,7 +46,7 @@ export default {
                 'oked': this.oked,
                 'address': this.address,
             }
-            axios.put(`/api/pro-business/${this.id}`, data, { headers }).then(res => {
+            axios.put(`/api/pro-business/${this.id}`, data).then(res => {
                 // Close the modal after successfully saving data
                 this.$emit('close')
             }).catch(err => {
@@ -66,7 +65,7 @@ export default {
             <div class="modal-mask">
                 <div class="modal-wrapper">
                     <!-- Modal container for updating business information -->
-                    <div class="modal-container-update-business" v-if="loading">
+                    <div class="modal-container modal-container-update-business" v-if="loading">
                         <div class="header_modal">
                             <h4>Реквизиты</h4>
                             <img
@@ -82,23 +81,38 @@ export default {
                             <!-- Form fields for business information -->
                             <div>
                                 <label>ИНН бизнеса *</label>
-                                <input type="number" v-model=inn class="form-input" placeholder="Введите ИНН" required>
+                                <input type="number" v-model=inn class="form_input form_input-business"
+                                       :class="{'form_input_error': error && inn.length === 0}"
+                                       placeholder="Введите ИНН" required>
                             </div>
                             <div>
                                 <label>Название фирмы *</label>
-                                <input type="text" v-model=name_of_business class="form-input" placeholder="Введите официальное юридическое имя" required>
+                                <input type="text" v-model=name_of_business class="form_input form_input-business"
+                                       :class="{'form_input_error': error && name_of_business.length === 0}"
+                                       placeholder="Введите официальное юридическое имя" required>
                             </div>
                             <div>
                                 <label>Форма бизнеса *</label>
-                                <input type="text" v-model=form_of_business class="form-input" placeholder="Выберите форму бизнеса" required>
+                                <select v-model=form_of_business  class="form_input form_input-business" id="select" required>
+                                    <option value="Частное предприятие - ЧП">Частное предприятие - ЧП</option>
+                                    <option value="Семейное предприятие - СП">Семейное предприятие - СП</option>
+                                    <option value="Фермерское хозяйство - ФХ">Фермерское хозяйство - ФХ</option>
+                                    <option value="Производственный кооператив - ПК">Производственный кооператив - ПК</option>
+                                    <option value="Коммандитная товарищества - КТ">Коммандитная товарищества - КТ</option>
+                                    <option value="Общество с ограниченной ответственностью - ООО">Общество с ограниченной ответственностью - ООО</option>
+                                </select>
                             </div>
                             <div>
                                 <label>ОКЭД бизнеса</label>
-                                <input type="number" v-model=oked class="form-input" placeholder="Введите ОКЭД бизнеса" required>
+                                <input type="number" v-model=oked class="form_input form_input-business"
+                                       :class="{'form_input_error': error && oked.length === 0}"
+                                       placeholder="Введите ОКЭД бизнеса" required>
                             </div>
                             <div>
                                 <label>Юридический адрес</label>
-                                <input type="text" v-model=address class="form-input" placeholder="Введите Юридический адрес">
+                                <input type="text" v-model=address class="form_input form_input-business"
+                                       :class="{'form_input_error': error && address.length === 0}"
+                                       placeholder="Введите Юридический адрес">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -120,92 +134,8 @@ export default {
     </div>
 </template>
 
-<style>
-/* Loading indicator styling */
-.loading-indicator {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 8px;
-    z-index: 9999;
-}
-
-/* Modal container for updating business information styling */
-.modal-container-update-business {
-    width: 512px;
-    height: 625px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 20px;
-    background: #FFF;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    transition: all 0.3s ease;
-    border-radius: 40px;
-}
-
-/* Save button styling */
-.modal-default-button {
-    margin-top: 10px;
-}
-
-/* Modal footer styling */
-.modal-footer {
-    justify-content: center;
-}
-
-/* Form content styling */
-.create-business-content {
-    margin-left: 17px;
-}
-
-/* Label styling */
-label {
-    margin-top: 10px;
-    font-size: 20px;
-    margin-left: 5px;
-}
-
-/* Form input styling */
-.form-input {
-    width: 438px;
-    height: 47px;
-    border-radius: 15px;
-    background: #FFF;
-    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.25);
-    border: none;
-    padding-left: 15px;
-    font-size: 20px;
-    margin-top: 10px;
-}
-
-/* Error message styling */
-.error {
-    width: 438px;
-}
-
-.error p {
-    font-size: 14px;
-    text-align: center;
-    color: #FF0000;
-}
-
-/* Responsive styling for smaller screens */
-@media screen and (max-width: 500px) {
-    .modal-container-update-business {
-        width: 406px;
-        height: 600px;
-        border-radius: 25px 25px 0 0;
-    }
-}
-@media screen and (max-width: 390px) {
-    .modal-container-update-business {
-        width: 360px !important; /* Set width to 100% for smaller screens */
-    }
+<style scoped>
+input{
+    border: 0 solid #5FE0D8 !important;
 }
 </style>

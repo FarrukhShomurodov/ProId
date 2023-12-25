@@ -27,13 +27,9 @@ export default {
             return formattedNumber;
         },
         fetchUser(){
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
 
             //getting user data
-            axios.get('/api/user', {headers}).then(res => {
+            axios.get('/api/user').then(res => {
                 const data = res.data;
                 this.phoneNumber = data.phone_number
 
@@ -55,14 +51,14 @@ export default {
 
 <template>
     <div>
-        <div class="phone_edition">
+        <div class="edition">
             <img src="/images/icons/dashboard/back.svg" alt="" @click="$emit('goBack');">
             <div class="kon_header">
                 <h3>Телефон</h3>
                 <span>Узнайте, как телефон помогает защитить ваши данные</span>
             </div>
         </div>
-        <div class="phone_edition_container" @click="modal">
+        <div class="edition_container" @click="modal">
             <div class="flex_row">
                 <div>
                     <span>для защиты аккаунта</span><br>
@@ -76,5 +72,5 @@ export default {
 </template>
 
 <style scoped>
-@import "/public/style/dashboard/data.css";
+@import "/public/style/dashboard/phone-email-edition.css";
 </style>

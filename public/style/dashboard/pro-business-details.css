@@ -76,6 +76,9 @@
     font-size: 17px;
     color: #0A0A0A;
 }
+.d-row p{
+    font-size: 17px;
+}
 .edit_content{
     width: 50px;
     height: 30px;
@@ -97,10 +100,10 @@
     align-items: start;
     justify-content: space-around;
     color: #0A0A0A;
-    font-size: 17px;
 }
 .d-column p{
-    margin-top: 3px;
+    margin-top: 4px;
+    font-size: 17px !important;
 }
 .add_banking_data{
     margin-top: 15px;
@@ -175,6 +178,9 @@
     display: block;
     position: relative;
     top: 35px
+}
+.address{
+    font-size: 17px;
 }
 @media screen and (max-width: 600px) {
     .business_details_container{

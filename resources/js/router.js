@@ -18,6 +18,7 @@ import Main from './components/dashboard/pages/Main.vue'
 import Data from './components/dashboard/pages/Data.vue'
 import ProBusiness from './components/dashboard/pages/ProBusiness.vue';
 import Pay from './components/dashboard/pages/Pay.vue'
+import PROJOB from "./components/dashboard/pages/PROJOB.vue";
 
 //Routes
 const routes = [
@@ -94,6 +95,11 @@ const routes = [
                 path: 'business',
                 component: ProBusiness,
                 name: 'dashboard-business', //assign unique names for navigation
+            },
+            {
+                path: 'job',
+                component: PROJOB,
+                name: 'dashboard-pro-job', //assign unique names for navigation
             },
         ],
             // beforeEnter(to, from, next){

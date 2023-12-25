@@ -41,11 +41,7 @@ export default {
     methods: {
         async fetchBoxOffice() {
             try {
-                const headers = {
-                    'Authorization': `Bearer ` + localStorage.token,
-                    'Content-Type': 'application/json',
-                };
-                const res = await axios.get(`/api/box-offices/${this.business_id}`, { headers });
+                const res = await axios.get(`/api/box-offices/${this.business_id}`);
                 this.boxOfficeDetails = res.data;
                 this.loading = true;
             } catch (error) {
@@ -54,11 +50,7 @@ export default {
         },
         async getBankData() {
             try {
-                const headers = {
-                    'Authorization': `Bearer ` + localStorage.token,
-                    'Content-Type': 'application/json',
-                };
-                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`, { headers });
+                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`);
 
                 // Update bankData object with bank data using the unique id as key
                 const data = banksResponse.data;
@@ -74,9 +66,7 @@ export default {
         },
         close() {
             // Close modals and reload box office details
-            this.showReport = false;
-            this.showCreateBoxOffice = false;
-            this.showUpdateBoxOffice = false;
+            this.showReport = this.showUpdateBoxOffice = this.showCreateBoxOffice = false;
             this.$emit('close');
             this.fetchBoxOffice();
         }
@@ -95,22 +85,27 @@ export default {
             <div class="kassa" v-if="loading" v-for="data in boxOfficeDetails" :key="data.id">
                 <div class="d-row">
                     <h4>{{ data.name }}</h4>
-                    <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content" @click="box_office_id = data.id; showUpdateBoxOffice = true">
+                    <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content"
+                         @click="box_office_id = data.id; showUpdateBoxOffice = true">
                 </div>
                 <div class="d-row">
                     <p>Сервис: {{ data.service }}</p>
-                    <p class="oked">Счет : {{ bankData[data.bank_data_id].id === data.bank_data_id ? bankData[data.bank_data_id].name : "unalienable" }}</p>
+                    <p class="oked">Счет : {{
+                            bankData[data.bank_data_id].id === data.bank_data_id ? bankData[data.bank_data_id].name : "unalienable"
+                        }}</p>
                 </div>
                 <div class="d-row">
                     <p class="status">Статус: {{ data.isActive === 1 ? "Активный" : "Деактивированый" }}</p>
-                    <button class="status reports" @click="this.showReportPage(); showReport = true; box_office_id = data.id;">Отчеты</button>
+                    <button class="status reports"
+                            @click="this.showReportPage(); showReport = true; box_office_id = data.id;">Отчеты
+                    </button>
                 </div>
             </div>
         </TransitionGroup>
         <!-- Button to add a new box office -->
         <div class="add_box_office" @click="showCreateBoxOffice = true">
             <img src="/images/icons/dashboard/add.svg" alt="">
-            <p><b>Добавить новую кассу</b></p>
+            <p>Добавить новую кассу</p>
         </div>
     </div>
 
@@ -120,11 +115,14 @@ export default {
     </div>
 
     <!-- Modals -->
-    <Reports v-if="showReport" :box_office_id="this.box_office_id" :business_id="this.business_id" @close="close"></Reports>
-    <create-box-office-modal v-if="showCreateBoxOffice" @close="close" :business_id="this.business_id"></create-box-office-modal>
-    <update-box-office-modal v-if="showUpdateBoxOffice" @close="close" :box_office_id="this.box_office_id" :business_id="this.business_id"></update-box-office-modal>
+    <Reports v-if="showReport" :box_office_id="this.box_office_id" :business_id="this.business_id"
+             @close="close"></Reports>
+    <create-box-office-modal v-if="showCreateBoxOffice" @close="close"
+                             :business_id="this.business_id"></create-box-office-modal>
+    <update-box-office-modal v-if="showUpdateBoxOffice" @close="close" :box_office_id="this.box_office_id"
+                             :business_id="this.business_id"></update-box-office-modal>
 </template>
 
 <style scoped>
-@import "/public/style/dashboard/pro-business-details.css";
+
 </style>

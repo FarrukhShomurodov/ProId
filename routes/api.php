@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\Dashboard\AddressController;
 use App\Http\Controllers\Dashboard\BanksDataController;
 use App\Http\Controllers\Dashboard\BoxOfficeController;
+use App\Http\Controllers\Dashboard\EducationController;
+use App\Http\Controllers\Dashboard\JobController;
 use App\Http\Controllers\Dashboard\MFOController;
 use App\Http\Controllers\Dashboard\ProBusinessController;
 use App\Http\Controllers\SendEmailController;
@@ -70,6 +72,18 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/box-offices/{boxOffice}', [BoxOfficeController::class, 'update']);
     Route::post('/box-offices/', [BoxOfficeController::class, 'store']);
     Route::delete('/box-offices/{boxOffice}', [BoxOfficeController::class, 'destroy']);
+
+    // Education
+    Route::get('/education/{user}',[EducationController::class, 'fetchByUser']);
+    Route::get('/education-show/{education}',[EducationController::class, 'show']);
+    Route::post('/education',[EducationController::class, 'store']);
+    Route::put('/education/{education}',[EducationController::class, 'update']);
+
+    // Job
+    Route::get('/job/{user}',[JobController::class, 'fetchByUser']);
+    Route::get('/job-show/{education}',[JobController::class, 'show']);
+    Route::post('/job',[JobController::class, 'store']);
+    Route::put('/job/{education}',[JobController::class, 'update']);
 });
 
 // OTP

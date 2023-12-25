@@ -1,7 +1,6 @@
 <script>
-import axios from "axios";
-
 import DeleteEmailModal from "@/components/dashboard/data/modal/DeleteEmailModal.vue";
+
 export default {
     props:['email', 'userId'],
     components:{
@@ -22,14 +21,14 @@ export default {
 
 <template>
     <div>
-        <div class="phone_edition">
+        <div class="edition">
             <img src="/images/icons/dashboard/back.svg" alt="" @click="$emit('goBack');">
             <div class="kon_header">
                 <h3>Email</h3>
                 <span>Узнайте, как email помогает защитить ваши данные</span>
             </div>
         </div>
-        <div class="phone_edition_container" @click="ShowEmailEdition = true">
+        <div class="edition_container" @click="ShowEmailEdition = true">
             <div class="flex_row">
                 <div>
                     <span>для защиты аккаунта</span><br>
@@ -43,5 +42,5 @@ export default {
 </template>
 
 <style scoped>
-@import "/public/style/dashboard/data.css";
+@import "/public/style/dashboard/phone-email-edition.css";
 </style>

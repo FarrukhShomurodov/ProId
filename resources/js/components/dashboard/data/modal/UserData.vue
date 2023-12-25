@@ -15,26 +15,22 @@ export default {
             gender: '', // User's gender
             avatarUrl: '', // URL of the avatar image
             avatarFile: '', // File object for avatar upload
-            editAVA: false, // Flag for avatar editing
+            editAVA: true, // Flag for avatar editing
             loading: false, // Loading state
         };
     },
 
     mounted() {
         // Fetch user data from the API when the component is mounted
-        const headers = {
-            Authorization: `Bearer ` + localStorage.token,
-            'Content-Type': 'application/json',
-        };
 
-        axios.get('/api/user', { headers }).then((res) => {
+        axios.get('/api/user').then((res) => {
             // Set user data based on the API response
             this.userId = res.data.id;
             this.name = res.data.name;
             this.surname = res.data.surname;
             res.data.gender === 'male' ? this.activeMale() : this.activeFemale();
             this.date = res.data.date_of_birth;
-            this.avatarUrl = res.data.avatar;
+            this.avatarUrl = res.data.avatar ?? '';
             this.loading = true; // Set loading to false once data is loaded
         });
     },
@@ -69,11 +65,7 @@ export default {
         },
         // Delete user's avatar image
         deleteImage() {
-            const headers = {
-                Authorization: `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
-            axios.delete(`/api/delete-avatar/${this.userId}`, { headers }).then(res => console.log(res));
+            axios.delete(`/api/delete-avatar/${this.userId}`).then(res => console.log(res));
             this.avatarUrl = '';
             this.imageData = '';
             this.editAVA = true;
@@ -84,16 +76,11 @@ export default {
         },
         // Upload avatar image
         uploadAvatar() {
-            const headers = {
-                Authorization: `Bearer ` + localStorage.token,
-                'Content-Type': 'multipart/form-data',
-            };
-
             if (this.avatarFile) {
                 const formData = new FormData();
                 formData.append('avatar', this.avatarFile);
 
-                axios.post(`/api/upload-avatar/${this.userId}`, formData, { headers })
+                axios.post(`/api/upload-avatar/${this.userId}`, formData)
                     .then(response => {
                         this.avatarUrl = response.data.avatar_url;
                     })
@@ -114,13 +101,9 @@ export default {
                 date_of_birth: this.date,
                 gender: this.gender,
             };
-            const headers = {
-                Authorization: `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
 
             // Send update request to the API
-            axios.put(`/api/update/${this.userId}`, data, { headers }).then(() => {
+            axios.put(`/api/update/${this.userId}`, data).then(() => {
                 this.$emit('close');
             });
         },
@@ -258,42 +241,5 @@ export default {
     </div>
 </template>
 
-<style>
-
-.male, .female {
-    color: #575757;
-    font-size: 24px;
-    padding: 10px;
-    border: none;
-    background-color: white;
-}
-
-.activeMale {
-    border-radius: 15px;
-    background: #DDD;
-    color: black;
-}
-
-.activeFemale {
-    border-radius: 15px;
-    background: #DDD;
-    color: black;
-}
-
-.gender button:hover {
-    border-radius: 15px;
-    background: #DDD;
-    color: black;
-}
-
-.loading-indicator {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 8px;
-    z-index: 9999;
-}
+<style scoped>
 </style>

@@ -39,19 +39,15 @@ export default {
     methods: {
         fetchBusinesses() {
             // Fetch business details and banking data from the API
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
 
             // Fetch business details
-            axios.get(`/api/pro-business-show/${this.business_id}`, { headers })
+            axios.get(`/api/pro-business-show/${this.business_id}`)
                 .then(res => {
                     this.business_details = res.data;
                 })
 
             // Fetch banking data by business
-            axios.get(`/api/banking-data-fetch/${this.business_id}`, { headers })
+            axios.get(`/api/banking-data-fetch/${this.business_id}`)
                 .then(res => {
                     this.banking_details = res.data;
                     this.loading = true;
@@ -59,11 +55,7 @@ export default {
         },
         close() {
             // Close modals and reload business details and banking data
-            this.showCreateImage = false;
-            this.showReport = false;
-            this.updateBusiness = false;
-            this.updateBanking = false;
-            this.addBanking = false;
+            this.showCreateImage = this.updateBusiness = this.showReport = this.updateBanking = this.addBanking = false;
             this.fetchBusinesses();
         },
         showUpdateBanksDataModal(id) {
@@ -107,7 +99,8 @@ export default {
                 <p :class="{'active': showBoxOffice}" @click="showBoxOffice = !showBoxOffice">Кассы</p>
             </div>
             <!-- BoxOffice component -->
-            <BoxOffice v-if="showBoxOffice" :business_id="this.business_id" @close='close' :showReportPage="this.showReportPage"></BoxOffice>
+            <BoxOffice v-if="showBoxOffice" :business_id="this.business_id" @close='close'
+                       :showReportPage="this.showReportPage"></BoxOffice>
             <!-- Business details section -->
             <div v-if="!showBoxOffice">
                 <!-- Requisites section -->
@@ -116,7 +109,8 @@ export default {
                     <div class="rekvizit_container">
                         <div class="d-row">
                             <h4 class="business_name">{{ business_details.name_of_business }}</h4>
-                            <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content" @click="updateBusiness = true">
+                            <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content"
+                                 @click="updateBusiness = true">
                         </div>
                         <div class="d-row">
                             <p>ИНН: {{ business_details.inn }}</p>
@@ -135,7 +129,8 @@ export default {
                             <div class="banks_rekvizit_container">
                                 <div class="d-row">
                                     <h4>Счет: {{ details.name_of_banking_akkaunt }}</h4>
-                                    <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content" @click="showUpdateBanksDataModal(details.id)">
+                                    <img src="/images/icons/dashboard/edit.svg" alt="" class="edit_content"
+                                         @click="showUpdateBanksDataModal(details.id)">
                                 </div>
                                 <div class="d-column">
                                     <p>Банк: {{ details.name }}</p>
@@ -162,13 +157,14 @@ export default {
 
     <!-- Modals -->
     <createImageModal v-if="showCreateImage" @close="close" :business_id="this.business_id"></createImageModal>
-    <UpdateProBusinessModal v-if="updateBusiness" @close="close" :business_id="this.business_id"></UpdateProBusinessModal>
+    <UpdateProBusinessModal v-if="updateBusiness" @close="close"
+                            :business_id="this.business_id"></UpdateProBusinessModal>
     <UpdateBanksDataModal v-if="updateBanking" @close="close" :banking_id="this.banking_id"></UpdateBanksDataModal>
     <createBanksDataModal v-if="addBanking" @close="close" :business_id="this.business_id"></createBanksDataModal>
 </template>
 
 <style scoped>
-@import "/public/style/dashboard/pro-business-details.css";
+
 .active {
     background-color: #CCC !important;
 }

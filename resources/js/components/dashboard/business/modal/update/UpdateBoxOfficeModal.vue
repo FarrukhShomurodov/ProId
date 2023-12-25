@@ -47,11 +47,7 @@ export default {
     methods:{
         // Method to fetch box office data
         async getboxOffice(){
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
-            const boxOfficeResponse = await axios.get(`/api/box-offices-show/${this.box_office_id}`,{headers});
+            const boxOfficeResponse = await axios.get(`/api/box-offices-show/${this.box_office_id}`);
             // Populate data from the API response
             this.service = boxOfficeResponse.data.service
             this.name = boxOfficeResponse.data.name
@@ -61,11 +57,7 @@ export default {
         // Method to fetch bank data
         async getBankData(){
             try {
-                const headers = {
-                    'Authorization': `Bearer ` + localStorage.token,
-                    'Content-Type': 'application/json',
-                };
-                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`,{headers});
+                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`);
 
                 // Assuming the response contains an array of objects with 'id' and 'name_of_banking_akkaunt' properties
                 this.dankData = banksResponse.data;
@@ -80,37 +72,21 @@ export default {
                 'service': this.service,
                 'bank_data_id': this.bank_data_id
             }
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
-            axios.put(`/api/box-offices/${this.box_office_id}`, box_office_data,{headers}).then( () => this.$emit('close')).catch(err => {
+            axios.put(`/api/box-offices/${this.box_office_id}`, box_office_data).then( () => this.$emit('close')).catch(err => {
                 this.error = err.response.data.message;
             });
         },
         // Method to deactivate box office
         disActivate(){
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
-            axios.get(`/api/box-offices-disActivate/${this.box_office_id}`,{headers}).then(() => this.$emit('close'))
+            axios.get(`/api/box-offices-disActivate/${this.box_office_id}`).then(() => this.$emit('close'))
         },
         // Method to activate box office
         activate(){
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
-            axios.get(`/api/box-offices-activate/${this.box_office_id}`,{headers}).then(() => this.$emit('close'))
+            axios.get(`/api/box-offices-activate/${this.box_office_id}`).then(() => this.$emit('close'))
         },
         // Method to delete box office
         destroy(){
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
-            axios.delete(`/api/box-offices/${this.box_office_id}`,{headers}).then(() => this.$emit('close'))
+            axios.delete(`/api/box-offices/${this.box_office_id}`).then(() => this.$emit('close'))
         }
     },
     // Component watch property
@@ -130,7 +106,7 @@ export default {
             <div class="modal-mask" >
                 <div class="modal-wrapper">
                     <!-- Modal container for updating banking data -->
-                    <div class="modal-container-update-banking">
+                    <div class="modal-container box-office-update-modal modal-container-bank-box-office">
                         <!-- Header of the modal -->
                         <div class="header_modal">
                             <h4>Изменение кассы</h4>
@@ -149,11 +125,11 @@ export default {
                             <!-- Input fields for box office data -->
                             <div>
                                 <label>Наименование кассы *</label>
-                                <input type="text" v-model=name class="form-input" placeholder="Введите наименование кассы" required>
+                                <input type="text" v-model=name class="form_input "  :class="{'form_input_error': error && name.length === 0}"  placeholder="Введите наименование кассы" required>
                             </div>
                             <div>
                                 <label>Выберите Сервис *</label>
-                                <select v-model="service" class="form-input" id="select" required>
+                                <select v-model="service" class="form_input form_input-business-bank-box-office" id="select" required>
                                     <option value="Сервис Cloud">Сервис Cloud</option>
                                     <option value="Сервис Pay">Сервис Pay</option>
                                     <option value="Сервис CRM">Сервис CRM</option>
@@ -164,7 +140,7 @@ export default {
                             </div>
                             <div>
                                 <label>Выберите банковский счет *</label>
-                                <select v-model="bank_data_id" class="form-input" id="select2" required>
+                                <select v-model="bank_data_id" class="form_input form_input-business-bank-box-office" id="select2" required>
                                     <option v-for="data in dankData" :value="data.id" >{{ data.name_of_banking_akkaunt }}</option>
                                 </select>
                             </div>
@@ -188,11 +164,11 @@ export default {
                         <div class="modal-footer">
                             <div class="d-flex">
                                 <!-- Button to activate box office -->
-                                <button class="modal-default-button unactive" @click="activate" v-if="!active" >
+                                <button class="unactive modal-default-button " @click="activate" v-if="!active" >
                                     Активировать
                                 </button>
                                 <!-- Button to deactivate box office -->
-                                <button class="modal-default-button unactive" @click="disActivate" v-if="active">
+                                <button class="unactive modal-default-button " @click="disActivate" v-if="active">
                                     Деактивировать
                                 </button>
                                 <!-- Button to delete box office -->
@@ -216,144 +192,10 @@ export default {
     <createBanksDataModal v-if="addBanking" @close="$emit('close')" :business_id="this.business_id"></createBanksDataModal>
 </template>
 
-<style>
-/* Add Banking Data */
-.add_bank{
-    margin-top: 15px;
-    margin-bottom: 15px; /* Corrected property name */
-    max-width: 510px;
-    height: 42px;
-    border-radius: 20px;
-    background: #F3F3F3;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 11px;
-}
-.add_bank p{
-    font-size: 17px;
-    font-weight: 500;
-    color: #000;
-}
-.modal-container-update-banking{
-    width: 512px;
-    height: 570px !important;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 20px;
-    background: #FFF;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    transition: all 0.3s ease;
-    border-radius: 40px;
-}
-.modal-default-button{
-    margin-top: 10px;
-}
-.modal-footer{
-    justify-content: center;
-}
-.create-business-content{
-    margin-left: 17px;
-}
-label{
-    margin-top: 10px;
-    font-size: 20px;
-    margin-left: 5px;
-}
-.form-input{
-    width: 438px;
-    height: 47px;
-    border-radius: 15px;
-    background: #FFF;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
-    border: none;
-    padding-left: 15px;
-    font-size: 20px;
-    margin-top: 10px;
-}
-.unactive{
-    width: 213px;
-    height: 47px;
-    border-radius: 9px;
-    background: #AFAFAF;
-}
-.delete{
-    border-radius: 9px;
-    background: #FF5959;
-    width: 213px;
-    height: 47px;
-    margin-left: 10px;
-}
-.select2-selection{
-    width: 438px;
-    height: 47px !important;
-    border-radius: 15px !important;
-    background: #FFF;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
-    font-size: 20px;
-    margin-top: 10px;
-    padding-left: 10px;
-    border:none !important;
-}
-.select2-container--open .select2-selection{
-    border-radius: 15px 15px 0 0  !important;
-    box-shadow: 0 !important;
-    border: 1px solid #aaa !important;
-}
-.select2-selection__rendered{
-    padding-top: 10px;
-}
-.select2-selection__arrow{
-    margin-top: 20px;
-    margin-right: 10px;
-}
-.select2-search__field{
-    display: none;
-}
-.select2-results__option--highlighted{
-    background-color: rgba(0, 0, 0, 0.25) !important;
-    color: black !important;
-    border-radius: 15px !important;
-}
-.select2-results__option{
-    border-radius: 10px !important;
-}
-.select2-dropdown{
-    border-radius: 0 0 10px 10px !important;
-}
-.error{
-    width: 438px;
-}
-.error p {
-    font-size: 14px;
-    text-align: center;
-    color: #FF0000;
-}
-@media screen and (max-width: 500px){
-    .modal-container-update-banking{
-        width: 406px;
-        height: 492px;
-        border-radius: 25px 25px 0 0;
-    }
-    .form-input{
-        width: 345px;
-    }
-    .unactive{
+<style scoped>
+@media screen and (max-width: 500px) {
+    .unactive {
         width: 180px !important;
-    }
-    .delete{
-        width: 180px;
-    }
-}
-@media screen and (max-width: 390px) {
-    .modal-container-update-banking{
-        width: 360px !important; /* Set width to 100% for smaller screens */
-    }
-    .delete{
-        width: 130px !important;
     }
 }
 </style>

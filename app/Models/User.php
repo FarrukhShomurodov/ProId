@@ -45,4 +45,22 @@ class User extends Authenticatable
     {
         return $this->hasMany(Address::class);
     }
+
+    /**
+     * Define the relationship to fetch educations
+     * @return HasMany
+     */
+    public function education(): HasMany
+    {
+        return $this->hasMany(Education::class);
+    }
+
+    /**
+     * Define the relationship to fetch educations
+     * @return HasMany
+     */
+    public function proJob(): HasMany
+    {
+        return $this->hasMany(ProJob::class);
+    }
 }

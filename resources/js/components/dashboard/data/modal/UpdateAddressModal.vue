@@ -29,12 +29,7 @@ export default {
         };
     },
     mounted() {
-        // Fetch address data when the component is mounted
-        const headers = {
-            'Authorization': `Bearer ` + localStorage.token,
-            'Content-Type': 'application/json',
-        };
-        axios.get(`/api/address-show/${this.address_id}`, { headers }).then(res => {
+        axios.get(`/api/address-show/${this.address_id}`).then(res => {
             this.address = res.data.name
             this.searchQuery = res.data.name
             this.coords = JSON.parse(res.data.coords)
@@ -44,25 +39,19 @@ export default {
     methods: {
         // Method to save the address data to the server
         save() {
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
             const data = {
                 name: this.address,
                 coords: this.coords
             }
-            axios.put(`/api/address/${this.address_id}`, data, { headers }).then(() => {
+            axios.put(`/api/address/${this.address_id}`, data).then(() => {
                 this.$emit('goBack')
             })
         },
-        // Method called when the map is clicked
-        logMapClick(object, event) {
-            // Set zoom and coordinates based on the clicked location
+        // Method center marker when move
+        moveMap(event) {
             this.zoom = { min: 1, max: 9 };
-            this.coords = event.coordinates;
+            this.coords = event.location.center;
 
-            // Perform reverse geocoding to get the address of the clicked location
             ymaps.geocode(this.coords.reverse()).then((result) => {
                 const firstGeoObject = result.geoObjects.get(0);
 
@@ -138,7 +127,7 @@ export default {
         <transition name="modal">
             <div class="modal-mask">
                 <div class="modal-wrapper">
-                    <div class="modal-container-phone-number-edit" v-if="loading">
+                    <div class="modal-container modal-container-address-phone-mail" v-if="loading">
                         <div class="header_modal">
                             <h3 class="add_address">Изменить адрес</h3>
                             <img
@@ -170,7 +159,9 @@ export default {
                               }">
                                 <yandex-map-default-scheme-layer />
                                 <yandex-map-default-features-layer />
-                                <yandex-map-listener :settings="{ onClick: logMapClick }" />
+                                <yandex-map-listener :settings="{
+                                    onUpdate : moveMap
+                                }"/>
                                 <yandex-map-marker
                                     :settings="{
                                         coordinates: coords,
@@ -196,7 +187,7 @@ export default {
                         <!-- Footer Section -->
                         <div class="modal-footer">
                             <slot name="footer">
-                                <button class="modal-default-button" @click="save">
+                                <button class="modal-default-button address-save-btn" @click="save">
                                     Сохранить
                                 </button>
                             </slot>
@@ -212,94 +203,6 @@ export default {
     </div>
 </template>
 
-<style>
-/* Styling for modal mask */
-.modal-mask {
-    position: fixed;
-    z-index: 1 !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: table;
-    transition: opacity 0.3s ease;
-}
-
-/* Styling for modal container */
-.modal-container-phone-number-edit {
-    width: 512px;
-    height: 440px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 20px;
-    background: #FFF;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    transition: all 0.3s ease;
-    border-radius: 40px;
-}
-
-/* Styling for default modal button */
-.modal-default-button {
-    margin-top: 10px;
-}
-
-/* Styling for modal footer */
-.modal-footer {
-    justify-content: center;
-}
-
-/* Styling for paragraph inside modal content */
-.add_address {
-    font-weight: 500;
-    font-size: 24px;
-}
-
-/* Styling for Yandex Map */
-.yaMap {
-    width: 438px;
-    height: 201px;
-    border-radius: 15px;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
-}
-
-/* Styling for suggestions dropdown */
-.suggestions {
-    margin-top: 4px;
-    position: absolute;
-    background-color: #fff;
-    max-height: 150px;
-    width: 438px;
-    overflow-y: auto;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
-    z-index: 1;
-}
-
-/* Styling for suggestion items */
-.suggestions div {
-    padding: 8px;
-    cursor: pointer;
-}
-
-/* Styling for hover effect on suggestion items */
-.suggestions div:hover {
-    background-color: #f0f0f0;
-}
-
-/* Media query for smaller screens */
-@media screen and (max-width: 500px) {
-    .modal-container-phone-number-edit {
-        width: 406px;
-        height: 492px;
-        border-radius: 25px 25px 0px 0px;
-    }
-
-    .yaMap {
-        width: 380px;
-    }
-}
+<style scoped>
 </style>
+

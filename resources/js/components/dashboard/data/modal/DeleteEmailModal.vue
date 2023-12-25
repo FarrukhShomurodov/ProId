@@ -10,11 +10,7 @@ export default {
     },
     methods:{
         destroy(){
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
-            axios.delete(`/api/add-delete/${this.userId}`,{headers}).then(() => this.$emit('close'))
+            axios.delete(`/api/add-delete/${this.userId}`).then(() => this.$emit('close'))
         },
     }
 };
@@ -25,9 +21,9 @@ export default {
         <transition name="modal">
             <div class="modal-mask">
                 <div class="modal-wrapper">
-                    <div class="modal-container-phone-number-edit">
+                    <div class="modal-container modal-container-address-phone-mail">
                         <div class="header_modal">
-                            <h3 class="tel">Почтовый яшик</h3>
+                            <h3 class="pochta">Почтовый яшик</h3>
                             <img
                                 src="/images/icons/dashboard/exit.svg"
                                 @click="$emit('close')"
@@ -55,46 +51,7 @@ export default {
     </div>
 </template>
 
-<style>
-.modal-container-phone-number-edit{
-    width: 512px;
-    height: 411px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 20px;
-    background: #FFF;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    transition: all 0.3s ease;
-    border-radius: 40px;
-}
-.modal-default-button{
-    margin-top: 10px;
-}
-.modal-footer{
-    justify-content: center;
-}
-.edit_phone_content p{
-    color: #000;
-    font-size: 21px;
-    margin-top: 30px;
-}
-.tel{
-    font-weight: 500;
-    font-size: 24px;
-}
-.email_container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.email_container p{
-    margin-top: 30px;
-    text-align: center;
-}
+<style scoped>
 .otc input {
     width: 37px;
     height: 30px;
@@ -117,12 +74,5 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-}
-@media screen and (max-width: 500px){
-    .modal-container-phone-number-edit{
-        width: 406px;
-        height: 492px;
-        border-radius: 25px 25px 0px 0px;
-    }
 }
 </style>

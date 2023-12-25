@@ -1,0 +1,792 @@
+/*Modal*/
+.modal-mask {
+    position: fixed;
+    z-index: 9998 !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal-container {
+    width: 520px;
+    height: 512px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 20px;
+    background: #FFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+    border-radius: 40px;
+}
+
+.header_modal {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: black;
+    width: 438px;
+}
+.header_modal img {
+    margin-bottom: 0.5rem;
+}
+
+.modal-default-button {
+    width: 437px;
+    height: 47px;
+    border-radius: 9px;
+    background: #5FE0D8;
+    border: none;
+    color: #FFF;
+    font-size: 23px;
+    margin-top: 10px;
+}
+
+.modal-enter {
+    opacity: 0;
+}
+
+.modal-leave-active {
+    opacity: 0;
+}
+
+.modal-footer {
+    justify-content: center;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+/* Default input */
+input:focus {
+    outline: none;
+}
+
+.form_input:focus {
+    transition: 0.5s;
+    box-shadow: none !important;
+    border: 1px solid #5FE0D8 !important;
+}
+
+.form_input {
+    width: 438px;
+    height: 47px;
+    border-radius: 15px;
+    background: #FFF;
+    color: black;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25) !important;
+    padding-left: 15px;
+    border: 0 solid #5FE0D8 !important;
+    margin-top: 10px;
+}
+
+.form_input_error {
+    box-shadow: none !important;
+    border: 1px solid #FF0000 !important;
+}
+
+/*Error*/
+.error {
+    width: 438px;
+}
+
+.error p {
+    font-size: 14px;
+    text-align: center;
+    color: #FF0000;
+}
+
+/*Selet2*/
+
+
+.select2-selection {
+    width: 438px;
+    height: 47px !important;
+    border-radius: 15px !important;
+    background: #FFF;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+    font-size: 20px;
+    margin-top: 10px;
+    padding-left: 10px;
+    border: none !important;
+}
+
+.select2-container--open .select2-selection {
+    border-radius: 15px 15px 0 0 !important;
+    box-shadow: 0 !important;
+    border: 1px solid #aaa !important;
+}
+
+.select2-selection__rendered {
+    padding-top: 10px;
+}
+
+.select2-selection__arrow {
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+.select2-search__field {
+    display: none;
+}
+
+.select2-results__option--highlighted {
+    background-color: rgba(0, 0, 0, 0.25) !important;
+    color: black !important;
+    border-radius: 15px !important;
+}
+
+.select2-results__option {
+    border-radius: 10px !important;
+}
+
+.select2-dropdown {
+    border-radius: 0 0 10px 10px !important;
+    z-index: 9999 !important;
+}
+
+/* UserData */
+.user_foto {
+    display: flex;
+    flex-direction: row;
+    width: 438px;
+}
+
+.foto_actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 10px;
+}
+
+.upload_file {
+    border: none;
+    color: #000;
+    font-size: 22px;
+    width: 191px;
+    height: 35px;
+    border-radius: 10px;
+}
+
+.upload_file input {
+    opacity: 0;
+    position: absolute;
+    width: 150px;
+    height: 20px;
+}
+
+.gender button:hover {
+    border-radius: 15px;
+    background: #DDD;
+    color: black;
+}
+
+.name_surname_data {
+    display: flex;
+    flex-direction: column;
+}
+
+.name_surname_data * {
+    margin-top: 15px;
+}
+
+
+.labels {
+    font-size: 20px;
+
+}
+
+.other_information {
+    display: flex;
+    grid-template-columns: repeat(2, 1fr);
+    width: 438px;
+
+}
+
+.container_info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.date {
+    margin-top: 10px;
+    width: 320px;
+    height: 47px;
+    border-radius: 15px;
+    background: #FFF;
+    border: none;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+    padding: 10px;
+
+}
+
+.gender {
+    width: 102px;
+    height: 47px;
+    margin-top: 10px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.male, .female {
+    color: #575757;
+    font-size: 24px;
+    padding: 10px;
+    border: none;
+    background-color: white;
+}
+
+.activeMale {
+    border-radius: 15px;
+    background: #DDD;
+    color: black;
+}
+
+.activeFemale {
+    border-radius: 15px;
+    background: #DDD;
+    color: black;
+}
+
+/* Address */
+.modal-container-address-phone-mail {
+    width: 512px;
+    height: 440px;
+}
+
+.address-save-btn {
+    margin-top: 10px;
+}
+
+.email_content p {
+    color: #000;
+    font-size: 19px;
+    margin-bottom: 0;
+}
+
+.add_address {
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.yaMap {
+    width: 438px;
+    height: 201px;
+    border-radius: 15px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+}
+
+.suggestions {
+    margin-top: 4px;
+    position: absolute;
+    background-color: #fff;
+    max-height: 150px;
+    width: 438px;
+    overflow-y: auto;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    z-index: 1;
+}
+
+.suggestions div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+
+/* Email */
+.email_content {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    width: 438px;
+    height: 100%;
+}
+
+.reSend {
+    margin-left: 20px;
+}
+
+.email_content p {
+    color: #000;
+    font-size: 19px;
+    line-height: 20px;
+    margin-bottom: 0;
+}
+
+.email {
+    width: 438px;
+    height: 54px;
+    border-radius: 15px;
+    background: #FFF;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+    font-size: 28px;
+    padding-left: 25px;
+    color: #000;
+    border: 0px solid #5FE0D8 !important;
+}
+
+.email:focus {
+    transition: 0.5s;
+    box-shadow: none !important;
+    border: 1px solid #5FE0D8 !important;
+}
+
+.pochta {
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.save_email {
+    background: #AFAFAF !important;
+}
+
+.email_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.email_container p {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* PhoneNumber */
+.text_phone_edit {
+    margin-bottom: 10px !important;
+}
+
+.modal-footer {
+    justify-content: center;
+}
+
+.changeNumber {
+    width: 437px;
+    height: 47px;
+    border-radius: 9px;
+    background: #FFF !important;
+    border: none;
+    font-size: 23px;
+    color: #000 !important;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+}
+
+.edit_phone_content p {
+    color: #000;
+    font-size: 21px;
+    margin-top: 30px;
+}
+
+.tel {
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.phone-number {
+    width: 438px;
+    height: 61px;
+    border-radius: 15px;
+    background: #FFF;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+    border: none;
+    font-size: 28px;
+    padding-left: 25px;
+    color: #000;
+}
+
+.reSend {
+    color: #545454;
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    background-color: #FFF;
+}
+
+.update_phone_modal_error {
+    max-width: 438px;
+    width: 100%;
+}
+
+.update_phone_modal_error p {
+    font-size: 18px;
+    text-align: start;
+    color: #FF0000;
+}
+
+/*Bank-BoxOffice-Business*/
+.modal-container-bank-box-office {
+    width: 512px;
+    height: 500px !important;
+}
+
+.box-office-create-modal {
+    height: 520px !important;
+}
+
+.box-office-update-modal {
+    height: 570px !important;
+}
+
+.modal-container-create-business {
+    width: 512px !important;
+    height: 970px !important;
+}
+
+.modal-container-update-business {
+    width: 512px;
+    height: 625px;
+}
+
+label {
+    margin-top: 10px;
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.create-business-content {
+    margin-left: 17px;
+}
+
+.add_bank {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    max-width: 510px;
+    height: 42px;
+    border-radius: 20px;
+    background: #F3F3F3;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 11px;
+}
+
+.add_bank p {
+    font-size: 17px;
+    font-weight: 500;
+    color: #000;
+}
+
+.unactive {
+    width: 213px;
+    height: 47px;
+    border-radius: 9px;
+    background: #AFAFAF;
+}
+
+.delete {
+    border-radius: 9px;
+    background: #FF5959;
+    width: 213px;
+    height: 47px;
+    margin-left: 10px;
+}
+
+.create-box-office-content {
+    margin-left: 17px !important;
+}
+
+/*Education*/
+.modal-container-education{
+    height: 520px;
+}
+.education_content{
+    display: block;
+    margin: auto;
+    width: 100%;
+    max-width: calc(100% - 40px);
+}
+.education_dates{
+    width: 203px;
+}
+.education_dates {
+    padding-right: 10px;
+}
+.education_dates:first-of-type {
+    margin-right: 10px;
+}
+.education_dates:nth-of-type(2) {
+    margin-left: 10px;
+}
+.education_text{
+    font-size: 20px;
+}
+.status_radio{
+    float: right;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+.status_radio p{
+    margin-right: 10px;
+}
+.radio_rounded {
+    width: 25px;
+    height: 25px;
+    position: relative;
+}
+
+.radio_rounded input[type="checkbox"] {
+    visibility: hidden;
+}
+
+.radio_rounded label {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: -5px;
+    left: 0;
+    cursor: pointer;
+    border-radius: 50px;
+    box-shadow: 0 0 15px 0 rgba(108, 108, 108, 0.25) inset;
+}
+
+.radio_rounded input[type="checkbox"]:checked + label {
+    background: #5FE0D8 url("/public/images/icons/dashboard/selected.svg") center no-repeat;
+}
+
+@media screen and (max-height: 970px) {
+    .modal-container-create-business {
+        height: 930px !important;
+        overflow-y: scroll;
+    }
+
+    .modal-container-create-business::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .data .ava {
+        width: 80px;
+        height: 57px;
+    }
+    .education_dates{
+        width: 240px !important;
+    }
+    .education_content{
+        margin-left: -5px;
+    }
+    .education_dates:first-of-type {
+        margin-right: 10px;
+    }
+    .education_dates:nth-of-type(2) {
+        margin-left: 10px;
+    }
+    .status_radio{
+        margin-right: -50px;
+    }
+    .date_container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: calc(100% + 55px);
+    }
+    .modal-container-education{
+        height: 520px !important;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .modal-wrapper {
+        vertical-align: bottom;
+    }
+
+    .modal-container {
+        width: 406px;
+        height: 492px;
+        border-radius: 25px 25px 0 0;
+    }
+
+    .header_modal, .user_foto, .form_input, .other_information, .modal-default-button {
+        width: 380px;
+    }
+
+    .date {
+        width: 250px;
+    }
+
+    .modal-container-address-phone-mail {
+        width: 406px;
+        height: 492px;
+        border-radius: 25px 25px 0 0;
+    }
+
+    .yaMap {
+        width: 380px;
+    }
+
+    .suggestions {
+        width: 380px !important;
+    }
+
+    .email {
+        width: 380px;
+    }
+
+    .email_content {
+        width: 380px;
+    }
+
+    .phone-number {
+        width: 380px;
+    }
+
+    .modal-container-bank-box-office {
+        width: 406px;
+        height: 492px;
+    }
+
+    .form_input-business-bank-box-office {
+        width: 345px !important;
+    }
+
+    .create-box-office-content {
+        margin-left: 0 !important;
+    }
+
+    .create-box-office-content div {
+        width: 380px;
+    }
+
+    .select2-selection {
+        width: 380px !important;
+    }
+
+    .unactive {
+        width: 185px !important;
+    }
+
+    .delete {
+        width: 180px;
+    }
+
+    .modal-container-create-business {
+        width: 400px !important;
+        height: 525px !important;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .create-business-content div {
+        width: 380px;
+    }
+
+    .create-business-content {
+        margin-left: 2px;
+    }
+
+    .create-business-content {
+        margin-left: 0 !important;
+    }
+
+    .form_input-business {
+        width: 380px !important;
+    }
+
+    .modal-container-update-business {
+        width: 406px;
+        height: 600px;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .modal-container {
+        width: 360px;
+    }
+
+    .header_modal, .user_foto, .form_input, .other_information, .modal-default-button {
+        width: 340px;
+    }
+
+    .date {
+        width: 200px;
+    }
+
+    .modal-container-address-phone-mail {
+        width: 360px !important;
+    }
+
+    .yaMap {
+        width: 320px !important;
+    }
+
+    .suggestions {
+        width: 320px !important;
+    }
+
+    .email {
+        width: 320px;
+    }
+
+    .email_content {
+        width: 320px;
+    }
+
+    .phone-number {
+        width: 320px;
+    }
+
+    .modal-container-bank-box-office {
+        width: 360px !important;
+    }
+
+    .create-box-office-content div {
+        width: 340px !important;
+    }
+
+    .select2-selection {
+        width: 340px !important;
+    }
+
+    .delete {
+        width: 140px !important;
+    }
+
+    .modal-container-create-business {
+        width: 360px !important;
+    }
+
+    .header_modal-business, .modal-default-button-business {
+        width: 340px !important;
+    }
+
+    .create-business-content div {
+        width: 340px !important;
+    }
+
+    .form_input-business {
+        width: 340px !important;
+    }
+
+    .modal-container-update-business {
+        width: 360px !important;
+    }
+    .education_content{
+        margin-left: -10px;
+    }
+}

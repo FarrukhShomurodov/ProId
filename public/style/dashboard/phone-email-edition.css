@@ -1,0 +1,21 @@
+.kon_header span {
+    color: #525252;
+    font-size: 17px;
+}
+
+.edition {
+    display: flex;
+}
+
+.edition_container {
+    margin-top: 21px;
+    max-width: 512px;
+    width: 100%;
+    height: 75px;
+    border-radius: 20px;
+    background: #5FE0D8;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}

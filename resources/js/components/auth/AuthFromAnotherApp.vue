@@ -19,7 +19,71 @@ export default {
     methods: {
         // Format phone number input
         formatPhoneNumber(event) {
-            // ... (omitted for brevity) ...
+            const phoneNumber = event.target.value.replace(/\D/g, '');
+            const isBackspace = event.inputType === 'deleteContentBackward';
+
+            let formattedPhoneNumber = '';
+
+            if (phoneNumber.startsWith('998')) {
+                if (phoneNumber.length >= 3) {
+                    formattedPhoneNumber =
+                        '+998 (' +
+                        phoneNumber.slice(3, 5) +
+                        ') ' +
+                        phoneNumber.slice(5, 8) +
+                        ' ' +
+                        phoneNumber.slice(8, 10) +
+                        ' ' +
+                        phoneNumber.slice(10, 12);
+
+                    if (isBackspace) {
+                        let lastChar = formattedPhoneNumber.charAt(formattedPhoneNumber.length - 1);
+                        while (lastChar === ' ' || isNaN(lastChar)) {
+                            formattedPhoneNumber = formattedPhoneNumber.slice(0, -1);
+                            lastChar = formattedPhoneNumber.charAt(formattedPhoneNumber.length - 1);
+                        }
+                        this.notFound = '';
+                    }
+                }
+
+                event.target.value = formattedPhoneNumber || phoneNumber;
+            } else {
+                event.target.value = '+998 (' + phoneNumber;
+            }
+
+            // Save the formatted phone number
+            this.phone_number = phoneNumber;
+
+            // Make a login request when the phone number is complete
+            if (this.phone_number.length === 12) {
+                axios.post('/api/login', {
+                    phone_number: this.phone_number,
+                }).then(response => {
+                    if (response.data.name && response.data.surname) {
+                        this.count++;
+                        if (this.count < 5) {
+                            this.name = response.data.name;
+                            this.surname = response.data.surname;
+                            this.notFound = '';
+                            this.isAuth = true;
+                            this.authAction = 'Войти';
+                        } else {
+                            this.limit = true;
+                            this.name = '';
+                            this.surname = '';
+                        }
+                    }
+                }).catch(error => {
+                    this.notFound = error.response.data.message;
+                    this.authAction = 'Создать';
+                    this.auth = true;
+                });
+            } else {
+                this.name = '';
+                this.surname = '';
+                this.auth = false;
+                this.authAction = 'Войти';
+            }
         },
         // Authenticate user
         Auth() {
@@ -40,39 +104,41 @@ export default {
 
 <template>
     <div class="login">
-        <!-- Header section -->
-        <div class="top">
-            <div class="image">
-                <img src="/images/logo/pro_id_logo.svg" alt="">
-            </div>
-            <div>
-                <a href="" class="link">Что такое PRO ID <img src="/images/icons/question.svg"></a>
-            </div>
-        </div>
-        <!-- Main form section -->
-        <div class="bottom">
-            <!-- PRO ID entrance -->
-            <div class="enterence">
-                <div class="text">
-                    <p>Вход c помощью PRO ID</p>
-                </div>
+        <div class="form">
+            <!-- Header section -->
+            <div class="top">
                 <div class="image">
-                    <img src="/images/logo/pro_id_logo_mini.svg" alt="">
+                    <img src="/images/logo/pro_id_logo.svg" alt="">
+                </div>
+                <div>
+                    <a href="" class="link">Что такое PRO ID <img src="/images/icons/question.svg"></a>
                 </div>
             </div>
-            <!-- Login form -->
-            <form @submit.prevent class="main-form">
-                <p :class="{ 'not-found': notFound }">{{ surname }} {{ name !== '' ? name[0] + '.' : '' }} {{ notFound }}</p>
-                <!-- Phone number input -->
-                <input v-model="phoneNumber" required type="text" class="phone-number" placeholder="+998 (--) --- -- -- " @input="formatPhoneNumber" maxlength="19">
-                <!-- Submit button -->
-                <input @click="Auth" v-on:keyup.enter="Auth" type="submit" name="phoneNum" :class="{ 'light-button': name || auth || limit}" class="phone-number-button" :value="authAction">
-                <p :class="{ 'revocer': name || auth}">Восстановить PRO ID.</p>
-            </form>
-            <!-- Additional text section -->
-            <div class="text">
-                <p>Продолжая использовать PRO ID, я принимаю <span>условия оферты.</span></p>
-                <p>PRO ID - ключ от всех сервисов</p>
+            <!-- Main form section -->
+            <div class="bottom">
+                <!-- PRO ID entrance -->
+                <div class="enterence">
+                    <div class="text">
+                        <p>Вход c помощью PRO ID</p>
+                    </div>
+                    <div class="image">
+                        <img src="/images/logo/pro_id_logo_mini.svg" alt="">
+                    </div>
+                </div>
+                <!-- Login form -->
+                <form @submit.prevent class="main-form">
+                    <p :class="{ 'not-found': notFound }">{{ surname }} {{ name !== '' ? name[0] + '.' : '' }} {{ notFound }}</p>
+                    <!-- Phone number input -->
+                    <input v-model="phoneNumber" required type="text" class="phone-number" placeholder="+998 (--) --- -- -- " @input="formatPhoneNumber" maxlength="19">
+                    <!-- Submit button -->
+                    <input @click="Auth" v-on:keyup.enter="Auth" type="submit" name="phoneNum" :class="{ 'light-button': name || auth || limit}" class="phone-number-button" :value="authAction">
+                    <p :class="{ 'revocer': name || auth}">Восстановить PRO ID.</p>
+                </form>
+                <!-- Additional text section -->
+                <div class="text">
+                    <p>Продолжая использовать PRO ID, я принимаю <span>условия оферты.</span></p>
+                    <p>PRO ID - ключ от всех сервисов</p>
+                </div>
             </div>
         </div>
     </div>
@@ -83,6 +149,6 @@ export default {
     </div>
 </template>
 
-<style scoped>
+<style>
 @import '/public/style/authFromAnotherApp.css';
 </style>

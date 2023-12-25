@@ -30,19 +30,15 @@ export default {
     methods: {
         async getboxOffice() {
             // Fetch box office data and associated banking data from the API
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
 
             // Get box office data
-            const boxOfficeResponse = await axios.get(`api/box-offices-show/${this.box_office_id}`, { headers });
+            const boxOfficeResponse = await axios.get(`api/box-offices-show/${this.box_office_id}`);
             this.service = boxOfficeResponse.data.service;
             this.name = boxOfficeResponse.data.name;
-            this.active = boxOfficeResponse.data.isActive === 1 ? true : false;
+            this.active = boxOfficeResponse.data.isActive === 1;
 
             // Get banking data by box office
-            const bankResponse = await axios.get(`api/banking-data-show/${boxOfficeResponse.data.bank_data_id}`, { headers });
+            const bankResponse = await axios.get(`api/banking-data-show/${boxOfficeResponse.data.bank_data_id}`);
             this.nameOfBankingAkkaunt = bankResponse.data.name_of_banking_akkaunt;
             this.loading = true;
         },
@@ -85,6 +81,5 @@ export default {
     <update-box-office-modal v-if="showUpdateBoxOffice" @close="close" :box_office_id="this.box_office_id" :business_id="this.business_id"></update-box-office-modal>
 </template>
 
-<style>
-@import "/public/style/dashboard/report.css";
+<style scoped>
 </style>

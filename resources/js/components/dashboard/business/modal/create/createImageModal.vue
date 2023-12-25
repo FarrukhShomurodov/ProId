@@ -16,13 +16,8 @@ export default {
 
     mounted() {
         // Fetch business image data on component mount
-        const headers = {
-            'Authorization': `Bearer ` + localStorage.token,
-            'Content-Type': 'application/json',
-        };
-        axios.get(`/api/pro-business-show/${this.business_id}`, {headers}).then(res => {
+        axios.get(`/api/pro-business-show/${this.business_id}`).then(res => {
             this.avatarUrl = res.data.image;
-            console.log(this.avatarUrl);
             this.loading = true; // Update loading state once data is fetched
         });
     },
@@ -49,16 +44,12 @@ export default {
         },
         // Upload the avatar image to the server
         uploadAvatar() {
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'multipart/form-data',
-            };
             if (this.avatarFile) {
                 const formData = new FormData();
                 formData.append("image", this.avatarFile);
 
                 // HTTP POST request to update the business avatar image
-                axios.post(`/api/pro-business-image/${this.business_id}`, formData, {headers}).then(response => {
+                axios.post(`/api/pro-business-image/${this.business_id}`, formData).then(response => {
                     this.avatarUrl = response.data.image;
                     this.$emit('close'); // Close the modal after successful upload
                 }).catch(error => {
@@ -142,11 +133,11 @@ export default {
     </div>
 </template>
 
-<style>
+<style scoped>
 /* Styling for the modal component */
 .update_business_foto{
     width: 500px;
-    height: 240px;
+    height: 240px !important;
 }
 .loading-indicator {
     position: fixed;

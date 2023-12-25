@@ -26,6 +26,8 @@ export default {
                     return 'pay';
                 case 'dashboard-business':
                     return 'business';
+                case 'dashboard-pro-job':
+                    return 'pro-job';
             }
         },
     },
@@ -55,13 +57,8 @@ export default {
     methods: {
         // Backend: Fetch user data from the API
         fetchUser() {
-            const headers = {
-                'Authorization': `Bearer ` + localStorage.token,
-                'Content-Type': 'application/json',
-            };
-
             // API request to get authenticated user data
-            axios.get('/api/user', {headers}).then(res => {
+            axios.get('/api/user').then(res => {
                 const data = res.data;
 
                 // Set user data to variables
@@ -72,11 +69,7 @@ export default {
         },
         // Backend: Logout user
         logout() {
-            axios.post('/api/logout', {}, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            }).then(() => {
+            axios.post('/api/logout').then(() => {
                 localStorage.removeItem('token');
                 router.push({name: 'login'});
             })
@@ -94,10 +87,10 @@ export default {
         },
         // Frontend: Hide menus when clicking outside
         invisibleMenu(event) {
-            const headerNav = document.querySelector('.header_nav');
-            const headerNavContent = document.querySelector('.header_nav_content');
+            const headerNav = $('.header_nav');
+            const headerNavContent = $('.header_nav_content');
 
-            if (!headerNav.contains(event.target) && !headerNavContent.contains(event.target)) {
+            if (!$(event.target).closest(headerNav).length && !$(event.target).closest(headerNavContent).length) {
                 this.showUserMenu = false;
                 this.showServiceMenu = false;
             }
@@ -109,11 +102,12 @@ export default {
 <template>
     <!-- Header -->
     <header>
-        <div class="header">
+        <div class="header flex-column">
             <div class="header_nav flex-row">
                 <!-- Logo and menu icon -->
                 <img class="logo" src="/images/logo/pro_id_logo.svg" alt=""
-                     @click="$router.push({name: 'dashboard-main'})">
+                     @click="$router.push({name: 'dashboard-main'})"
+                        style="border-radius: 0;">
                 <div class="min_nav" :class="{'radiosNone': showUserMenu || showServiceMenu}">
                     <img src="/images/icons/dashboard/menu.svg" alt="" @click="showServices">
                     <!-- User avatar -->
@@ -149,7 +143,7 @@ export default {
                                 <hr>
                                 <a href="#" @click="logout" class="">Выйти</a>
                                 <a href="#" class="">Справка</a>
-                                <a href="#" class="">Обратная связь</a>
+                                <a href="https://support.in-pro.net/help-center" class="">Обратная связь</a>
                                 <hr>
                             </ul>
                         </nav>
@@ -258,6 +252,10 @@ export default {
                     <swiper-slide class="navbar__link">
                         Безопасность
                     </swiper-slide>
+                    <swiper-slide @click="$router.push({ name: 'dashboard-pro-job' })"
+                                  :class="{'active': this.$route.name === 'dashboard-pro-job'}" class="navbar__link">
+                        PRO JOB
+                    </swiper-slide>
                     <swiper-slide @click="$router.push({ name: 'dashboard-business' })"
                                   :class="{'active': this.$route.name === 'dashboard-business'}" class="navbar__link">
                         PRO BUSINESS
@@ -295,4 +293,12 @@ export default {
 
 <style>
 @import '/public/style/dashboard/dashboard.css';
+@import "/public/style/dashboard/modal.css";
+@import "/public/style/dashboard/pro-business-details.css";
+@import "/public/style/dashboard/report.css";
+@import "/public/style/dashboard/data.css";
+@import "/public/style/dashboard/main.css";
+@import "/public/style/dashboard/pay.css";
+@import "/public/style/dashboard/pro-business.css";
+@import "/public/style/dashboard/pro-job.css";
 </style>

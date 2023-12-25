@@ -12,6 +12,7 @@ export default {
             showConfirmNumber: false,
             showCorrectSignal: false,
             changedPhoneNumber: '',
+            error: '',
         };
     },
     methods: {
@@ -68,6 +69,7 @@ export default {
                             lastChar = formattedPhoneNumber.charAt(formattedPhoneNumber.length - 1);
                         }
                         this.notFound = '';
+                        this.error = ''
                     }
                 }
 
@@ -79,17 +81,26 @@ export default {
             this.changedPhoneNumber = phoneNumber;
             this.phoneNumberToPaste = this.changedPhoneNumber;
         },
+
         // Edit phone number and show confirmation
         edit() {
             this.phone();
             this.changeNum = true;
-            this.codeLength === 13 || this.codeLength === 12 ? this.showConfirmNumber = true : this.showConfirmNumber = false;
-            if (this.showConfirmNumber) {
-                this.changeNum = false;
-                axios.post('/api/sendOTP', {
-                    phone_number: this.changedPhoneNumber
-                });
-            }
+
+            // Check Phone Number from db
+            axios.post('/api/login', {
+                phone_number: this.changedPhoneNumber,
+            }).then(() => {
+                this.error = "Введенный номер уже существует."
+            }).catch(() => {
+                this.codeLength === 13 || this.codeLength === 12 ? this.showConfirmNumber = true : this.showConfirmNumber = false;
+                if (this.showConfirmNumber) {
+                    this.changeNum = false;
+                    axios.post('/api/sendOTP', {
+                        phone_number: this.changedPhoneNumber
+                    });
+                }
+            })
         },
         // Resend OTP
         reSend() {
@@ -100,13 +111,9 @@ export default {
         // Save the edited phone number
         save() {
             if (this.showCorrectSignal) {
-                const headers = {
-                    'Authorization': `Bearer ` + localStorage.token,
-                    'Content-Type': 'application/json',
-                };
                 axios.post(`/api/edit-phone-number/${this.userId}`, {
                     phone_number: this.changedPhoneNumber
-                }, { headers }).then(() => this.$emit('close'));
+                }).then(() => this.$emit('close'));
             }
         },
     },
@@ -142,7 +149,7 @@ export default {
         <transition name="modal">
             <div class="modal-mask">
                 <div class="modal-wrapper">
-                    <div class="modal-container-phone-number-edit">
+                    <div class="modal-container modal-container-address-phone-mail">
                         <div class="header_modal">
                             <h3 class="tel">Телефон</h3>
                             <img
@@ -150,6 +157,9 @@ export default {
                                 @click="$emit('close')"
                                 alt="exit icon"
                             />
+                        </div>
+                        <div class="update_phone_modal_error">
+                            <p>{{ error }}</p>
                         </div>
                         <!-- Content for editing phone number -->
                         <div class="edit_phone_content" v-if="!changeNum && !showConfirmNumber">
@@ -160,11 +170,12 @@ export default {
                         <input
                             required
                             type="tel"
-                            class="phone-number"
+                            class="form_input phone-number"
                             placeholder="+998 -- --- -- -- "
                             @input="formatPhoneNumber"
                             maxlength="19"
                             v-if="changeNum"
+                            :class="{'form_input_error': error}"
                         />
                         <!-- OTP input fields and confirmation message -->
                         <div class="otc " v-if="showConfirmNumber">
@@ -211,71 +222,7 @@ export default {
     </div>
 </template>
 
-<style>
-.text_phone_edit{
-    margin-bottom: 10px !important;
-}
-.modal-container-phone-number-edit{
-    width: 512px;
-    height: 411px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 20px;
-    background: #FFF;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    transition: all 0.3s ease;
-    border-radius: 40px;
-}
-.modal-default-button{
-    margin-top: 10px;
-}
-.modal-footer{
-    justify-content: center;
-}
-.changeNumber{
-    width: 437px;
-    height: 47px;
-    border-radius: 9px;
-    background: #FFF !important;
-    border: none;
-    font-size: 23px;
-    color: #000 !important;
-    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.25);
-}
-.edit_phone_content p{
-    color: #000;
-    font-size: 21px;
-    margin-top: 30px;
-}
-.tel{
-    font-weight: 500;
-    font-size: 24px;
-}
-.phone-number{
-    width: 438px;
-    height: 61px;
-    border-radius: 15px;
-    background: #FFF;
-    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.25);
-    border:none;
-    font-size: 28px;
-    padding-left: 25px;
-    color: #000;
-}
-.reSend {
-    color: #545454;
-    text-align: center;
-    font-family: 'GT Walsheim Pro', serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    border: none;
-    background-color: #FFF;
-}
+<style scoped>
 .otc {
     display: flex;
     justify-content: space-between;
@@ -320,20 +267,5 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-}
-@media screen and (max-width: 500px){
-    .modal-container-phone-number-edit{
-        width: 406px;
-        height: 492px;
-        border-radius: 25px 25px 0px 0px;
-    }
-    .phone-number{
-        width: 380px;
-    }
-}
-@media screen and (max-width: 390px) {
-    .phone-number{
-        width: 320px;
-    }
 }
 </style>

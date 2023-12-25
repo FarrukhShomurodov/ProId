@@ -264,3 +264,6 @@ a {
 .link img{
   margin-left: 10px;
 }
+.phone-number-button:hover{
+    border: 2px solid #333333 !important;
+}
