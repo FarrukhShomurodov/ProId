@@ -17,8 +17,8 @@
 }
 
 .modal-container {
-    width: 520px;
-    height: 512px;
+    width: 512px;
+    height: auto;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -39,6 +39,7 @@
     color: black;
     width: 438px;
 }
+
 .header_modal img {
     margin-bottom: 0.5rem;
 }
@@ -269,11 +270,6 @@ input:focus {
 }
 
 /* Address */
-.modal-container-address-phone-mail {
-    width: 512px;
-    height: 440px;
-}
-
 .address-save-btn {
     margin-top: 10px;
 }
@@ -400,6 +396,7 @@ input:focus {
     color: #000;
     font-size: 21px;
     margin-top: 30px;
+    text-align: center;
 }
 
 .tel {
@@ -439,28 +436,6 @@ input:focus {
 }
 
 /*Bank-BoxOffice-Business*/
-.modal-container-bank-box-office {
-    width: 512px;
-    height: 500px !important;
-}
-
-.box-office-create-modal {
-    height: 520px !important;
-}
-
-.box-office-update-modal {
-    height: 570px !important;
-}
-
-.modal-container-create-business {
-    width: 512px !important;
-    height: 970px !important;
-}
-
-.modal-container-update-business {
-    width: 512px;
-    height: 625px;
-}
 
 label {
     margin-top: 10px;
@@ -511,43 +486,56 @@ label {
 }
 
 /*Education*/
-.modal-container-education{
-    height: 520px;
-}
-.education_content{
+.education_content {
     display: block;
     margin: auto;
     width: 100%;
     max-width: calc(100% - 40px);
 }
-.education_dates{
-    width: 203px;
+
+.date_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
+
+.education_dates {
+    width: 100%;
+}
+
 .education_dates {
     padding-right: 10px;
 }
+
 .education_dates:first-of-type {
-    margin-right: 10px;
+    margin-right: 5px;
 }
+
 .education_dates:nth-of-type(2) {
-    margin-left: 10px;
+    margin-left: 5px;
 }
-.education_text{
+
+.education_text {
     font-size: 20px;
 }
-.status_radio{
+
+.status_radio {
     float: right;
     display: flex;
     align-items: center;
     margin-top: 10px;
 }
-.status_radio p{
+
+.status_radio p {
+    font-size: 16px;
     margin-right: 10px;
 }
+
 .radio_rounded {
     width: 25px;
     height: 25px;
     position: relative;
+    margin-top: -2px;
 }
 
 .radio_rounded input[type="checkbox"] {
@@ -581,45 +569,50 @@ label {
 }
 
 @media screen and (max-width: 600px) {
+    .modal-container {
+        width: 406px;
+        border-radius: 25px 25px 0 0;
+    }
+    .error {
+        width: 406px;
+    }
     .data .ava {
         width: 80px;
         height: 57px;
     }
-    .education_dates{
+
+    .education_dates {
         width: 240px !important;
     }
-    .education_content{
+
+    .education_content {
         margin-left: -5px;
     }
+
     .education_dates:first-of-type {
         margin-right: 10px;
     }
+
     .education_dates:nth-of-type(2) {
         margin-left: 10px;
     }
-    .status_radio{
+
+    .status_radio {
         margin-right: -50px;
     }
-    .date_container{
+
+    .date_container {
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: calc(100% + 55px);
     }
-    .modal-container-education{
-        height: 520px !important;
-    }
+
 }
 
 @media screen and (max-width: 500px) {
     .modal-wrapper {
         vertical-align: bottom;
-    }
-
-    .modal-container {
-        width: 406px;
-        height: 492px;
-        border-radius: 25px 25px 0 0;
     }
 
     .header_modal, .user_foto, .form_input, .other_information, .modal-default-button {
@@ -656,11 +649,6 @@ label {
         width: 380px;
     }
 
-    .modal-container-bank-box-office {
-        width: 406px;
-        height: 492px;
-    }
-
     .form_input-business-bank-box-office {
         width: 345px !important;
     }
@@ -686,7 +674,6 @@ label {
     }
 
     .modal-container-create-business {
-        width: 400px !important;
         height: 525px !important;
         overflow-x: hidden;
         overflow-y: auto;
@@ -707,15 +694,14 @@ label {
     .form_input-business {
         width: 380px !important;
     }
-
-    .modal-container-update-business {
-        width: 406px;
-        height: 600px;
-    }
 }
 
 @media screen and (max-width: 390px) {
     .modal-container {
+        width: 360px;
+    }
+
+    .error {
         width: 360px;
     }
 
@@ -727,9 +713,6 @@ label {
         width: 200px;
     }
 
-    .modal-container-address-phone-mail {
-        width: 360px !important;
-    }
 
     .yaMap {
         width: 320px !important;
@@ -751,9 +734,6 @@ label {
         width: 320px;
     }
 
-    .modal-container-bank-box-office {
-        width: 360px !important;
-    }
 
     .create-box-office-content div {
         width: 340px !important;
@@ -767,9 +747,6 @@ label {
         width: 140px !important;
     }
 
-    .modal-container-create-business {
-        width: 360px !important;
-    }
 
     .header_modal-business, .modal-default-button-business {
         width: 340px !important;
@@ -783,10 +760,54 @@ label {
         width: 340px !important;
     }
 
-    .modal-container-update-business {
-        width: 360px !important;
-    }
-    .education_content{
+    .education_content {
         margin-left: -10px;
     }
+}
+
+
+.otc {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
+}
+.otc p{
+    color: #000;
+    text-align: center;
+    font-size: 19px;
+}
+.conf_num{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.correct-signal{
+    margin-left: 10px;
+    margin-top: -13px;
+}
+.otc input {
+    width: 37px;
+    height: 30px;
+    font-size: 20px;
+    margin-left: 9px;
+    text-align: center;
+    justify-content: center;
+    border-radius: 9px;
+    border: 0.8px solid #FFF;
+    background: #FFF;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+    margin-bottom: 10px;
+}
+
+.otc input:focus {
+    outline: none;
+    box-shadow: 0 0 7px 0 #5FE0D8;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

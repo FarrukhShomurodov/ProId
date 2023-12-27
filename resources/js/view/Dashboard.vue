@@ -131,7 +131,7 @@ export default {
                                                 'background-position': 'center',
                                                 'background-color': 'white'
                                             }"></div>
-                            <h4>{{ name }}<br>{{ surname }}</h4>
+                            <h4 style="margin-top: 10px;">{{ name }}<br>{{ surname }}</h4>
                         </div>
                         <nav>
                             <ul class="header_nav_list flex-column">

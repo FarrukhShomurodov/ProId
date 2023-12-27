@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\AddressController;
 use App\Http\Controllers\Dashboard\BanksDataController;
 use App\Http\Controllers\Dashboard\BoxOfficeController;
 use App\Http\Controllers\Dashboard\EducationController;
+use App\Http\Controllers\Dashboard\ExperienceController;
 use App\Http\Controllers\Dashboard\JobController;
 use App\Http\Controllers\Dashboard\MFOController;
 use App\Http\Controllers\Dashboard\ProBusinessController;
@@ -81,9 +82,13 @@ Route::middleware('auth:api')->group(function () {
 
     // Job
     Route::get('/job/{user}',[JobController::class, 'fetchByUser']);
-    Route::get('/job-show/{education}',[JobController::class, 'show']);
+    Route::get('/job-show/{proJob}',[JobController::class, 'show']);
     Route::post('/job',[JobController::class, 'store']);
-    Route::put('/job/{education}',[JobController::class, 'update']);
+    Route::put('/job/{proJob}',[JobController::class, 'update']);
+
+    // Experience
+    Route::get('/experience/{proJob}',[ExperienceController::class, 'fetchByJob']);
+    Route::post('/experience',[ExperienceController::class, 'store']);
 });
 
 // OTP

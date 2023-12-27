@@ -5,7 +5,10 @@ p {
 .data_container {
     width: 100%;
 }
-
+.data_container h3{
+    font-weight: 400;
+    font-size: 22px;
+}
 .data {
     height: 80px;
     justify-content: space-around;
@@ -29,8 +32,6 @@ p {
 
 .info p:nth-child(1) {
     font-size: 21px;
-    margin-top: 18px;
-    margin-bottom: -1px;
 }
 
 .uppercase {
@@ -114,7 +115,7 @@ p {
 }
 
 .all_addresses {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .location_center {
@@ -132,8 +133,9 @@ p {
 .education__blocks {
     margin-top: 10px;
     display: grid;
-    grid-template-columns: 200px auto;
-    gap: 10px;
+    grid-template-columns:  repeat(3, 200px);
+    gap: 5px;
+    row-gap: 10px;
 }
 
 .education__container {
@@ -146,7 +148,7 @@ p {
 
 .education__container img {
     position: relative;
-    left: 83%;
+    left: 85%;
 }
 
 .education_items {
@@ -156,28 +158,29 @@ p {
     align-items: start;
 }
 
-.education_items p {
-    font-size: 15px;
+.education_items span, p {
+    font-size: 15px !important;
 }
 .education_items *{
     color: #000000 !important;
 }
 .add_new_text {
-    font-weight: 600;
+    font-weight: 500 !important;
+    font-size: 17px !important;
     position: relative;
     bottom: -30px;
 }
 
 .education_items p:nth-child(2) {
     color: #000000;
-    font-weight: 500;
-    font-size: 18px;
+    font-weight: 500 !important;
+    font-size: 16px !important;
 }
 
 .add_new_icon {
     border-radius: 30px;
-    background: rgba(0, 0, 0, 0.34);
     width: 30px;
+    height: 30px;
     padding: 3px;
 }
 .delete_akk{

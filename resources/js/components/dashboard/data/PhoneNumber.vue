@@ -52,7 +52,7 @@ export default {
 <template>
     <div>
         <div class="edition">
-            <img src="/images/icons/dashboard/back.svg" alt="" @click="$emit('goBack');">
+            <img src="/images/icons/dashboard/back.svg" class="back" alt="" @click="$emit('goBack');">
             <div class="kon_header">
                 <h3>Телефон</h3>
                 <span>Узнайте, как телефон помогает защитить ваши данные</span>

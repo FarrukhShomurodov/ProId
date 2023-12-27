@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProJob extends Model
 {
@@ -20,4 +21,13 @@ class ProJob extends Model
         'profession',
         'education_id'
     ];
+
+    /**
+     * Define the relationship to fetch educations
+     * @return HasMany
+     */
+    public function experience(): HasMany
+    {
+        return $this->hasMany(Experience::class, 'job_id', 'id');
+    }
 }

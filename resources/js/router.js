@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import { nextTick } from 'vue'
+import {nextTick} from 'vue'
 
 //Auth
 import Login from './components/auth/Login.vue'
@@ -22,18 +22,18 @@ import PROJOB from "./components/dashboard/pages/PROJOB.vue";
 
 //Routes
 const routes = [
-    // {
-    //     path: '/',
-    //     component: Login,
-    //     name: 'login',
-    //     beforeEnter(to, from, next) {
-    //         if (token || from.name === 'dashboard'){
-    //             next({name: 'dashboard'})
-    //         }else{
-    //             next()
-    //         }
-    //     }
-    // },
+    {
+        path: '/',
+        component: Login,
+        name: 'login',
+        beforeEnter(to, from, next) {
+            if (token || from.name === 'dashboard'){
+                next({name: 'dashboard'})
+            }else{
+                next()
+            }
+        }
+    },
     {
         path: '/oauth/authorize',
         component: AuthFromAnotherApp
@@ -47,13 +47,13 @@ const routes = [
         path: '/confirmNumber',
         component: ConfirmNumber,
         name: 'confirmNumber',
-        beforeEnter(to, from, next){
-            if(from.name === 'login' || from.name === "api/login"){
+        beforeEnter(to, from, next) {
+            if (from.name === 'login' || from.name === "api/login") {
                 next()
-            }else{
+            } else {
                 next({name: 'login'})
             }
-            if(to.name === "register"){
+            if (to.name === "register") {
                 next({name: 'register'})
             }
         }
@@ -62,18 +62,18 @@ const routes = [
         path: '/register',
         component: Register,
         name: 'register',
-        beforeEnter(to, from, next){
-            if(from.name === 'confirmNumber'){
+        beforeEnter(to, from, next) {
+            if (from.name === 'confirmNumber') {
                 next()
-            }else{
+            } else {
                 next({name: 'login'})
             }
         }
     },
     {
-        path: '/',
+        path: '/dashboard',
         component: Dashboard,
-        redirect: { name: 'dashboard-main' },
+        redirect: {name: 'dashboard-main'},
         name: 'dashboard',
         children: [
             {
@@ -102,17 +102,17 @@ const routes = [
                 name: 'dashboard-pro-job', //assign unique names for navigation
             },
         ],
-            // beforeEnter(to, from, next){
-            //     if(token){
-            //         next()
-            //     }else{
-            //         if(from.name === 'register' || from.name === 'confirmNumber'){
-            //             next()
-            //         }else{
-            //             next({name: 'login'})
-            //         }
-            //     }
-            // }
+        beforeEnter(to, from, next) {
+            if (token) {
+                next()
+            } else {
+                if (from.name === 'register' || from.name === 'confirmNumber') {
+                    next()
+                } else {
+                    next({name: 'login'})
+                }
+            }
+        }
     },
     // Passport
     {
@@ -147,18 +147,18 @@ const headers = {
 router.beforeEach(async (to, from, next) => {
     if (token) {
         try {
-            const response = await axios.get('/api/user', { headers });
+            const response = await axios.get('/api/user', {headers});
             const isAdmin = response.data.is_admin;
             const isLogin = response.status === 200;
 
             if (isLogin) {
                 if (to.name === 'client' && isAdmin !== "1") {
-                    next({ name: 'dashboard' });
+                    next({name: 'dashboard'});
                 } else {
                     next();
                 }
             } else {
-                next({ name: 'login' });
+                next({name: 'login'});
             }
         } catch (error) {
             console.error('Error fetching user data:', error);

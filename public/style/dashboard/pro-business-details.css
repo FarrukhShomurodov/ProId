@@ -49,14 +49,17 @@
     margin-left: 25px;
 }
 .details_nav p{
-    font-size: 20px;
+    font-size: 20px !important;
     border-radius: 20px;
     background: #F3F3F3;
     padding: 10px 15px 10px 15px;
     margin-right: 12px;
 }
 .details_content{
-    margin-top: 20px
+    margin-top: 30px
+}
+.details_content h3{
+    margin-left: 15px
 }
 .rekvizit_container{
     max-width: 510px;
@@ -80,7 +83,7 @@
     font-size: 17px;
 }
 .edit_content{
-    width: 50px;
+    width: 30px;
     height: 30px;
 }
 .oked{
@@ -94,6 +97,10 @@
     background: #F3F3F3;
     padding: 25px 10px 25px 20px;
 }
+.banks_rekvizit_container h4{
+    font-size: 17px !important;
+    font-weight: 500px !important;
+}
 .d-column{
     display: flex;
     flex-direction: column;
@@ -102,7 +109,7 @@
     color: #0A0A0A;
 }
 .d-column p{
-    margin-top: 4px;
+    margin-top: 7px;
     font-size: 17px !important;
 }
 .add_banking_data{
@@ -124,7 +131,7 @@
 }
 
 .add_banking_data p{
-    font-size: 17px;
+    font-size: 17px !important;
     font-weight: 500;
     color: #000;
 }
@@ -164,14 +171,15 @@
     user-select: none;
 }
 .add_box_office img{
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15  px;
     margin-left: 15px;
 }
 .add_box_office p{
     text-align: center;
     white-space: nowrap;
     margin-left: 11px;
+    font-size: 17px !important;
     font-weight: 500 !important;
 }
 .back{
@@ -211,7 +219,7 @@
     .back{
         display: block;
         position: relative;
-        top: 35px;
+        top: 35px !important;
         z-index: 0 !important;
         left: 0;
     }

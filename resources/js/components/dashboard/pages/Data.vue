@@ -323,16 +323,18 @@ export default {
                 <h3>Образование</h3>
                 <span>Храните ваши данные в едином месте</span>
                 <div class="education__blocks">
-                    <div v-for="education in educations">
-                        <div class="education__container">
-                            <img src="/images/icons/dashboard/edit.svg" alt="" @click="showUpdateEducationModal = true; education_id = education.id">
-                            <div class="education_items flex-column">
-                                <p> Вид: <span> {{ education.type }}</span></p>
-                                <p> {{ education.name }}</p>
-                                <p> Период: <span> {{ education.started.slice(0,4) }}-{{ education.expired.slice(0,4) }}</span></p>
+                    <TransitionGroup name="list">
+                        <div v-for="education in educations" :key="education.id">
+                            <div class="education__container">
+                                <img src="/images/icons/dashboard/edit.svg" alt="" @click="showUpdateEducationModal = true; education_id = education.id" width="25px">
+                                <div class="education_items flex-column">
+                                    <p> Вид: <span> {{ education.type }}</span></p>
+                                    <p> {{ education.name }}</p>
+                                    <p> Период: <span> {{ education.started.slice(0,4) }}-{{ education.expired.slice(0,4) }}</span></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </TransitionGroup>
                     <!-- Add Education -->
                     <div class="education__container">
                         <img src="/images/icons/dashboard/add_white.svg" alt="" class="add_new_icon" @click="showCreateEducationModal = true">

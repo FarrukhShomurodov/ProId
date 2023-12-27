@@ -1,16 +1,19 @@
 <script>
-import createJobModal from "@/components/dashboard/data/modal/CreateJobModal.vue";
-
+import CreateJobModal from "@/components/dashboard/ProJob/modal/CreateJobModal.vue";
+import ShowProJob from "@/components/dashboard/ProJob/ShowProJob.vue";
 export default {
     components: {
-        createJobModal
+        CreateJobModal,
+        ShowProJob,
     },
     data() {
         return {
             showJobModal: false,
             user_id: null,
+            job_id: null,
             jobs: [],
             loading: false,
+            showJob: false
         }
     },
     mounted() {
@@ -27,26 +30,26 @@ export default {
         },
         goBack() {
             this.getData();
-            this.showJobModal = false;
+            this.showJobModal = this.showJob = false;
         }
     }
 }
 </script>
 
 <template>
-    <div v-if="loading">
+    <div v-if="loading && !showJob">
         <h3>Профессии</h3>
         <section class="job">
             <!-- Jobs -->
             <TransitionGroup name="list">
-                <div class="job-container" v-for="job in jobs">
+                <div class="job-container" v-for="job in jobs" @click="job_id = job.id; showJob = true" :key="job.id">
                     <div class="job-header flex-row">
                         <div class="job-items">
 
                             <p>Профессия: {{ job.type.slice(0, 8) + '...' }}</p>
                             <span>Специализация: {{job.profession}}</span>
                         </div>
-                        <img src="/images/icons/dashboard/edit.svg" alt="Edit Icon"/>
+                        <img src="/images/icons/dashboard/edit.svg" width="25px" alt="Edit Icon"/>
                     </div>
                     <p class="experience">Стаж: 10 год 2 мес.</p>
                 </div>
@@ -64,7 +67,7 @@ export default {
         </section>
     </div>
 
-    <div v-if="loading">
+    <div v-if="loading && !showJob">
         <div class="links_to_services">
             <h3>Полезные ссылки</h3>
             <!-- Link 1 -->
@@ -82,7 +85,8 @@ export default {
     <div v-if="!loading" class="loading-indicator">
         Loading...
     </div>
-    <createJobModal v-if="showJobModal" @goBack="goBack" :userId="this.user_id"></createJobModal>
+    <CreateJobModal v-if="showJobModal" @goBack="goBack" :userId="this.user_id"></CreateJobModal>
+    <ShowProJob v-if="showJob" @goBack="goBack" :user_id="this.user_id" :job_id="this.job_id"></ShowProJob>
 </template>
 
 <style scoped>

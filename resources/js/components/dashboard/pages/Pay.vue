@@ -6,7 +6,7 @@
     <!--Cards-->
     <div class="cards">
         <div class="flex-row">
-            <img src="/images/icons/dashboard/back.svg" alt="">
+            <img src="/images/icons/dashboard/back.svg" alt="" class="back">
             <h3 class="card_text ">Карты</h3>
         </div>
         <div class="flex-row card_container">

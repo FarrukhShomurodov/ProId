@@ -4,7 +4,7 @@ p {
 }
 
 .business_container {
-    margin-top: 14px;
+    margin-top: 18px;
 }
 
 .business_block {
@@ -17,12 +17,12 @@ p {
     justify-content: space-between;
 }
 
-img {
+.add_business img {
     border-radius: 20px;
 }
 
 .add_business {
-    max-width: 510px;
+    max-width: 700px;
     width: 100%;
     height: 42px;
     background: #F3F3F3;
@@ -33,8 +33,8 @@ img {
 }
 
 .add_business img {
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
     margin-left: 15px;
 }
 
@@ -43,6 +43,7 @@ img {
     white-space: nowrap;
     margin-left: 11px;
     font-weight: 500 !important;
+    font-size: 17px !important;
 }
 
 .add_business a {
@@ -61,7 +62,7 @@ img {
 }
 
 .links_to_services {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 .links_to_services p {
@@ -83,6 +84,7 @@ img {
 @media screen and (max-width: 500px) {
     .add_business {
         max-width: 510px;
+        font-size: 13px !important;
         width: 100%;
     }
 

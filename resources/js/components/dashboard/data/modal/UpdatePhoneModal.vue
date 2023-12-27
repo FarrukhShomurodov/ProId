@@ -223,49 +223,4 @@ export default {
 </template>
 
 <style scoped>
-.otc {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    align-items: center;
-    max-width: 100%;
-    margin: 0 auto;
-}
-.otc p{
-    color: #000;
-    text-align: center;
-    font-size: 19px;
-}
-.conf_num{
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-}
-.correct-signal{
-    margin-left: 10px;
-    margin-top: -13px;
-}
-.otc input {
-    width: 37px;
-    height: 30px;
-    font-size: 20px;
-    margin-left: 9px;
-    text-align: center;
-    justify-content: center;
-    border-radius: 9px;
-    border: 0.8px solid #FFF;
-    background: #FFF;
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
-    margin-bottom: 10px;
-}
-
-.otc input:focus {
-    outline: none;
-    box-shadow: 0 0 7px 0 #5FE0D8;
-}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
 </style>

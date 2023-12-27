@@ -40,8 +40,6 @@ export default {
                 'education_id': this.education_id,
             }
 
-            console.log(data)
-
             axios.post('/api/job', data).then(() => {
                 this.$emit('goBack');
             }).catch(err => {
@@ -57,7 +55,7 @@ export default {
         <transition name="modal">
             <div class="modal-mask">
                 <div class="modal-wrapper">
-                    <div class="modal-container modal-container-education">
+                    <div class="modal-container modal-container-job">
                         <div class="header_modal">
                             <h3 class="education_text">Добавление професии</h3>
                             <img

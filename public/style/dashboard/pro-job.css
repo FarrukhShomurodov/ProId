@@ -1,4 +1,5 @@
 .job {
+    margin-top: 30px;
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(2, minmax(250px, 2fr));
@@ -11,7 +12,6 @@
     border-radius: 20px;
     background: #f3f3f3;
     padding: 10px;
-    margin-top: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -33,9 +33,9 @@
     position: relative;
 }
 
-.job-items p {
-    font-size: 18px !important;
-    font-weight: 600;
+.job-items p:nth-child(1) {
+    font-weight: 500 !important;
+    font-size: 17px !important;
 }
 
 .job-items span {
@@ -47,19 +47,111 @@
     top: -4px;
     right: -92%;
 }
-.education-items p{
+
+.education-items p {
     bottom: 5px;
     font-size: 15px;
 }
-@media screen and (max-width: 600px) {
-    .job {
-        grid-template-columns: repeat(1, minmax(250px, 2fr));
-    }
-    .job-container {
-        max-width: 450px;
-    }
+
+/*Show Job*/
+.job_info {
+    width: 510px;
+    height: 125px;
+    margin-left: 16px;
+}
+
+.job_info p {
+    font-weight: 500 !important;
+    font-size: 19px !important;
+}
+.job_info h3{
+    font-size: 22px !important;
+}
+.back_job {
+    margin-top: -34px;
+}
+
+.pro_job_nav_details {
+    margin-left: 25px;
+    margin-top: 15px
+}
+
+.pro_job_nav_details p:nth-child(1) {
+    background-color: #CCC;
+}
+
+.education_details {
+    max-width: 510px;
+    height: 87px;
+    border-radius: 20px;
+    background: #F3F3F3;
+    padding: 10px 10px 20px;
+    margin-top: 10px;
+}
+
+.education_details p {
+    font-size: 17px !important;
+    font-weight: 400 ;
+}
+
+.univer_name {
+    font-weight: 500 !important;
+}
+
+.edit_education_icon {
+    position: relative;
+    top: -10px;
+    right: -10px;
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.education_section {
+    margin-top: 30px;
+    margin-left: 22px;
+}
+.education_section h3{
+    margin-left: 15px
+}
+.experience_details {
+    height: 100px !important;
+}
+
+.add_experience {
+    margin-left: 21px;
 }
 
 .add-job-container {
     cursor: pointer;
 }
+
+@media screen and (max-width: 600px) {
+    .job {
+        grid-template-columns: repeat(1, minmax(250px, 2fr));
+    }
+    .job_info{
+        margin-left: 0;
+    }
+    .details_nav{
+        margin-left: 0;
+    }
+    .job-container {
+        max-width: 450px;
+    }
+    .education_section {
+        margin-left: 0;
+    }
+    .back_job{
+        margin-top: -70px;
+    }
+}
+
+@media screen and (max-width: 390px){
+    .job_info{
+        margin-left: 17px;
+    }
+    .back_job{
+        margin-top: -35px;
+    }
+}
+

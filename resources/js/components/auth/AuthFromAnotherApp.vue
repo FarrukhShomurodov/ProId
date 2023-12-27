@@ -127,7 +127,7 @@ export default {
                 </div>
                 <!-- Login form -->
                 <form @submit.prevent class="main-form">
-                    <p :class="{ 'not-found': notFound }">{{ surname }} {{ name !== '' ? name[0] + '.' : '' }} {{ notFound }}</p>
+                    <p :class="{ 'not-found': notFound }" style="font-size: 16px">{{ surname }} {{ name !== '' ? name[0] + '.' : '' }} {{ notFound }}</p>
                     <!-- Phone number input -->
                     <input v-model="phoneNumber" required type="text" class="phone-number" placeholder="+998 (--) --- -- -- " @input="formatPhoneNumber" maxlength="19">
                     <!-- Submit button -->
