@@ -51,6 +51,17 @@ export default {
                         phone_number: this.phoneNumberForSend
                     }).then((response)=>{
                         localStorage.token = response.data.token
+
+                        // Auth Header
+                        const headers = {
+                            'Authorization': `Bearer ` + localStorage.token,
+                            'Content-Type': 'application/json',
+                        };
+
+                        // Set auth header in axios methods
+                        axios.defaults.headers.common = headers;
+                        axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
                         router.push({path: '/dashboard'});
                     })
                 } else {

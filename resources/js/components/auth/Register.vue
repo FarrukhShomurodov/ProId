@@ -26,6 +26,16 @@ export default {
             }).then((res) => {
                 // Save the token and navigate to the dashboard
                 localStorage.token = res.data.token;
+                // Auth Header
+                const headers = {
+                    'Authorization': `Bearer ` + localStorage.token,
+                    'Content-Type': 'application/json',
+                };
+
+                // Set auth header in axios methods
+                axios.defaults.headers.common = headers;
+                axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
                 router.push({path: '/dashboard'});
             }).catch(err => {
                 console.log(err);

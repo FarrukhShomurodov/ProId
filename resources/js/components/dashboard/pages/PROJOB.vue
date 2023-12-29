@@ -49,7 +49,7 @@ export default {
                             <p>Профессия: {{ job.type.slice(0, 8) + '...' }}</p>
                             <span>Специализация: {{job.profession}}</span>
                         </div>
-                        <img src="/images/icons/dashboard/edit.svg" width="25px" alt="Edit Icon"/>
+                        <img src="/images/icons/dashboard/edit.svg" width="25" alt="Edit Icon"/>
                     </div>
                     <p class="experience">Стаж: 10 год 2 мес.</p>
                 </div>
