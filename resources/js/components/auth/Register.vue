@@ -85,7 +85,7 @@ export default {
                 <a href="#">
                     Что такое PRO ID
                 </a>
-                <img class="login_search" src="/images/icons/question.svg" alt="" width="18" height="18px">
+                <img class="login_search" src="/images/icons/question.svg" alt="" width="18" height="18">
             </div>
         </div>
     </div>

@@ -163,7 +163,7 @@ export default {
 <!--        @mouseleave="showPopup =  false"-->
         <div class="sub-section d-flex justify-content-center align-items-center" @mouseover="showPopup = true" >
             <a href="#">Что такое PRO ID</a>
-            <img class="login_search" src="/images/icons/question.svg" alt="" width="18" height="18px">
+            <img class="login_search" src="/images/icons/question.svg" alt="" width="18" height="18">
         </div>
 
         <!-- Pop-up content -->
