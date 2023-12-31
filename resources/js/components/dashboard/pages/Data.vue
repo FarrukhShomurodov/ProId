@@ -336,8 +336,8 @@ export default {
                         </div>
                     </TransitionGroup>
                     <!-- Add Education -->
-                    <div class="education__container">
-                        <img src="/images/icons/dashboard/add_white.svg" alt="" class="add_new_icon" @click="showCreateEducationModal = true">
+                    <div class="education__container" @click="showCreateEducationModal = true">
+                        <img src="/images/icons/dashboard/add_white.svg" alt="" class="add_new_icon" >
                         <div class="education_items flex-column">
                             <p class="add_new_text"> Добавить новую
                                 должность</p>

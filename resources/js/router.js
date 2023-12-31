@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import {nextTick} from 'vue'
 
 //Auth
 import Login from './components/auth/Login.vue'

@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "GT Walsheim Pro";
+    font-family: "GT Walsheim Pro", serif;
 }
 
 body {
@@ -34,6 +34,9 @@ h1, h2, h3, h4, h5, p, span, a {
     line-height: normal;
     border: none;
     background-color: #FFF;
+}
+.resend_in_auth{
+    margin-left: 0 !important;
 }
 p {
     color: #B0B0B0;
@@ -120,6 +123,7 @@ input::-webkit-inner-spin-button {
     max-width: 360px;
     height: 460px;
     width: 100%;
+    border: none;
 }
 .card__i {
     display: flex;
@@ -138,10 +142,10 @@ input::-webkit-inner-spin-button {
 .card__txt span{
     color: #000;
     text-align: center;
-    font-family: '"GT Walsheim Pro"', ;
+    font-family: 'GT Walsheim Pro', serif ;
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 400 !important;
     line-height: normal;
 }
 
@@ -178,24 +182,24 @@ input::-webkit-inner-spin-button {
     outline: none;
     box-shadow: 0 0 7px 0 #5FE0D8;
 }
-
-.sub-section button{
-    margin-top: 10px;
-    background: none;
-    border: none;
-    color: #000;
-    text-align: center;
+.sub-section{
+    margin-top: 19px;
+}
+.sub-section a{
+    color: #6B6B6B;
     font-family: GT Walsheim Pro, serif;
     font-size: 15px;
     font-style: normal;
     font-weight: 400;
-    line-height: 20px; /* 133.333% */
-    letter-spacing: 1.05px;
+    line-height: 20px;
+    letter-spacing: 1px;
 }
-
+.sub-section img{
+    margin-left: 10px;
+}
 .button {
     font-size: 16px;
-    font-family: "GT Walsheim Pro";
+    font-family: "GT Walsheim Pro", serif;
     width: 271px;
     background-color: #5FE0D8;
     color: #fff;
@@ -210,4 +214,33 @@ input::-webkit-inner-spin-button {
 
 .card__paragraph {
     margin-top: 20px;
+    font-size: 15px !important;
+}
+
+/*!* Popup *!*/
+.popup-content{
+    position: absolute;
+    top: 78%;
+    left: 43.5%;
+    width: 198px;
+    height: 159px;
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 10px 10px 50px 0 rgba(0, 0, 0, 0.12);
+}
+.popup-content p {
+    width: calc(100% - 40px);
+    margin: 0 auto;
+    color: #B0B0B0;
+    font-size: 13px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: 20px;
+    letter-spacing: 1px;
+    text-align: start;
+}
+@media screen  and (max-width: 600px) {
+    .popup-content{
+        display: none !important;
+    }
 }

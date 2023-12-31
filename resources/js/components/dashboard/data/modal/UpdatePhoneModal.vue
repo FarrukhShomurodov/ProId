@@ -149,7 +149,7 @@ export default {
         <transition name="modal">
             <div class="modal-mask">
                 <div class="modal-wrapper">
-                    <div class="modal-container modal-container-address-phone-mail">
+                    <div class="modal-container update_phone_number_container">
                         <div class="header_modal">
                             <h3 class="tel">Телефон</h3>
                             <img
@@ -202,7 +202,7 @@ export default {
                                 <!-- Correct signal icon -->
                                 <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">
                             </div>
-                            <button @click="reSend" class="reSend">отправить код еще раз</button>
+                            <button @click="reSend" class="reSend resend_from_update_phone_number">отправить код еще раз</button>
                         </div>
                         <!-- Footer buttons -->
                         <div class="modal-footer">

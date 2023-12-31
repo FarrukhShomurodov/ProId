@@ -22,7 +22,7 @@ export default {
 <template>
     <div>
         <div class="edition">
-            <img src="/images/icons/dashboard/back.svg" alt="" @click="$emit('goBack');">
+            <img src="/images/icons/dashboard/back.svg" alt="" @click="$emit('goBack');" class="back">
             <div class="kon_header">
                 <h3>Email</h3>
                 <span>Узнайте, как email помогает защитить ваши данные</span>

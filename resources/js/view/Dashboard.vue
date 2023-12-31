@@ -107,7 +107,7 @@ export default {
                 <!-- Logo and menu icon -->
                 <img class="logo" src="/images/logo/pro_id_logo.svg" alt=""
                      @click="$router.push({name: 'dashboard-main'})"
-                        style="border-radius: 0;">
+                     style="border-radius: 0;">
                 <div class="min_nav" :class="{'radiosNone': showUserMenu || showServiceMenu}">
                     <img src="/images/icons/dashboard/menu.svg" alt="" @click="showServices">
                     <!-- User avatar -->
@@ -143,13 +143,13 @@ export default {
                                 <hr>
                                 <a href="#" @click="logout" class="">Выйти</a>
                                 <a href="#" class="">Справка</a>
-                                <a href="https://support.in-pro.net/help-center" class="">Обратная связь</a>
+                                <a href="https://divport.in-pro.net/help-center" class="">Обратная связь</a>
                                 <hr>
                             </ul>
                         </nav>
                         <div class="secure_link">
-                            <a href="#" class=""><p>Пользовательское соглашение</p></a>
-                            <a href="#" class=""><p>Политика конфиденциальности</p></a>
+                            <div><a href="#">Пользовательское соглашение</a></div>
+                            <div><a href="#">Политика конфиденциальности</a></div>
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@ export default {
                                                 'background-position': 'center',
                                                 'background-color': 'white'
                                             }"></div>
-                                <a href="https://cloud.in-pro.net"><p>Cloud</p></a>
+                                <div class="link"><a href="https://cloud.in-pro.net">Cloud</a></div>
                             </div>
                             <div class="service_block" onclick="window.location.href='https://pay.in-pro.net'">
                                 <div class="services" :style="{
@@ -179,7 +179,7 @@ export default {
                                                 'background-position': 'center',
                                                 'background-color': 'white'
                                             }"></div>
-                                <a href="https://pay.in-pro.net"><p>Pay</p></a>
+                                <div class="link"><a href="https://pay.in-pro.net">Pay</a></div>
                             </div>
                             <div class="service_block" onclick="window.location.href='https://crm.in-pro.net'">
                                 <div class="services" :style="{
@@ -188,16 +188,16 @@ export default {
                                                 'background-position': 'center',
                                                 'background-color': 'white'
                                             }"></div>
-                                <a><p href="https://crm.in-pro.net">CRM</p></a>
+                                <div class="link"><a href="https://crm.in-pro.net">CRM</a></div>
                             </div>
                             <div class="service_block" onclick="window.location.href='https://support.in-pro.net'">
                                 <div class="services" :style="{
-                                                'background-image': `url('/images/ProEcoSystemIcons/Support.png')`,
+                                                'background-image': `url('/images/ProEcoSystemIcons/support.png')`,
                                                 'background-size': 'cover',
                                                 'background-position': 'center',
                                                 'background-color': 'white'
                                             }"></div>
-                                <a><p href="https://support.in-pro.net">Support</p></a>
+                                <div class="link"><a href="https://support.in-pro.net">Support</a></div>
                             </div>
                             <div class="service_block" onclick="window.location.href='https://donate.in-pro.net'">
                                 <div class="services" :style="{
@@ -206,7 +206,7 @@ export default {
                                                 'background-position': 'center',
                                                 'background-color': 'white'
                                             }"></div>
-                                <a href="https://donate.in-pro.net"><p>Donate</p></a>
+                                <div class="link"><a href="https://donate.in-pro.net">Donate</a></div>
                             </div>
                             <div class="service_block" onclick="window.location.href='https://goodlook.uz'">
                                 <div class="services" :style="{
@@ -215,13 +215,12 @@ export default {
                                                 'background-position': 'center',
                                                 'background-color': 'white'
                                             }"></div>
-                                <a href="https://goodlook.uz"><p>GoodLook</p></a>
+                                <div class="link"><a href="https://goodlook.uz">GoodLook</a></div>
                             </div>
-
                         </nav>
                         <div class="secure_link">
-                            <a href="#" class=""><p>Пользовательское соглашение</p></a>
-                            <a href="#" class=""><p>Политика конфиденциальности</p></a>
+                            <div><a href="#">Пользовательское соглашение</a></div>
+                            <div><a href="#">Политика конфиденциальности</a></div>
                         </div>
                     </div>
                 </div>
@@ -262,10 +261,10 @@ export default {
                     </swiper-slide>
                     <swiper-slide class="navbar__link">Подписки</swiper-slide>
                     <div class="border"></div>
-                    <swiper-slide class="navbar__link" onclick="window.location.href='https://support.in-pro.net'">
+                    <swiper-slide class="navbar__link" onclick="window.location.href='https://divport.in-pro.net'">
                         Поддержка
                     </swiper-slide>
-                    <swiper-slide class="navbar__link" onclick="window.location.href='https://support.in-pro.net'">
+                    <swiper-slide class="navbar__link" onclick="window.location.href='https://divport.in-pro.net'">
                         Справка
                     </swiper-slide>
                 </swiper>

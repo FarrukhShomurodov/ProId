@@ -19,6 +19,7 @@ class ProJob extends Model
         'user_id',
         'type',
         'profession',
+        'experience_count',
         'education_id'
     ];
 

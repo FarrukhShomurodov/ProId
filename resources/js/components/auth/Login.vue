@@ -11,6 +11,7 @@ export default {
             phone_number: '',
             id: '',
             count: 0,
+            showPopup: false,
             limit: false
         };
     },
@@ -136,25 +137,35 @@ export default {
                         @click="Auth"
                         v-on:keyup.enter="Auth"
                     />
-                    <p :class="{ 'revocer': name || auth}">Восстановить PRO ID.</p>
+                    <p :class="{ 'recover': name || auth || limit}"><a href="#">Восстановить PRO ID.</a></p>
                 </form>
                 <!-- Additional text and links -->
                 <div class="text">
-                    <p>Продолжая использовать PRO ID, я принимаю <span>условия оферты.</span></p>
+                    <p>Продолжая использовать PRO ID, я принимаю <span><a href="#">условия оферты.</a></span></p>
                     <p>PRO ID - ключ от всех сервисов</p>
                 </div>
             </div>
             <!-- Bottom section with additional link -->
-            <div class="bottom">
-                <a href="">Что такое PRO ID?</a>
+            <div class="bottom d-flex justify-content-center align-items-center"  @mouseover="showPopup = true" @mouseleave="showPopup = false">
+                <a href="#">
+                    Что такое PRO ID
+                </a>
+                <img class="login_search" src="/images/icons/question.svg" alt="" width="18" height="18px">
             </div>
         </div>
     </div>
+
+    <!-- Pop-up content -->
+    <div class="popup-content d-flex justify-content-center align-items-center" v-if="showPopup">
+            <p>PRO ID - ключ от всех сервисов, ключ от всех сервисов ключ от всех сервисов ключ от всех сервисов.</p>
+    </div>
+
     <!-- Bottom part with disclaimers and support information -->
     <div class="bottom-part">
-        <p>Используйте режим инкогнито на чужом компьютере</p>
-        <p>Справка и поддержка <span>©2021-2023 PRO GROUP</span></p>
+        <p class="d-none">Используйте режим инкогнито на чужом компьютере </p>
+        <p class="footer_mob"><span>Справка и поддержка </span><span>©2021-2023 PRO GROUP</span></p>
     </div>
+
     <!-- Placeholder for reCAPTCHA integration -->
     <div id="recaptcha-container" ref="recaptcha"></div>
 </template>

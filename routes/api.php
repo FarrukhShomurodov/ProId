@@ -85,6 +85,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/job-show/{proJob}',[JobController::class, 'show']);
     Route::post('/job',[JobController::class, 'store']);
     Route::put('/job/{proJob}',[JobController::class, 'update']);
+    Route::put('/job-experience/{proJob}',[JobController::class, 'addExperience']);
 
     // Experience
     Route::get('/experience/{proJob}',[ExperienceController::class, 'fetchByJob']);

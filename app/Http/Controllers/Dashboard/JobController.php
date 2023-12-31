@@ -48,11 +48,11 @@ class JobController extends Controller
             'profession' => 'required|string',
             'education_id' => ''
         ],
-        [
-            'type.required' => 'Поле "Тип професии" является обязательным для заполнения.',
-            'profession.required' => 'Поле "Специальность" является обязательным для заполнения.',
-            'education.required' => 'Поле "Информация обо образование" является обязательным для заполнения.'
-        ]);
+            [
+                'type.required' => 'Поле "Тип професии" является обязательным для заполнения.',
+                'profession.required' => 'Поле "Специальность" является обязательным для заполнения.',
+                'education.required' => 'Поле "Информация обо образование" является обязательным для заполнения.'
+            ]);
 
         // store data in db
         $proJob = ProJob::query()->create($validation);
@@ -75,14 +75,31 @@ class JobController extends Controller
             'profession' => 'required|string',
             'education_id' => ''
         ],
-        [
-            'type.required' => 'Поле "Тип професии" является обязательным для заполнения.',
-            'profession.required' => 'Поле "Специальность" является обязательным для заполнения.',
-            'education.required' => 'Поле "Информация обо образование" является обязательным для заполнения.'
-        ]);
+            [
+                'type.required' => 'Поле "Тип професии" является обязательным для заполнения.',
+                'profession.required' => 'Поле "Специальность" является обязательным для заполнения.',
+                'education.required' => 'Поле "Информация обо образование" является обязательным для заполнения.'
+            ]);
 
         // store data in db
         $proJob->update($validation);
+
+        // return response
+        return new JsonResponse($proJob);
+    }
+
+    /**
+     * Update experience value
+     * @param ProJob $proJob
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function addExperience(ProJob $proJob, Request $request): JsonResponse
+    {
+        // update experience count
+        $proJob->update([
+            'experience_count' => $request['experience_count']
+        ]);
 
         // return response
         return new JsonResponse($proJob);

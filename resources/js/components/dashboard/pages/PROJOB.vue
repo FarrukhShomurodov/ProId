@@ -28,6 +28,25 @@ export default {
                 axios.get(`/api/job/${this.user_id}`).then(res => this.jobs = res.data, this.loading = true)
             })
         },
+        formatExperienceDate(milliseconds) {
+            const seconds = Math.floor(milliseconds / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const years = Math.floor(days / 365);
+            const months = Math.floor((days % 365) / 30); // Approximate months
+
+            const formattedDate = [];
+
+            if (years > 0) {
+                formattedDate.push(`${years} ${years === 1 ? 'год' : 'год'}`);
+            }
+            if (months > 0) {
+                formattedDate.push(`${months} ${months === 1 ? 'мес.' : 'мес.'}`);
+            }
+
+            return formattedDate.join(' ');
+        },
         goBack() {
             this.getData();
             this.showJobModal = this.showJob = false;
@@ -51,14 +70,13 @@ export default {
                         </div>
                         <img src="/images/icons/dashboard/edit.svg" width="25" alt="Edit Icon"/>
                     </div>
-                    <p class="experience">Стаж: 10 год 2 мес.</p>
+                    <p class="experience">{{ job.experience_count ===  null ? 'отсутствует' : formatExperienceDate(job.experience_count) }}</p>
                 </div>
             </TransitionGroup>
 
             <!-- Add new job -->
-            <div class="job-container add-job-container">
-                <img src="/images/icons/dashboard/add_white.svg" alt="Add Icon" class="add_new_icon job_add_icon"
-                     @click="showJobModal = true"/>
+            <div class="job-container add-job-container" @click="showJobModal = true">
+                <img src="/images/icons/dashboard/add_white.svg" alt="Add Icon" class="add_new_icon job_add_icon"/>
                 <div class="education-items flex-column">
                     <p class="add_new_text">Добавить<br>
                         новую профессию</p>
@@ -86,7 +104,7 @@ export default {
         Loading...
     </div>
     <CreateJobModal v-if="showJobModal" @goBack="goBack" :userId="this.user_id"></CreateJobModal>
-    <ShowProJob v-if="showJob" @goBack="goBack" :user_id="this.user_id" :job_id="this.job_id"></ShowProJob>
+    <ShowProJob v-if="showJob" @goBack="goBack" :job_id="this.job_id"></ShowProJob>
 </template>
 
 <style scoped>

@@ -132,11 +132,11 @@ export default {
                     <input v-model="phoneNumber" required type="text" class="phone-number" placeholder="+998 (--) --- -- -- " @input="formatPhoneNumber" maxlength="19">
                     <!-- Submit button -->
                     <input @click="Auth" v-on:keyup.enter="Auth" type="submit" name="phoneNum" :class="{ 'light-button': name || auth || limit}" class="phone-number-button" :value="authAction">
-                    <p :class="{ 'revocer': name || auth}">Восстановить PRO ID.</p>
+                    <p :class="{ 'revocer': name || auth || limit}"><a href="#">Восстановить PRO ID.</a></p>
                 </form>
                 <!-- Additional text section -->
                 <div class="text">
-                    <p>Продолжая использовать PRO ID, я принимаю <span>условия оферты.</span></p>
+                    <p>Продолжая использовать PRO ID, я принимаю <span><a href="#">условия оферты.</a></span></p>
                     <p>PRO ID - ключ от всех сервисов</p>
                 </div>
             </div>

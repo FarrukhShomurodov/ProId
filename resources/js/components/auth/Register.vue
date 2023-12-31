@@ -6,7 +6,8 @@ export default {
         return {
             phoneNumber: '',
             name: '',
-            surname: ''
+            surname: '',
+            showPopup: false,
         }
     },
     mounted() {
@@ -69,19 +70,34 @@ export default {
                     <input required v-model="surname" type="text" id="lastName" placeholder="Фамилия">
 
                     <!-- Submit button for registration -->
-                    <input type="submit" name="phoneNum" class="phone-number-button" value="Далее" @click="register" v-on:keyup.enter="register">
+                    <input type="submit" name="phoneNum" class="phone-number-button" value="Далее" @click="register"
+                           v-on:keyup.enter="register">
                 </form>
                 <!-- Additional text and links -->
                 <div class="text">
-                    <p>Продолжая использовать PRO ID, я принимаю <span>условия оферты.</span></p>
+                    <p>Продолжая использовать PRO ID, я принимаю <span><a href="#">условия оферты.</a></span></p>
                     <p>PRO ID - ключ от всех сервисов</p>
                 </div>
             </div>
             <!-- Bottom section with additional link -->
-            <div class="bottom">
-                <a href="">Что такое PRO ID?</a>
+            <div class="bottom d-flex justify-content-center align-items-center" @mouseover="showPopup = true"
+                 @mouseleave="showPopup = false">
+                <a href="#">
+                    Что такое PRO ID
+                </a>
+                <img class="login_search" src="/images/icons/question.svg" alt="" width="18" height="18px">
             </div>
         </div>
+    </div>
+    <!-- Pop-up content -->
+    <div class="popup-content d-flex justify-content-center align-items-center" v-if="showPopup">
+        <p>PRO ID - ключ от всех сервисов, ключ от всех сервисов ключ от всех сервисов ключ от всех сервисов.</p>
+    </div>
+
+    <!-- Bottom part with disclaimers and support information -->
+    <div class="bottom-part">
+        <p class="d-none">Используйте режим инкогнито на чужом компьютере </p>
+        <p class="footer_mob"><span>Справка и поддержка </span><span>©2021-2023 PRO GROUP</span></p>
     </div>
 </template>
 

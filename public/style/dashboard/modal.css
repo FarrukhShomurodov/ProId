@@ -373,8 +373,21 @@ input:focus {
 }
 
 /* PhoneNumber */
+.modal-container-address-phone-mail {
+    height: 450px !important;
+}
+
+.update_phone_number_container {
+    height: 370px !important;
+}
+
 .text_phone_edit {
+    font-size: 19px !important;
     margin-bottom: 10px !important;
+}
+
+.resend_from_update_phone_number {
+    text-align: start !important;
 }
 
 .modal-footer {
@@ -394,9 +407,9 @@ input:focus {
 
 .edit_phone_content p {
     color: #000;
-    font-size: 21px;
+    font-size: 21px !important;
     margin-top: 30px;
-    text-align: center;
+    text-align: left;
 }
 
 .tel {
@@ -573,9 +586,11 @@ label {
         width: 406px;
         border-radius: 25px 25px 0 0;
     }
+
     .error {
         width: 406px;
     }
+
     .data .ava {
         width: 80px;
         height: 57px;
@@ -774,20 +789,24 @@ label {
     max-width: 100%;
     margin: 0 auto;
 }
-.otc p{
+
+.otc p {
     color: #000;
     text-align: center;
     font-size: 19px;
 }
-.conf_num{
+
+.conf_num {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
 }
-.correct-signal{
+
+.correct-signal {
     margin-left: 10px;
     margin-top: -13px;
 }
+
 .otc input {
     width: 37px;
     height: 30px;
@@ -806,6 +825,7 @@ label {
     outline: none;
     box-shadow: 0 0 7px 0 #5FE0D8;
 }
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;

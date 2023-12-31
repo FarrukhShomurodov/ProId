@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('type');
             $table->string('profession');
+            $table->integer('experience_count')->nullable();
             $table->foreignId('education_id')->nullable();
             $table->timestamps();
         });

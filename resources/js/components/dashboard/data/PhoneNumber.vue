@@ -1,15 +1,17 @@
 <script>
 import UpdatePhoneModal from './modal/UpdatePhoneModal.vue';
 import axios from "axios";
+
 export default {
     components: {
         UpdatePhoneModal
     },
-    props:['userId'],
-    data(){
-        return{
+    props: ['userId'],
+    data() {
+        return {
             showModal: false,
-            phoneNumber: ''
+            phoneNumber: '',
+            loading: false,
         }
     },
     mounted() {
@@ -26,7 +28,7 @@ export default {
 
             return formattedNumber;
         },
-        fetchUser(){
+        fetchUser() {
 
             //getting user data
             axios.get('/api/user').then(res => {
@@ -36,12 +38,13 @@ export default {
                 // format phone number
                 const phoneNumber = `+${this.phoneNumber}`;
                 this.phoneNumber = this.formatPhoneNumber(phoneNumber);
+                this.loading = true;
             });
         },
-        modal(){
+        modal() {
             this.showModal = true;
         },
-        close(){
+        close() {
             this.fetchUser()
             this.showModal = false
         }
@@ -50,7 +53,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div v-if="loading">
         <div class="edition">
             <img src="/images/icons/dashboard/back.svg" class="back" alt="" @click="$emit('goBack');">
             <div class="kon_header">
@@ -64,9 +67,14 @@ export default {
                     <span>для защиты аккаунта</span><br>
                     <span>{{ phoneNumber }}</span>
                 </div>
-                <img src="/images/icons/dashboard/menu-dots-vertical.png" alt="" >
+                <img src="/images/icons/dashboard/menu-dots-vertical.png" alt="">
             </div>
         </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div v-if="!loading" class="loading-indicator">
+        Loading...
     </div>
     <UpdatePhoneModal v-if="showModal" :phoneNumber=phoneNumber :userId="userId" @close="close"></UpdatePhoneModal>
 </template>

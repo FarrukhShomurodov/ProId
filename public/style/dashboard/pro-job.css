@@ -118,6 +118,7 @@
 }
 
 .add_experience {
+    max-width: 510px;
     margin-left: 21px;
 }
 
@@ -131,6 +132,7 @@
     }
     .job_info{
         margin-left: 0;
+        height: 170px;
     }
     .details_nav{
         margin-left: 0;
@@ -143,6 +145,12 @@
     }
     .back_job{
         margin-top: -70px;
+    }
+    .add_experience {
+        margin-left: 0;
+    }
+    .add_experience p {
+        font-size: 15px !important;
     }
 }
 

@@ -8,7 +8,8 @@ export default {
             showCorrectSignal: false,
             phoneNumber: '',
             phoneNumberForSend: '',
-            isAuth: ''
+            isAuth: '',
+            showPopup: false,
         };
     },
     mounted() {
@@ -153,15 +154,23 @@ export default {
                 </form>
                 <!-- Verify and resend buttons -->
                 <button @click="verify" v-on:keyup.enter="verify" type="submit" class="button next" :class="{'true_next': showCorrectSignal}">Далее</button>
-                <button @click="reSend" class="reSend">Отправить код еще раз</button>
+                <button @click="reSend" class="reSend resend_in_auth">Отправить код еще раз</button>
             </div>
             <!-- Additional information and links -->
             <p class="card__paragraph">Продолжая использовать PRO ID,<br>я принимаю <a href="#">условия оферты.</a></p>
             <p class="card__paragraph">PRO ID - ключ от всех сервисов</p>
         </div>
-        <div class="sub-section">
-            <button>Что такое PRO ID?</button>
+<!--        @mouseleave="showPopup =  false"-->
+        <div class="sub-section d-flex justify-content-center align-items-center" @mouseover="showPopup = true" >
+            <a href="#">Что такое PRO ID</a>
+            <img class="login_search" src="/images/icons/question.svg" alt="" width="18" height="18px">
         </div>
+
+        <!-- Pop-up content -->
+        <div class="popup-content d-flex justify-content-center align-items-center" v-if="showPopup">
+            <p>PRO ID - ключ от всех сервисов, ключ от всех сервисов ключ от всех сервисов ключ от всех сервисов.</p>
+        </div>
+
         <!-- Placeholder for reCAPTCHA integration -->
         <div ref="recaptcha"></div>
     </div>
