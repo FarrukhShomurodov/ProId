@@ -71,7 +71,8 @@ export default {
                         </div>
                         <img src="/images/icons/dashboard/edit.svg" width="25" alt="Edit Icon"/>
                     </div>
-                    <p class="experience">Стаж: {{ parseInt(job.experience_count) ===  0 ? 'отсутствует' : this.formatExperienceDate(parseInt(job.experience_count) < 0 ? parseInt(job.experience_count) * -1 : parseInt(job.experience_count)) }}</p>
+                    <p class="experience" v-if="job.experience_count !== null">Стаж: {{ formatExperienceDate(job.experience_count) }}</p>
+                    <p class="experience" v-else>Стаж: отсутствует</p>
                 </div>
             </TransitionGroup>
 
