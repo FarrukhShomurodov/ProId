@@ -79,7 +79,7 @@ a {
     outline: none;
     box-shadow: 0 0 10px -5px #000;
     border-radius: 10px;
-    border: none;
+    border: 0 solid #5FE0D8 !important;
     padding: 9px 14px;
     width: 100%;
 }
@@ -89,7 +89,7 @@ a {
     outline: none;
     box-shadow: 0 0 10px -5px #000;
     border-radius: 10px;
-    border: none;
+    border: 0 solid #5FE0D8 !important;
     padding: 9px 14px;
     width: 100%;
 }
@@ -160,7 +160,7 @@ a {
 .popup-content{
     position: absolute;
     top: 76%;
-    left: 44%;
+    left: 45%;
     width: 198px;
     height: 159px;
     border-radius: 20px;
