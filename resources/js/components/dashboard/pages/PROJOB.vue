@@ -27,7 +27,6 @@ export default {
                 //getting jobs by user
                 axios.get(`/api/job/${this.user_id}`).then(res => this.jobs = res.data, this.loading = true)
             })
-            console.log(this.jobs)
         },
         formatExperienceDate(milliseconds) {
             const seconds = Math.floor(milliseconds / 1000);
