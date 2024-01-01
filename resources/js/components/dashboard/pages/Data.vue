@@ -326,7 +326,7 @@ export default {
                     <TransitionGroup name="list">
                         <div v-for="education in educations" :key="education.id">
                             <div class="education__container">
-                                <img src="/images/icons/dashboard/edit.svg" alt="" @click="showUpdateEducationModal = true; education_id = education.id" width="25px">
+                                <img src="/images/icons/dashboard/edit.svg" alt="" @click="showUpdateEducationModal = true; education_id = education.id" width="25">
                                 <div class="education_items flex-column">
                                     <p> Вид: <span> {{ education.type }}</span></p>
                                     <p> {{ education.name }}</p>

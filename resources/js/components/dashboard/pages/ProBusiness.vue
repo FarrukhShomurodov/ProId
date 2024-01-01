@@ -59,7 +59,7 @@ export default {
     <!-- Main content section -->
     <div class="main_container" v-if="!businessDetail && loading">
         <!-- Business list -->
-        <p>Мои бизнесы</p>
+        <h3>Мои бизнесы</h3>
         <TransitionGroup name="list">
             <div class="business_container" v-for="data in businessData" :key="data.id">
                 <!-- Clickable business block -->
@@ -87,7 +87,7 @@ export default {
 
     <!-- Links to Government services -->
     <div class="links_to_services" v-if="!businessDetail && loading">
-        <p>Полезные ссылки</p>
+        <h3>Полезные ссылки</h3>
         <!-- Link 1 -->
         <div class="add_business flex-row links">
             <span><a href="#">Открытие Юридического лица в Республике Узбекистан</a></span>

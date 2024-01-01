@@ -94,7 +94,7 @@ export default {
         <!--Job Details-->
         <div>
             <div class="d-flex">
-                <img src=/images/icons/dashboard/back.svg width="13px" height="23px" class="back back_job"
+                <img src=/images/icons/dashboard/back.svg width="13" height="23" class="back back_job"
                      @click="$emit('goBack')">
                 <section class="job_info d-flex flex-column justify-content-between">
                     <h3>Профессия: {{ job.profession }}</h3>
