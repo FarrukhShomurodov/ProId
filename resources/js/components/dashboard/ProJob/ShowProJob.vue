@@ -13,7 +13,7 @@ export default {
             job: [],
             education: [],
             experiences: [],
-            experienceDate: '',
+            experienceDate: 0,
             education_id: null,
             loading: false,
 
@@ -100,7 +100,7 @@ export default {
                     <h3>Профессия: {{ job.profession }}</h3>
                     <div class="flex_row justify-content-between w-100">
                         <p>Специальность: {{ job.type }}</p>
-                        <p>Стаж: {{ experienceDate !== '' ? experienceDate : 'отсутствует' }}</p>
+                        <p>Стаж: {{ experienceDate !== 0 ? experienceDate : 'отсутствует' }}</p>
                     </div>
                     <p>Образование: {{ education.hasOwnProperty('id') ? 'Высшее' : 'отсутствует' }}</p>
                 </section>
