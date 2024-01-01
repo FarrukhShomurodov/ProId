@@ -96,9 +96,14 @@ class JobController extends Controller
      */
     public function addExperience(ProJob $proJob, Request $request): JsonResponse
     {
+        //validated
+        $validated = $request->validate([
+            'experience_count' => 'required|int'
+        ]);
+
         // update experience count
         $proJob->update([
-            'experience_count' => $request['experience_count']
+            'experience_count' => $validated['experience_count']
         ]);
 
         // return response

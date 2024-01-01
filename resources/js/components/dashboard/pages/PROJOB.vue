@@ -27,6 +27,7 @@ export default {
                 //getting jobs by user
                 axios.get(`/api/job/${this.user_id}`).then(res => this.jobs = res.data, this.loading = true)
             })
+            console.log(this.jobs)
         },
         formatExperienceDate(milliseconds) {
             const seconds = Math.floor(milliseconds / 1000);
@@ -70,7 +71,7 @@ export default {
                         </div>
                         <img src="/images/icons/dashboard/edit.svg" width="25" alt="Edit Icon"/>
                     </div>
-                    <p class="experience">Стаж: {{ (job.experience_count ===  null || job.experience_count !==  0) ? 'отсутствует' : formatExperienceDate(job.experience_count) }}</p>
+                    <p class="experience">Стаж: {{ parseInt(job.experience_count) ===  0 ? 'отсутствует' : formatExperienceDate(job.experience_count) }}</p>
                 </div>
             </TransitionGroup>
 

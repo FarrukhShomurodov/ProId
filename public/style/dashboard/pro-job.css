@@ -63,6 +63,7 @@
 .job_info p {
     font-weight: 500 !important;
     font-size: 19px !important;
+    white-space: break-spaces;
 }
 .job_info h3{
     font-size: 22px !important;
