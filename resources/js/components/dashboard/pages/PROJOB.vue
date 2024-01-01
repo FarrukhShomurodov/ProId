@@ -25,10 +25,17 @@ export default {
                 this.user_id = res.data.id
 
                 //getting jobs by user
-                axios.get(`/api/job/${this.user_id}`).then(res => this.jobs = res.data, this.loading = true)
+                axios.get(`/api/job/${this.user_id}`).then((res) => {
+                    this.jobs = res.data;
+                    this.loading = true
+                })
             })
         },
         formatExperienceDate(milliseconds) {
+            if(milliseconds < 0){
+                milliseconds *= -1
+            }
+
             const seconds = Math.floor(milliseconds / 1000);
             const minutes = Math.floor(seconds / 60);
             const hours = Math.floor(minutes / 60);
@@ -71,7 +78,9 @@ export default {
                         <img src="/images/icons/dashboard/edit.svg" width="25" alt="Edit Icon"/>
                     </div>
 
-                    <p class="experience" v-if="job.experience_count !== null">Стаж: {{ formatExperienceDate(job.experience_count) }}</p>
+                    <p class="experience" v-if="job.experience_count !== undefined && job.experience_count !== null">
+                        Стаж: {{ formatExperienceDate(job.experience_count) }}
+                    </p>
                     <p class="experience" v-else>Стаж: отсутствует</p>
                 </div>
             </TransitionGroup>

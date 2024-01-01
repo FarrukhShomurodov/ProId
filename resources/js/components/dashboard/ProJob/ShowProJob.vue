@@ -47,12 +47,13 @@ export default {
                         this.experienceDate += experienceDates
                     })
 
+                    if (this.experienceDate > 0) {
+                        axios.put(`/api/job-experience/${this.job_id}`, {
+                            'experience_count': this.experienceDate
+                        });
+                    }
 
-                    axios.put(`/api/job-experience/${this.job_id}`, {
-                        'experience_count': parseInt(this.experienceDate)
-                    });
-
-                    this.loading = true;
+                    this.loading = true
                 })
 
 
@@ -98,7 +99,9 @@ export default {
                     <h3>Профессия: {{ job.profession }}</h3>
                     <div class="flex_row justify-content-between w-100">
                         <p>Специальность: {{ job.type }}</p>
-                        <p>Стаж: {{ parseInt(experienceDate) !== 0 ? formatExperienceDate(experienceDate) : 'отсутствует' }}</p>
+                        <p>Стаж: {{
+                                parseInt(experienceDate) !== 0 ? formatExperienceDate(experienceDate) : 'отсутствует'
+                            }}</p>
                     </div>
                     <p>Образование: {{ education.hasOwnProperty('id') ? 'Высшее' : 'отсутствует' }}</p>
                 </section>
