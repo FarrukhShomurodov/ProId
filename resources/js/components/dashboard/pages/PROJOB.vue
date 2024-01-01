@@ -70,7 +70,7 @@ export default {
                         </div>
                         <img src="/images/icons/dashboard/edit.svg" width="25" alt="Edit Icon"/>
                     </div>
-                    <p class="experience">{{ job.experience_count ===  null ? 'отсутствует' : formatExperienceDate(job.experience_count) }}</p>
+                    <p class="experience">Стаж: {{ job.experience_count ===  null ? 'отсутствует' : formatExperienceDate(job.experience_count) }}</p>
                 </div>
             </TransitionGroup>
 
