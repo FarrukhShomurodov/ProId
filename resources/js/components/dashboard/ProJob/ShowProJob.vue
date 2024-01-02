@@ -26,42 +26,33 @@ export default {
         this.fetchData()
     },
     methods: {
-        fetchData() {
-            axios.get(`/api/job-show/${this.job_id}`).then(res => {
-                this.job = res.data
+        async fetchData() {
+            try {
+                const response = await axios.get(`/api/experience/${this.job_id}`);
+                this.experiences = response.data;
 
-                //fetch education
-                if(this.job.education_id != null){
-                    axios.get(`/api/education-show/${this.job.education_id}`).then(res => {
-                        this.education = res.data
-                    })
+                this.experienceDate = 0;
+
+                this.experiences.forEach((date) => {
+                    const startedDate = new Date(date.started);
+                    const expiredDate = new Date(date.expired);
+
+                    const experienceDates = Math.abs(startedDate - expiredDate);
+                    this.experienceDate += experienceDates;
+                });
+
+                if (this.experienceDate > 0) {
+                    await axios.put(`/api/job-experience/${this.job_id}`, {
+                        'experience_count': this.experienceDate
+                    });
+                    console.log(this.experienceDate);
                 }
 
-                //fetch job experience
-                axios.get(`/api/experience/${this.job_id}`).then(res => {
-                    this.experiences = res.data
-
-                    this.experiences.map((date) => {
-                        const startedDate = new Date(date.started);
-                        const expiredDate = new Date(date.expired);
-
-                        const experienceDates = Math.abs(startedDate - expiredDate);
-                        this.experienceDate += experienceDates
-                    })
-
-                    if (this.experienceDate > 0) {
-                        axios.put(`/api/job-experience/${this.job_id}`, {
-                            'experience_count': this.experienceDate
-                        });
-                        console.log(this.experienceDate)
-                    }
-
-                    this.loading = true
-                })
-
-
-            })
-        },
+                this.loading = true;
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
         formatExperienceDate(milliseconds) {
             const seconds = Math.floor(milliseconds / 1000);
             const minutes = Math.floor(seconds / 60);
