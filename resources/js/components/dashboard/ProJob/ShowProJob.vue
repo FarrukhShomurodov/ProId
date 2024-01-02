@@ -31,9 +31,11 @@ export default {
                 this.job = res.data
 
                 //fetch education
-                axios.get(`/api/education-show/${this.job.education_id}`).then(res => {
-                    this.education = res.data
-                })
+                if(this.job.education_id != null){
+                    axios.get(`/api/education-show/${this.job.education_id}`).then(res => {
+                        this.education = res.data
+                    })
+                }
 
                 //fetch job experience
                 axios.get(`/api/experience/${this.job_id}`).then(res => {
@@ -51,6 +53,7 @@ export default {
                         axios.put(`/api/job-experience/${this.job_id}`, {
                             'experience_count': this.experienceDate
                         });
+                        console.log(this.experienceDate)
                     }
 
                     this.loading = true

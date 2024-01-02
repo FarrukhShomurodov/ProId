@@ -27,6 +27,9 @@ export default {
                 //getting jobs by user
                 axios.get(`/api/job/${this.user_id}`).then((res) => {
                     this.jobs = res.data
+
+                    console.log(res.data)
+
                     this.loading = true
                 })
             })
