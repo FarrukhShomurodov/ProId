@@ -43,7 +43,7 @@ export default {
 
                 if (this.experienceDate > 0) {
                     await axios.put(`/api/job-experience/${this.job_id}`, {
-                        'experience_count': this.experienceDate.toString()
+                        'experience_count': BigInt(this.experienceDate).toString()
                     });
                     console.log(this.experienceDate);
                 }
