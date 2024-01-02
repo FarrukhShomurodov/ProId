@@ -52,7 +52,7 @@ export default {
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
-        }
+        },
         formatExperienceDate(milliseconds) {
             const seconds = Math.floor(milliseconds / 1000);
             const minutes = Math.floor(seconds / 60);
