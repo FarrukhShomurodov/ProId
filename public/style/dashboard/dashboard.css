@@ -323,7 +323,7 @@ footer p {
         width: 100%;
         z-index: 2;
         height: 50px;
-        left: 20px;
+        left: 10px;
     }
 
     .navbar__list {
@@ -342,8 +342,7 @@ footer p {
         border-radius: 35px 0 0 35px;
         background: #F3F3F3;
         flex-direction: row;
-        /*padding: 15px 20px 15px 20px;*/
-        padding: 10px 15px 10px 15px;
+        padding: 5px 15px 5px 5px;
     }
 
     .navbar__list .swiper-wrapper .navbar__link {
@@ -373,7 +372,7 @@ footer p {
     }
 
     .main__content {
-        margin: 80px 20px 0 20px;
+        margin: 70px 20px 0 20px;
         padding-bottom: 50px;
     }
 }
