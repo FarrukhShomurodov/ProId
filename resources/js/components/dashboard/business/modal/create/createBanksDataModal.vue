@@ -12,10 +12,12 @@ export default {
             name: '',
             name_of_banking_akkaunt: '',
             error: '',
+            show: false,
         }
     },
     mounted() {
         // Any initialization code can be placed here
+        this.show = true
     },
     methods: {
         save() {
@@ -50,10 +52,11 @@ export default {
 <template>
     <div>
         <!-- Modal for adding banking information -->
-        <transition name="modal">
-            <div class="modal-mask">
+        <transition name="modal-entire">
+            <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
-                    <div class="modal-container modal-container-bank-box-office">
+                    <transition name="modal">
+                    <div class="modal-container modal-container-bank-box-office" v-show="show">
                         <div class="header_modal">
                             <h4>Добавление банковского счета</h4>
                             <img
@@ -100,6 +103,7 @@ export default {
                             </slot>
                         </div>
                     </div>
+                    </transition>
                 </div>
             </div>
         </transition>

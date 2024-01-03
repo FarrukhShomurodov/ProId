@@ -2,15 +2,18 @@
 import axios from 'axios';
 
 export default {
-    props:['userId', 'email'],
-    data(){
-        return{
-
+    props: ['userId', 'email'],
+    data() {
+        return {
+            show: false
         }
     },
-    methods:{
-        destroy(){
-            axios.delete(`/api/add-delete/${this.userId}`).then(() => this.$emit('close'))
+    mounted() {
+        this.show = true;
+    },
+    methods: {
+        destroy() {
+            axios.delete(`/api/add-delete/${this.userId}`).then(() => this.$emit('goBack'))
         },
     }
 };
@@ -18,33 +21,35 @@ export default {
 
 <template>
     <div>
-        <transition name="modal">
-            <div class="modal-mask">
+        <transition name="modal-entire">
+            <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
-                    <div class="modal-container modal-container-address-phone-mail">
-                        <div class="header_modal">
-                            <h3 class="pochta">Почтовый яшик</h3>
-                            <img
-                                src="/images/icons/dashboard/exit.svg"
-                                @click="$emit('close')"
-                                alt="exit icon"
-                            />
+                    <transition name="modal">
+                        <div class="modal-container modal-container-address-phone-mail" v-show="show">
+                            <div class="header_modal">
+                                <h3 class="pochta">Почтовый яшик</h3>
+                                <img
+                                    src="/images/icons/dashboard/exit.svg"
+                                    @click="$emit('close')"
+                                    alt="exit icon"
+                                />
+                            </div>
+                            <div class="email_container">
+                                <img src="/images/icons/warning.svg" alt="">
+                                <p>
+                                    Вы собираетесь Удалить почту<br>
+                                    {{ this.email }}
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <slot name="footer">
+                                    <button class="modal-default-button" @click="destroy">
+                                        Удалить почту
+                                    </button>
+                                </slot>
+                            </div>
                         </div>
-                        <div class="email_container">
-                            <img src="/images/icons/warning.svg" alt="">
-                            <p>
-                                Вы собираетесь Удалить почту<br>
-                                {{ this.email }}
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <slot name="footer">
-                                <button class="modal-default-button" @click="destroy">
-                                    Удалить почту
-                                </button>
-                            </slot>
-                        </div>
-                    </div>
+                    </transition>
                 </div>
             </div>
         </transition>
@@ -70,6 +75,7 @@ export default {
     outline: none;
     box-shadow: 0 0 7px 0 #5FE0D8;
 }
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;

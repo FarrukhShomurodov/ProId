@@ -10,11 +10,14 @@ export default {
             imageData: '/images/icons/proBusiness/proConnect.jpg',
             avatarUrl: null,
             avatarFile: null,
+            show: false,
             loading: false, // Loading state
         };
     },
 
     mounted() {
+        this.show = true;
+
         // Fetch business image data on component mount
         axios.get(`/api/pro-business-show/${this.business_id}`).then(res => {
             this.avatarUrl = res.data.image;
@@ -64,65 +67,66 @@ export default {
 <template>
     <div>
         <!-- Modal for updating business photo -->
-        <transition name="modal">
-            <div class="modal-mask">
+        <transition name="modal-entire">
+            <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
-                    <div class="modal-container update_business_foto" v-if="loading">
+                    <transition name="modal">
+                        <div class="modal-container update_business_foto" v-show="loading">
 
-                        <!-- Header of the modal -->
-                        <div class="header_modal">
-                            <h4>Ваше Данные</h4>
-                            <img
-                                src="/images/icons/dashboard/exit.svg"
-                                @click="$emit('close')"
-                                alt="exit icon"
-                            />
-                        </div>
+                            <!-- Header of the modal -->
+                            <div class="header_modal">
+                                <h4>Ваше Данные</h4>
+                                <img
+                                    src="/images/icons/dashboard/exit.svg"
+                                    @click="$emit('close')"
+                                    alt="exit icon"
+                                />
+                            </div>
 
-                        <!-- Main content of the modal -->
-                        <div>
-                            <div class="user_foto">
-                                <!-- Display the avatar image -->
-                                <div
-                                    class="ava"
-                                    style="width: 92px; height: 92px;"
-                                    :style="{
+                            <!-- Main content of the modal -->
+                            <div>
+                                <div class="user_foto">
+                                    <!-- Display the avatar image -->
+                                    <div
+                                        class="ava"
+                                        style="width: 92px; height: 92px;"
+                                        :style="{
                                     'background-image': `url(${
                                       avatarUrl === '/images/icons/proBusiness/proConnect.jpg' ? imageData : '/storage/' + avatarUrl
                                     })`,
                                     'background-size': 'cover',
                                     'background-position': 'center'
                                   }"
-                                ></div>
+                                    ></div>
 
-                                <!-- Avatar image actions -->
-                                <div class="foto_actions">
-                                    <button
-                                        class="upload_file"
-                                        @change="handleAvatarChange"
-                                    >
-                                        <input
-                                            type="file"
-                                            ref="fileInput"
+                                    <!-- Avatar image actions -->
+                                    <div class="foto_actions">
+                                        <button
+                                            class="upload_file"
                                             @change="handleAvatarChange"
-                                            @input="onSelectFile"
-                                        />
-                                        Изменить
-                                    </button>
+                                        >
+                                            <input
+                                                type="file"
+                                                ref="fileInput"
+                                                @change="handleAvatarChange"
+                                                @input="onSelectFile"
+                                            />
+                                            Изменить
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer with Save button -->
+                                <div class="modal-footer">
+                                    <slot name="footer">
+                                        <button class="modal-default-button" @click="uploadAvatar">
+                                            Сохранить
+                                        </button>
+                                    </slot>
                                 </div>
                             </div>
-
-                            <!-- Modal footer with Save button -->
-                            <div class="modal-footer">
-                                <slot name="footer">
-                                    <button class="modal-default-button" @click="uploadAvatar" >
-                                        Сохранить
-                                    </button>
-                                </slot>
-                            </div>
                         </div>
-                    </div>
-
+                    </transition>
                     <!-- Loading indicator -->
                     <div v-if="!loading" class="loading-indicator">
                         Loading...
@@ -135,10 +139,11 @@ export default {
 
 <style scoped>
 /* Styling for the modal component */
-.update_business_foto{
+.update_business_foto {
     width: 500px;
     height: 240px !important;
 }
+
 .loading-indicator {
     position: fixed;
     top: 50%;
@@ -149,12 +154,14 @@ export default {
     border-radius: 8px;
     z-index: 9999;
 }
+
 @media screen and (max-width: 500px) {
     /* Responsive styling for smaller screens */
-    .update_business_foto{
+    .update_business_foto {
         width: 400px !important;
     }
 }
+
 @media screen and (max-width: 390px) {
     .update_business_foto {
         width: 360px !important;

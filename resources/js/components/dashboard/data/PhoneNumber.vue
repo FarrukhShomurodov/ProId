@@ -80,5 +80,4 @@ export default {
 </template>
 
 <style scoped>
-@import "/public/style/dashboard/phone-email-edition.css";
 </style>

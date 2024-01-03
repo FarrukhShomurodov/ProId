@@ -13,7 +13,7 @@ export default {
     },
     methods:{
         close(){
-            this.$emit('goBack')
+            this.ShowEmailEdition = false;
         }
     },
 };
@@ -34,13 +34,12 @@ export default {
                     <span>для защиты аккаунта</span><br>
                     <span>{{ this.email }}</span>
                 </div>
-                <img src="/images/icons/dashboard/menu-dots-vertical.png" alt="" >
+                <img src="/images/icons/dashboard/exit.svg" alt="" >
             </div>
         </div>
     </div>
-    <DeleteEmailModal v-if="ShowEmailEdition" :userId=this.userId :email=this.email @close="close"></DeleteEmailModal>
+    <DeleteEmailModal v-if="ShowEmailEdition" :userId=this.userId :email=this.email @close="close" @goBack="$emit('goBack')"></DeleteEmailModal>
 </template>
 
 <style scoped>
-@import "/public/style/dashboard/phone-email-edition.css";
 </style>

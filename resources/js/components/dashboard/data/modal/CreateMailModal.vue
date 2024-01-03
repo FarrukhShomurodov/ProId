@@ -11,9 +11,12 @@ export default {
             showCorrectSignal: false,
             showConfirmNumber: false,
             code: null,
+            showLoadingSignal: false,
+            show: false,
         }
     },
     mounted() {
+        this.show = true;
     },
     methods: {
         // Method to handle OTP input
@@ -36,10 +39,12 @@ export default {
         // Method to save email and handle verification logic
         save() {
             if (this.code == null) {
+                this.showLoadingSignal = true;
                 axios.post('/api/send-verify-code-email', {
                     email: this.email
                 }).then(res => {
                     this.code = res.data
+                    this.showLoadingSignal = false;
                     this.showConfirmNumber = true;
                 })
             }
@@ -80,79 +85,84 @@ export default {
 <template>
     <!-- Main container for the email modal -->
     <div>
-        <transition name="modal">
+        <transition name="modal-entire">
             <!-- Modal mask and wrapper -->
-            <div class="modal-mask">
+            <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
-                    <!-- Modal container for email editing -->
-                    <div class="modal-container modal-container-address-phone-mail">
-                        <!-- Modal header -->
-                        <div class="header_modal">
-                            <h3 class="pochta">Почтовый яшик</h3>
-                            <img
-                                src="/images/icons/dashboard/exit.svg"
-                                @click="$emit('goBack')"
-                                alt="exit icon"
-                            />
-                        </div>
-                        <!-- Content for entering email -->
-                        <div class="email_content" v-show="!showConfirmNumber">
-                            <span>Введите email, который поможет восстановить доступ<br> к аккаунту</span>
-                            <input
-                                required
-                                type="email"
-                                class="email"
-                                v-model=email
-                                placeholder="Введите email"
-                            />
-                            <p>Если нету. Создайте почтовый ящик в PRO MAIL.</p>
-                        </div>
-
-                        <!-- Content for entering verification code -->
-                        <div class="otc " v-show="showConfirmNumber">
-                            <p>
-                                Введите код из сообщения.<br>
-                                Мы отправили его на почту<br>
-                                {{ email }}
-                            </p>
-                            <div class="conf_num" style="margin-top: 30px; width: 300px">
-                                <!-- OTP input fields -->
+                    <transition name="modal">
+                        <!-- Modal container for email editing -->
+                        <div class="modal-container modal-container-address-phone-mail" v-show="show">
+                            <!-- Modal header -->
+                            <div class="header_modal">
+                                <h3 class="pochta">Почтовый яшик</h3>
+                                <img
+                                    src="/images/icons/dashboard/exit.svg"
+                                    @click="$emit('goBack')"
+                                    alt="exit icon"
+                                />
+                            </div>
+                            <!-- Content for entering email -->
+                            <div class="email_content" v-show="!showConfirmNumber && !showLoadingSignal">
+                                <span>Введите email, который поможет восстановить доступ<br> к аккаунту</span>
                                 <input
-                                    v-for="i in 6"
-                                    :key="i"
-                                    ref="otcInput"
-                                    v-model="otp[i-1]"
-                                    @input="handleInput(i)"
-                                    @keydown="handleKeyDown(i)"
-                                    type="number"
-                                    inputmode="numeric"
-                                    :placeholder="'_'"
-                                    :id="'otc-' + i"
-                                    maxlength="1"
-                                    required>
-                                <!-- Correct signal icon -->
-                                <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg"
-                                     class="correct-signal" alt="">
+                                    required
+                                    type="email"
+                                    class="email"
+                                    v-model=email
+                                    placeholder="Введите email"
+                                />
+                                <p>Если нету. Создайте почтовый ящик в PRO MAIL.</p>
                             </div>
-                            <div>
-                                <!-- Resend and change email buttons -->
-                                <button @click="reSend" class="reSend">отправить код еще раз</button>
-                                <button @click="showConfirmNumber = false" class="reSend">Изменить почтовый адрес
+
+                            <div v-show="showLoadingSignal" class="loading-indicator">
+                                Loading...
+                            </div>
+                            <!-- Content for entering verification code -->
+                            <div class="otc " v-show="showConfirmNumber">
+                                <p>
+                                    Введите код из сообщения.<br>
+                                    Мы отправили его на почту<br>
+                                    {{ email }}
+                                </p>
+                                <div class="conf_num" style="margin-top: 30px; width: 300px">
+                                    <!-- OTP input fields -->
+                                    <input
+                                        v-for="i in 6"
+                                        :key="i"
+                                        ref="otcInput"
+                                        v-model="otp[i-1]"
+                                        @input="handleInput(i)"
+                                        @keydown="handleKeyDown(i)"
+                                        type="number"
+                                        inputmode="numeric"
+                                        :placeholder="'_'"
+                                        :id="'otc-' + i"
+                                        maxlength="1"
+                                        required>
+                                    <!-- Correct signal icon -->
+                                    <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg"
+                                         class="correct-signal" alt="">
+                                </div>
+                                <div>
+                                    <!-- Resend and change email buttons -->
+                                    <button @click="reSend" class="reSend">отправить код еще раз</button>
+                                    <button @click="showConfirmNumber = false" class="reSend">Изменить почтовый адрес
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Footer with save and create PRO MAIL buttons -->
+                            <div class="modal-footer">
+                                <slot name="footer">
+                                    <button class="modal-default-button save_email" @click="save">
+                                        Сохранить
+                                    </button>
+                                </slot>
+                                <button class="create_pro_mail modal-default-button" @click="$emit('goBack')">
+                                    Создать PRO MAIL
                                 </button>
                             </div>
                         </div>
-                        <!-- Footer with save and create PRO MAIL buttons -->
-                        <div class="modal-footer">
-                            <slot name="footer">
-                                <button class="modal-default-button save_email" @click="save">
-                                    Сохранить
-                                </button>
-                            </slot>
-                            <button class="create_pro_mail modal-default-button" @click="$emit('goBack')">
-                                Создать PRO MAIL
-                            </button>
-                        </div>
-                    </div>
+                    </transition>
                 </div>
             </div>
         </transition>

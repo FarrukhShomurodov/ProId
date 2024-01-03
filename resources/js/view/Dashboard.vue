@@ -300,4 +300,5 @@ export default {
 @import "/public/style/dashboard/pay.css";
 @import "/public/style/dashboard/pro-business.css";
 @import "/public/style/dashboard/pro-job.css";
+@import "/public/style/dashboard/phone-email-edition.css";
 </style>

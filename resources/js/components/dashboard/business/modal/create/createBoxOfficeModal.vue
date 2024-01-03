@@ -20,10 +20,13 @@ export default {
             bank_data_id: 1,
             bankData: [],
             addBanking: false,
+            show: false,
             error: '',
         }
     },
     mounted() {
+        this.show = true;
+
         // Mounting phase tasks
         $('#select').select2();
 
@@ -81,50 +84,52 @@ export default {
 <template>
     <div>
         <!-- Modal for creating a box office -->
-        <transition name="modal">
-            <div class="modal-mask">
+        <transition name="modal-entire">
+            <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
-                    <div class="modal-container box-office-create-modal modal-container-bank-box-office">
-                        <div class="header_modal">
-                            <h4>Создание кассы</h4>
-                            <img
-                                src="/images/icons/dashboard/exit.svg"
-                                @click="$emit('close')"
-                                alt="exit icon"
-                            />
-                        </div>
-                        <div class="create-box-office-content">
-                            <div class="error">
-                                <p>{{ error }}</p> <!-- Display error message, if any -->
+                    <transition name="modal">
+                        <div class="modal-container box-office-create-modal modal-container-bank-box-office"
+                             v-show="show">
+                            <div class="header_modal">
+                                <h4>Создание кассы</h4>
+                                <img
+                                    src="/images/icons/dashboard/exit.svg"
+                                    @click="$emit('close')"
+                                    alt="exit icon"
+                                />
                             </div>
-                            <div>
-                                <label>Наименование кассы *</label>
-                                <input type="text" v-model=name class="form_input "
-                                       :class="{'form_input_error': error && name.length === 0}"
-                                       placeholder="Введите наименование кассы" required>
-                            </div>
-                            <div>
-                                <label>Выберите Сервис *</label>
-                                <select v-model="service" class="form_input " id="select" required>
-                                    <option value="Сервис Cloud">Сервис Cloud</option>
-                                    <option value="Сервис Pay">Сервис Pay</option>
-                                    <option value="Сервис CRM">Сервис CRM</option>
-                                    <option value="Сервис Support">Сервис Support</option>
-                                    <option value="Сервис Donate">Сервис Donate</option>
-                                    <option value="Сервис GoodLook">Сервис GoodLook</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label>Выберите банковский счет *</label>
-                                <select v-model="bank_data_id" class="form_input" id="select2" required>
-                                    <option v-for="data in bankData" :value="data.id">{{
-                                            data.name_of_banking_akkaunt
-                                        }}
-                                    </option>
-                                </select>
-                            </div>
-                            <!-- Add new banking option -->
-                            <div class="add_bank" @click="addBanking = true" style="
+                            <div class="create-box-office-content">
+                                <div class="error">
+                                    <p>{{ error }}</p> <!-- Display error message, if any -->
+                                </div>
+                                <div>
+                                    <label>Наименование кассы *</label>
+                                    <input type="text" v-model=name class="form_input "
+                                           :class="{'form_input_error': error && name.length === 0}"
+                                           placeholder="Введите наименование кассы" required>
+                                </div>
+                                <div>
+                                    <label>Выберите Сервис *</label>
+                                    <select v-model="service" class="form_input " id="select" required>
+                                        <option value="Сервис Cloud">Сервис Cloud</option>
+                                        <option value="Сервис Pay">Сервис Pay</option>
+                                        <option value="Сервис CRM">Сервис CRM</option>
+                                        <option value="Сервис Support">Сервис Support</option>
+                                        <option value="Сервис Donate">Сервис Donate</option>
+                                        <option value="Сервис GoodLook">Сервис GoodLook</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Выберите банковский счет *</label>
+                                    <select v-model="bank_data_id" class="form_input" id="select2" required>
+                                        <option v-for="data in bankData" :value="data.id">{{
+                                                data.name_of_banking_akkaunt
+                                            }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <!-- Add new banking option -->
+                                <div class="add_bank" @click="addBanking = true" style="
                                 margin-top: 15px;
                                 margin-bottom: 20px;
                                 max-width: 438px;
@@ -135,18 +140,19 @@ export default {
                                 flex-direction: row;
                                 align-items: center;
                                 padding-left: 11px;">
-                                <img src="/images/icons/dashboard/add.svg" alt="" style="margin-right: 11px;">
-                                <p>Добавить новый банковский счет</p>
+                                    <img src="/images/icons/dashboard/add.svg" alt="" style="margin-right: 11px;">
+                                    <p>Добавить новый банковский счет</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <slot name="footer">
+                                    <button class="modal-default-button" @click="save">
+                                        Сохранить
+                                    </button>
+                                </slot>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <slot name="footer">
-                                <button class="modal-default-button" @click="save">
-                                    Сохранить
-                                </button>
-                            </slot>
-                        </div>
-                    </div>
+                    </transition>
                 </div>
             </div>
         </transition>

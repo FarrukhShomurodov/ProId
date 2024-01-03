@@ -16,11 +16,14 @@ export default {
             avatarUrl: '', // URL of the avatar image
             avatarFile: '', // File object for avatar upload
             editAVA: true, // Flag for avatar editing
+            show: false, // Show state
             loading: false, // Loading state
         };
     },
 
     mounted() {
+        this.show = true;
+
         // Fetch user data from the API when the component is mounted
 
         axios.get('/api/user').then((res) => {
@@ -114,123 +117,125 @@ export default {
 <template>
     <!-- User data modal container -->
     <div>
-        <transition name="modal">
-            <div class="modal-mask">
+        <transition name="modal-entire">
+            <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
-                    <div class="modal-container" v-if="loading">
-                        <!-- Modal header -->
-                        <div class="header_modal">
-                            <h4>Ваше Данные</h4>
-                            <img
-                                src="/images/icons/dashboard/exit.svg"
-                                @click="$emit('close')"
-                                alt="exit icon"
-                            />
-                        </div>
-                        <!-- Avatar and photo editing section -->
-                        <div>
-                            <div class="user_foto">
-                                <div
-                                    class="ava"
-                                    style="width: 92px; height: 92px;"
-                                    :style="{
+                    <transition name="modal">
+                        <div class="modal-container" v-if="loading">
+                            <!-- Modal header -->
+                            <div class="header_modal">
+                                <h4>Ваше Данные</h4>
+                                <img
+                                    src="/images/icons/dashboard/exit.svg"
+                                    @click="$emit('close')"
+                                    alt="exit icon"
+                                />
+                            </div>
+                            <!-- Avatar and photo editing section -->
+                            <div>
+                                <div class="user_foto">
+                                    <div
+                                        class="ava"
+                                        style="width: 92px; height: 92px;"
+                                        :style="{
                                     'background-image': `url(${
                                       avatarUrl !== '' ? '/storage/' + avatarUrl : imageData
                                     })`,
                                     'background-size': 'cover',
                                     'background-position': 'center'
                                   }"
-                                ></div>
+                                    ></div>
 
-                                <div class="foto_actions">
-                                    <!-- Edit and delete buttons for existing photo -->
-                                    <button
-                                        class="upload_file"
-                                        @change="handleAvatarChange"
-                                        v-if="this.imageData !== '' || this.avatarUrl !== ''"
-                                    >
-                                        <input
-                                            type="file"
-                                            ref="fileInput"
+                                    <div class="foto_actions">
+                                        <!-- Edit and delete buttons for existing photo -->
+                                        <button
+                                            class="upload_file"
                                             @change="handleAvatarChange"
-                                            @input="onSelectFile"
-                                        />
-                                        Изменить
-                                    </button>
-                                    <button
-                                        class="upload_file"
-                                        @click="deleteImage"
-                                        v-if="this.imageData !== '' || this.avatarUrl !== ''"
-                                    >
-                                        Удалить
-                                    </button>
-                                    <!-- Add button for adding new photo -->
-                                    <button
-                                        class="upload_file"
-                                        v-if="this.imageData === '' && this.avatarUrl === '' && this.editAVA"
-                                    >
-                                        <input
-                                            type="file"
-                                            ref="fileInput"
-                                            @change="handleAvatarChange"
-                                            @input="onSelectFile"
-                                        />
-                                        Добавить Фото
-                                    </button>
+                                            v-if="this.imageData !== '' || this.avatarUrl !== ''"
+                                        >
+                                            <input
+                                                type="file"
+                                                ref="fileInput"
+                                                @change="handleAvatarChange"
+                                                @input="onSelectFile"
+                                            />
+                                            Изменить
+                                        </button>
+                                        <button
+                                            class="upload_file"
+                                            @click="deleteImage"
+                                            v-if="this.imageData !== '' || this.avatarUrl !== ''"
+                                        >
+                                            Удалить
+                                        </button>
+                                        <!-- Add button for adding new photo -->
+                                        <button
+                                            class="upload_file"
+                                            v-if="this.imageData === '' && this.avatarUrl === '' && this.editAVA"
+                                        >
+                                            <input
+                                                type="file"
+                                                ref="fileInput"
+                                                @change="handleAvatarChange"
+                                                @input="onSelectFile"
+                                            />
+                                            Добавить Фото
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Name, surname, and other information input section -->
-                        <div class="name_surname_data">
-                            <label class="labels">Ваше Имя Фамилия</label>
-                            <input
-                                class="form_input"
-                                type="text"
-                                v-model="name"
-                                placeholder="Введите Имя"
-                            />
-                            <input
-                                class="form_input"
-                                type="text"
-                                v-model="surname"
-                                placeholder="Введите Фамилию"
-                            />
-                        </div>
-                        <div class="other_information">
-                            <!-- Gender and date of birth input -->
-                            <div class="container_info">
-                                <label class="labels">Пол</label>
-                                <div class="gender">
-                                    <button
-                                        class="male"
-                                        :class="{'activeMale': activeM}"
-                                        @click="activeMale"
-                                    >
-                                        М
-                                    </button>
-                                    <button
-                                        class="female"
-                                        :class="{'activeFemale': activeF}"
-                                        @click="activeFemale"
-                                    >
-                                        Ж
-                                    </button>
+                            <!-- Name, surname, and other information input section -->
+                            <div class="name_surname_data">
+                                <label class="labels">Ваше Имя Фамилия</label>
+                                <input
+                                    class="form_input"
+                                    type="text"
+                                    v-model="name"
+                                    placeholder="Введите Имя"
+                                />
+                                <input
+                                    class="form_input"
+                                    type="text"
+                                    v-model="surname"
+                                    placeholder="Введите Фамилию"
+                                />
+                            </div>
+                            <div class="other_information">
+                                <!-- Gender and date of birth input -->
+                                <div class="container_info">
+                                    <label class="labels">Пол</label>
+                                    <div class="gender">
+                                        <button
+                                            class="male"
+                                            :class="{'activeMale': activeM}"
+                                            @click="activeMale"
+                                        >
+                                            М
+                                        </button>
+                                        <button
+                                            class="female"
+                                            :class="{'activeFemale': activeF}"
+                                            @click="activeFemale"
+                                        >
+                                            Ж
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="container_info">
+                                    <label class="labels">Дата Рождения</label>
+                                    <input type="date" class="date" v-model="date"/>
                                 </div>
                             </div>
-                            <div class="container_info">
-                                <label class="labels">Дата Рождения</label>
-                                <input type="date" class="date" v-model="date"/>
+                            <!-- Modal footer with save button -->
+                            <div class="modal-footer">
+                                <slot name="footer">
+                                    <button class="modal-default-button" @click="save">
+                                        Сохранить
+                                    </button>
+                                </slot>
                             </div>
                         </div>
-                        <!-- Modal footer with save button -->
-                        <div class="modal-footer">
-                            <slot name="footer">
-                                <button class="modal-default-button" @click="save">
-                                    Сохранить
-                                </button>
-                            </slot>
-                        </div>
-                    </div>
+                    </transition>
                     <!-- Loading indicator -->
                     <div v-if="!loading" class="loading-indicator">
                         Loading...

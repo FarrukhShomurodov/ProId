@@ -12,8 +12,12 @@ export default {
             showConfirmNumber: false,
             showCorrectSignal: false,
             changedPhoneNumber: '',
+            show: false,
             error: '',
         };
+    },
+    mounted() {
+        this.show = true
     },
     methods: {
         // Handle the input for the OTP input fields
@@ -146,76 +150,84 @@ export default {
 
 <template>
     <div>
-        <transition name="modal">
-            <div class="modal-mask">
+        <transition name="modal-entire">
+            <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
-                    <div class="modal-container update_phone_number_container">
-                        <div class="header_modal">
-                            <h3 class="tel">Телефон</h3>
-                            <img
-                                src="/images/icons/dashboard/exit.svg"
-                                @click="$emit('close')"
-                                alt="exit icon"
-                            />
-                        </div>
-                        <div class="update_phone_modal_error">
-                            <p>{{ error }}</p>
-                        </div>
-                        <!-- Content for editing phone number -->
-                        <div class="edit_phone_content" v-if="!changeNum && !showConfirmNumber">
-                            <h3>{{ phoneNumber }}</h3>
-                            <p>Этот номер может быть использован для<br> входа и восстановления доступа к аккаунту</p>
-                        </div>
-                        <!-- Input field for editing phone number -->
-                        <input
-                            required
-                            type="tel"
-                            class="form_input phone-number"
-                            placeholder="+998 -- --- -- -- "
-                            @input="formatPhoneNumber"
-                            maxlength="19"
-                            v-if="changeNum"
-                            :class="{'form_input_error': error}"
-                        />
-                        <!-- OTP input fields and confirmation message -->
-                        <div class="otc " v-if="showConfirmNumber">
-                            <p class="text_phone_edit">
-                                Введите код из смс.<br>
-                                Мы отправили его на<br>
-                                номер {{ phoneNumberToPaste }}
-                            </p>
-                            <div class="conf_num">
-                                <img class='phone' src="/images/icons/phone.png" style="width: 21px; height: 21px" alt="" srcset="">
-                                <input
-                                    v-for="i in 6"
-                                    :key="i"
-                                    ref="otcInput"
-                                    v-model="otp[i-1]"
-                                    @input="handleInput(i)"
-                                    @keydown="handleKeyDown(i)"
-                                    type="number"
-                                    inputmode="numeric"
-                                    :placeholder="'_'"
-                                    :id="'otc-' + i"
-                                    maxlength="1"
-                                    required>
-                                <!-- Correct signal icon -->
-                                <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">
+                    <transition name="modal">
+                        <div class="modal-container update_phone_number_container" v-show="show">
+                            <div class="header_modal">
+                                <h3 class="tel">Телефон</h3>
+                                <img
+                                    src="/images/icons/dashboard/exit.svg"
+                                    @click="$emit('close')"
+                                    alt="exit icon"
+                                />
                             </div>
-                            <button @click="reSend" class="reSend resend_from_update_phone_number">отправить код еще раз</button>
-                        </div>
-                        <!-- Footer buttons -->
-                        <div class="modal-footer">
-                            <button class="changeNumber modal-default-button" v-show="!showConfirmNumber" @click="edit">
-                                Заменить на новый номер
-                            </button>
-                            <slot name="footer">
-                                <button class="modal-default-button" @click="save">
-                                    Сохранить
+                            <div class="update_phone_modal_error">
+                                <p>{{ error }}</p>
+                            </div>
+                            <!-- Content for editing phone number -->
+                            <div class="edit_phone_content" v-if="!changeNum && !showConfirmNumber">
+                                <h3>{{ phoneNumber }}</h3>
+                                <p>Этот номер может быть использован для<br> входа и восстановления доступа к аккаунту
+                                </p>
+                            </div>
+                            <!-- Input field for editing phone number -->
+                            <input
+                                required
+                                type="tel"
+                                class="form_input phone-number"
+                                placeholder="+998 -- --- -- -- "
+                                @input="formatPhoneNumber"
+                                maxlength="19"
+                                v-if="changeNum"
+                                :class="{'form_input_error': error}"
+                            />
+                            <!-- OTP input fields and confirmation message -->
+                            <div class="otc " v-if="showConfirmNumber">
+                                <p class="text_phone_edit">
+                                    Введите код из смс.<br>
+                                    Мы отправили его на<br>
+                                    номер {{ phoneNumberToPaste }}
+                                </p>
+                                <div class="conf_num">
+                                    <img class='phone' src="/images/icons/phone.png" style="width: 21px; height: 21px"
+                                         alt="" srcset="">
+                                    <input
+                                        v-for="i in 6"
+                                        :key="i"
+                                        ref="otcInput"
+                                        v-model="otp[i-1]"
+                                        @input="handleInput(i)"
+                                        @keydown="handleKeyDown(i)"
+                                        type="number"
+                                        inputmode="numeric"
+                                        :placeholder="'_'"
+                                        :id="'otc-' + i"
+                                        maxlength="1"
+                                        required>
+                                    <!-- Correct signal icon -->
+                                    <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg"
+                                         class="correct-signal" alt="">
+                                </div>
+                                <button @click="reSend" class="reSend resend_from_update_phone_number">отправить код еще
+                                    раз
                                 </button>
-                            </slot>
+                            </div>
+                            <!-- Footer buttons -->
+                            <div class="modal-footer">
+                                <button class="changeNumber modal-default-button" v-show="!showConfirmNumber"
+                                        @click="edit">
+                                    Заменить на новый номер
+                                </button>
+                                <slot name="footer">
+                                    <button class="modal-default-button" @click="save">
+                                        Сохранить
+                                    </button>
+                                </slot>
+                            </div>
                         </div>
-                    </div>
+                    </transition>
                 </div>
             </div>
         </transition>

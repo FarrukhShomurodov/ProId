@@ -11,11 +11,14 @@ export default {
             oked: '',
             address: '',
             id: 0,
+            show: false,
             loading: false,
             error: '',
         }
     },
     mounted() {
+        this.show = true
+
         // Fetch business data when the component is mounted
         axios.get(`/api/pro-business-show/${this.business_id}`).then(res => {
             // Update component data with the retrieved business information
@@ -34,7 +37,7 @@ export default {
         });
     },
     methods: {
-        select(){
+        select() {
             $('#select').select2();
         },
         save() {
@@ -61,9 +64,10 @@ export default {
 <template>
     <div>
         <!-- Modal transition -->
-        <transition name="modal">
-            <div class="modal-mask">
+        <transition name="modal-entire">
+            <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
+                    <transition name="modal">
                     <!-- Modal container for updating business information -->
                     <div class="modal-container modal-container-update-business" v-if="loading">
                         <div class="header_modal">
@@ -93,13 +97,18 @@ export default {
                             </div>
                             <div>
                                 <label>Форма бизнеса *</label>
-                                <select v-model=form_of_business  class="form_input form_input-business" id="select" required>
+                                <select v-model=form_of_business class="form_input form_input-business" id="select"
+                                        required>
                                     <option value="Частное предприятие - ЧП">Частное предприятие - ЧП</option>
                                     <option value="Семейное предприятие - СП">Семейное предприятие - СП</option>
                                     <option value="Фермерское хозяйство - ФХ">Фермерское хозяйство - ФХ</option>
-                                    <option value="Производственный кооператив - ПК">Производственный кооператив - ПК</option>
-                                    <option value="Коммандитная товарищества - КТ">Коммандитная товарищества - КТ</option>
-                                    <option value="Общество с ограниченной ответственностью - ООО">Общество с ограниченной ответственностью - ООО</option>
+                                    <option value="Производственный кооператив - ПК">Производственный кооператив - ПК
+                                    </option>
+                                    <option value="Коммандитная товарищества - КТ">Коммандитная товарищества - КТ
+                                    </option>
+                                    <option value="Общество с ограниченной ответственностью - ООО">Общество с
+                                        ограниченной ответственностью - ООО
+                                    </option>
                                 </select>
                             </div>
                             <div>
@@ -118,12 +127,13 @@ export default {
                         <div class="modal-footer">
                             <!-- Save button to trigger the save method -->
                             <slot name="footer">
-                                <button class="modal-default-button" @click="save" >
+                                <button class="modal-default-button" @click="save">
                                     Сохранить
                                 </button>
                             </slot>
                         </div>
                     </div>
+                    </transition>
                     <!-- Loading indicator while data is being fetched -->
                     <div v-if="!loading" class="loading-indicator">
                         Loading...
@@ -135,7 +145,7 @@ export default {
 </template>
 
 <style scoped>
-input{
+input {
     border: 0 solid #5FE0D8 !important;
 }
 </style>
