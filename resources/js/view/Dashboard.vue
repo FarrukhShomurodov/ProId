@@ -192,7 +192,7 @@ export default {
                             </div>
                             <div class="service_block" onclick="window.location.href='https://support.in-pro.net'">
                                 <div class="services" :style="{
-                                                'background-image': `url('/images/ProEcoSystemIcons/support.png')`,
+                                                'background-image': `url('/images/ProEcoSystemIcons/Support.png')`,
                                                 'background-size': 'cover',
                                                 'background-position': 'center',
                                                 'background-color': 'white'
