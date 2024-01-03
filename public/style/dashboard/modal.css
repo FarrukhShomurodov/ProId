@@ -645,7 +645,7 @@ label {
         vertical-align: bottom;
     }
 
-    .header_modal, .user_foto, .form_input, .other_information, .modal-default-button {
+    .header_modal, .user_foto, .form_input, .other_information, .modal-default-button, .add_bank {
         width: 380px;
     }
 
@@ -735,7 +735,7 @@ label {
         width: 360px;
     }
 
-    .header_modal, .user_foto, .form_input, .other_information, .modal-default-button {
+    .header_modal, .user_foto, .form_input, .other_information, .modal-default-button, .add_bank{
         width: 340px;
     }
 

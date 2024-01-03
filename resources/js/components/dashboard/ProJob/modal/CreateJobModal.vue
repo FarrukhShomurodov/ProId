@@ -111,7 +111,7 @@ export default {
                                 </div>
                                 <div class="add_bank" @click="" style="
                                 margin-top: 15px;
-                                margin-bottom: 20px;
+                                margin-bottom: 5px;
                                 max-width: 438px;
                                 height: 42px;
                                 border-radius: 20px;
