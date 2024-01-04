@@ -249,6 +249,13 @@ p {
     }
 }
 
+@media screen and (max-width: 390px){
+    .data .ava {
+        width: 80px;
+        height: 49px;
+    }
+}
+
 
 /* Display Flex */
 .flex_row {

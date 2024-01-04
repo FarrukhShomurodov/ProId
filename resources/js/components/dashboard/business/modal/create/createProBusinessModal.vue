@@ -172,7 +172,7 @@ export default {
                                            placeholder="Введите Расчетный счет" required>
                                 </div>
                                 <div>
-                                    <input type="text" v-model=name_of_bank class="form_input form_input-business"
+                                    <input type="text" v-model="name_of_bank" class="form_input form_input-business"
                                            :class="{'form_input_error': error && name_of_bank.length === 0}"
                                            placeholder="Наимование банка" readonly>
                                 </div>
