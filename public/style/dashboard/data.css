@@ -243,6 +243,10 @@ p {
     .education__blocks {
         grid-template-columns: 182px auto;
     }
+    .data .ava {
+        width: 80px;
+        height: 52px;
+    }
 }
 
 
