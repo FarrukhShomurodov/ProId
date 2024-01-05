@@ -70,8 +70,9 @@ export default {
         // Method to fetch bank data based on MFO
         mfoBank() {
             axios.get('/api/bank-data-by-mfo').then(res => {
+                // Find and set the bank name based on MFO
                 for (let i = 0; i < res.data.length; i++) {
-                    if (res.data[i].code === this.mfo) {
+                    if (res.data[i].code == this.mfo) {
                         this.name_of_bank = res.data[i].name
                     }
                 }
@@ -172,7 +173,7 @@ export default {
                                            placeholder="Введите Расчетный счет" required>
                                 </div>
                                 <div>
-                                    <input type="text" v-model="name_of_bank" class="form_input form_input-business"
+                                    <input type="text" v-model=name_of_bank class="form_input form_input-business"
                                            :class="{'form_input_error': error && name_of_bank.length === 0}"
                                            placeholder="Наимование банка" readonly>
                                 </div>
