@@ -31,7 +31,7 @@
     width: 93px;
     height: 93px;
     border-radius: 20px;
-    background: url('/images/icons/proBusiness/proConnect.jpg'), lightgray 50%;
+    background-color: #5fe0d8;
     background-size: cover;
     box-shadow: 0 0 10px -5px #000;
 }
@@ -39,6 +39,16 @@
     float: right;
     width: 21px;
     height: 21px;
+}
+.business_image p{
+    position: relative;
+    top: 38%;
+    left: 40%;
+}
+.ava_name_bank{
+    position: relative;
+    top: 38%;
+    left: 40%;
 }
 .details_nav{
     display: flex;

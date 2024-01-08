@@ -66,10 +66,10 @@ export default {
                 <div class="business_block flex-row" @click="showBusinessDetails(data.id)">
                     <!-- Business image -->
                     <div class="business_image" style="width: 80px; height: 80px; border-radius: 25px" :style="{
-                        'background-image': `url(${data.image === '/images/icons/proBusiness/proConnect.jpg' ? data.image : '/storage/' + data.image})`,
+                        'background-image': `url(${data.image === null ? data.image : '/storage/' + data.image})`,
                         'background-size': 'cover',
                         'background-position': 'center'
-                    }"></div>
+                    }"> <p>{{ data.image === null ? data.name_of_business.slice(0,2) : '' }}</p> </div>
                     <!-- Business content -->
                     <div class="business_content">
                         <p>{{ data.name_of_business }}</p>

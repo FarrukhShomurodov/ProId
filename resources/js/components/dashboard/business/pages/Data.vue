@@ -84,11 +84,12 @@ export default {
             </div>
             <!-- Business image section -->
             <div class="business_image" :style="{
-                'background-image': `url(${business_details.image === '/images/icons/proBusiness/proConnect.jpg' ? business_details.image : '/storage/' + business_details.image})`,
+                'background-image': `url(${business_details.image === null ? business_details.image : '/storage/' + business_details.image})`,
                 'background-size': 'cover',
                 'background-position': 'center'
             }">
                 <img src="/images/icons/dashboard/edit.svg" alt="" @click="showCreateImage = true">
+                <p>{{business_details.image === null ? business_details.name_of_business.slice(0,2) : '' }}</p>
             </div>
         </div>
         <!-- Business details content -->

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pro_businesses', function (Blueprint $table) {
             $table->id();
-            $table->string('image')->default('/images/icons/proBusiness/proConnect.jpg');
+            $table->string('image')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->integer('inn');
             $table->string('name_of_business');

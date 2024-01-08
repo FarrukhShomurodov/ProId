@@ -7,9 +7,10 @@ export default {
     data() {
         return {
             // Vue.js data properties
-            imageData: '/images/icons/proBusiness/proConnect.jpg',
+            imageData: '',
             avatarUrl: null,
             avatarFile: null,
+            name: '',
             show: false,
             loading: false, // Loading state
         };
@@ -21,6 +22,7 @@ export default {
         // Fetch business image data on component mount
         axios.get(`/api/pro-business-show/${this.business_id}`).then(res => {
             this.avatarUrl = res.data.image;
+            this.name = res.data.name_of_business;
             this.loading = true; // Update loading state once data is fetched
         });
     },
@@ -28,7 +30,7 @@ export default {
     methods: {
         // Handle file selection for the avatar image
         onSelectFile() {
-            this.avatarUrl = '/images/icons/proBusiness/proConnect.jpg';
+            this.avatarUrl = null;
             this.imageData = '';
             const input = this.$refs.fileInput;
             const files = input.files;
@@ -89,15 +91,15 @@ export default {
                                     <!-- Display the avatar image -->
                                     <div
                                         class="ava"
-                                        style="width: 92px; height: 92px;"
+                                        style="width: 92px; height: 92px; background-color: #5fe0d8;"
                                         :style="{
                                     'background-image': `url(${
-                                      avatarUrl === '/images/icons/proBusiness/proConnect.jpg' ? imageData : '/storage/' + avatarUrl
+                                      avatarUrl === null ? imageData : '/storage' + avatarUrl
                                     })`,
                                     'background-size': 'cover',
                                     'background-position': 'center'
                                   }"
-                                    ></div>
+                                    ><p class="ava_name_bank">{{ imageData === '' && avatarUrl == null ? name.slice(0,2) : '' }}</p></div>
 
                                     <!-- Avatar image actions -->
                                     <div class="foto_actions">
