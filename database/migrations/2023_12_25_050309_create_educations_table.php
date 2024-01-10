@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('name');
             $table->date('started');
-            $table->date('expired');
+            $table->date('expired')->nullable();
             $table->boolean('is_studying')->default(0);
             $table->timestamps();
         });

@@ -49,7 +49,7 @@ class EducationController extends Controller
             'name' => 'required|string',
             'is_studying' => 'required|boolean',
             'started' => 'required|date',
-            'expired' => 'required|date',
+            'expired' => 'nullable|date',
         ],
             [
                 'type.required' => 'Поле "Вид образования" является обязательным для заполнения.',
@@ -80,7 +80,7 @@ class EducationController extends Controller
             'name' => 'required|string',
             'is_studying' => 'required|boolean',
             'started' => 'required|date',
-            'expired' => 'required|date',
+            'expired' => 'nullable|date',
         ],
             [
                 'type.required' => 'Поле "Вид образования" является обязательным для заполнения.',

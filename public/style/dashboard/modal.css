@@ -90,7 +90,7 @@ input:focus {
 }
 
 .form_input {
-    width: 438px;
+    width: 430px;
     height: 47px;
     border-radius: 15px;
     background: #FFF;
@@ -121,7 +121,7 @@ input:focus {
 
 
 .select2-selection {
-    width: 438px;
+    width: 430px;
     height: 47px !important;
     border-radius: 15px !important;
     background: #FFF;
@@ -524,7 +524,9 @@ label {
 .education_dates {
     padding-right: 10px;
 }
-
+.education_date_margin{
+    margin-right: 0!important;
+}
 .education_dates:first-of-type {
     margin-right: 5px;
 }
@@ -607,7 +609,7 @@ label {
     }
 
     .education_dates {
-        width: 240px !important;
+        width: 400px !important;
     }
 
     .education_content {

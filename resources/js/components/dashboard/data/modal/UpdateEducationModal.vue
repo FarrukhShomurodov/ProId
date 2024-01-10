@@ -9,7 +9,7 @@ export default {
     data() {
         return {
             // Data properties for the component
-            type: 'Частное предприятие - ЧП',
+            type: 'Среднее общее',
             name: '',
             started: '',
             expired: '',
@@ -39,22 +39,47 @@ export default {
     },
     // Component methods
     methods: {
-        // Method to save education
+        // Method to update education
         save() {
-            this.type = $('#select').val()
-            const data = {
-                'type': this.type,
-                'name': this.name,
-                'started': this.started,
-                'expired': this.expired,
-                'is_studying': this.isStudying
+            let timeDifference = false;
+            let comparingDate = false;
+
+            if (!this.isStudying) {
+                if (this.expired === null) {
+                    this.error = 'Поле "Период обучения" является обязательным для заполнения.'
+                } else {
+                    const currentDate = new Date();
+                    const startedDate = new Date(this.started)
+                    const expiredDate = new Date(this.expired);
+
+                    // Calculate the absolute difference in milliseconds
+                    timeDifference = currentDate > expiredDate;
+                    comparingDate = startedDate > expiredDate;
+
+                    if(!timeDifference) this.error = 'Дата окончание не может быть в будушем времени'
+                    if(comparingDate) this.error = 'Дата окончание не может быть в меньше даты начало'
+                }
+            } else {
+                this.expired = null;
+                timeDifference = true;
             }
 
-            axios.put(`/api/education/${this.education_id}`, data).then(() => {
-                this.$emit('goBack');
-            }).catch(err => {
-                this.error = err.response.data.message;
-            })
+            if(timeDifference && !comparingDate){
+                this.type = $('#select').val()
+                const data = {
+                    'type': this.type,
+                    'name': this.name,
+                    'started': this.started,
+                    'expired': this.expired,
+                    'is_studying': this.isStudying
+                }
+
+                axios.put(`/api/education/${this.education_id}`, data).then(() => {
+                    this.$emit('goBack');
+                }).catch(err => {
+                    this.error = err.response.data.message;
+                })
+            }
         },
     },
 };
@@ -82,17 +107,10 @@ export default {
                                 <div>
                                     <label>Вид образования *</label>
                                     <select v-model="type" class="form_input form_input-business" id="select" required>
-                                        <option value="Частное предприятие - ЧП">Частное предприятие - ЧП</option>
-                                        <option value="Семейное предприятие - СП">Семейное предприятие - СП</option>
-                                        <option value="Фермерское хозяйство - ФХ">Фермерское хозяйство - ФХ</option>
-                                        <option value="Производственный кооператив - ПК">Производственный кооператив -
-                                            ПК
-                                        </option>
-                                        <option value="Коммандитная товарищества - КТ">Коммандитная товарищества - КТ
-                                        </option>
-                                        <option value="Общество с ограниченной ответственностью - ООО">Общество с
-                                            ограниченной ответственностью - ООО
-                                        </option>
+                                        <option value="Среднее общее">Среднее общее</option>
+                                        <option value="Среднее профессиональное">Среднее профессиональное</option>
+                                        <option value="Бакалавриат">Бакалавриат</option>
+                                        <option value="Магистратура">Магистратура</option>
                                     </select>
                                 </div>
                                 <div>
@@ -113,15 +131,16 @@ export default {
                                             class="form_input education_dates"
                                             type="date"
                                             v-model="started"
-                                            :class="{'form_input_error': error && started.length === 0}"
+                                            :class="{'form_input_error': error && started.length === 0, 'education_date_margin': isStudying}"
                                             required
                                         />
-                                        -
+                                        <span v-show="!isStudying">-</span>
                                         <input
+                                            v-show="!isStudying"
                                             class="form_input education_dates"
                                             type="date"
                                             v-model="expired"
-                                            :class="{'form_input_error': error && expired.length === 0}"
+                                            :class="{'form_input_error': error}"
                                             required
                                         />
                                     </div>
@@ -129,7 +148,7 @@ export default {
                                 <div class="status_radio flex-row">
                                     <p>Учусь по сей день</p>
                                     <div class="radio_rounded">
-                                        <input v-model="isStudying" type="checkbox" id="radio_rounded">
+                                        <input v-model="isStudying" type="checkbox" id="radio_rounded" :checked="isStudying">
                                         <label for="radio_rounded"></label>
                                     </div>
                                 </div>

@@ -330,7 +330,7 @@ export default {
                                 <div class="education_items flex-column">
                                     <p> Вид: <span> {{ education.type }}</span></p>
                                     <p> {{ education.name }}</p>
-                                    <p> Период: <span> {{ education.started.slice(0,4) }}-{{ education.expired.slice(0,4) }}</span></p>
+                                    <p> Период: <span> {{ education.started.slice(0,4) }}-{{ education.expired == null ? 'Учусь по сей день' : education.expired.slice(0,4) }}</span></p>
                                 </div>
                             </div>
                         </div>
