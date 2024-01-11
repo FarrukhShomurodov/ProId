@@ -11,6 +11,7 @@ import CreateAddressModal from "../data/modal/CreateAddressModal.vue";
 import UpdateAddressModal from "../data/modal/UpdateAddressModal.vue";
 import CreateEducationModal from "@/components/dashboard/data/modal/CreateEducationModal.vue";
 import UpdateEducationModal from "@/components/dashboard/data/modal/UpdateEducationModal.vue";
+import Addresses from "@/components/dashboard/data/Addresses.vue";
 import {Swiper, SwiperSlide} from "swiper/vue";
 import {
     YandexMap,
@@ -42,7 +43,8 @@ export default {
         YandexMapMarker,
         YandexMapListener,
         CreateEducationModal,
-        UpdateEducationModal
+        UpdateEducationModal,
+        Addresses
     },
     data() {
         return {
@@ -64,11 +66,12 @@ export default {
             showPhoneEditionModal: false,
             showMailModal: false,
             hasMail: false,
-            addressShow: false,
+            showCreateAddressModal: false,
             showUpdateAddressModal: false,
             showEmailEdition: false,
             showCreateEducationModal: false,
             showUpdateEducationModal: false,
+            showAddresses: false,
             loading: false,
         }
     },
@@ -137,7 +140,7 @@ export default {
         },
         // Method to go back from subpages
         goBack() {
-            this.showUpdateEducationModal = this.showCreateEducationModal = this.showEmailEdition = this.showAuthModal = this.showPhoneEditionModal = this.showMailModal = this.addressShow = this.showUpdateAddressModal = false;
+            this.showAddresses = this.showUpdateEducationModal = this.showCreateEducationModal = this.showEmailEdition = this.showAuthModal = this.showPhoneEditionModal = this.showMailModal = this.showCreateAddressModal = this.showUpdateAddressModal = false;
             this.getUser();
         }
 
@@ -149,7 +152,7 @@ export default {
     <!-- Main content section -->
     <div v-if="loading">
         <!-- User information and actions -->
-        <div class="data_container" v-if="!showPhoneEditionModal && !showEmailEdition">
+        <div class="data_container" v-if="!showPhoneEditionModal && !showEmailEdition && !showAddresses">
             <!-- User info and edit button -->
             <div class="data flex-row">
                 <!-- User avatar -->
@@ -176,7 +179,7 @@ export default {
                 <!-- Address content container -->
                 <div class="address_content_container flex-row">
                     <!-- Display existing addresses -->
-                    <div v-for="address in addresses">
+                    <div v-for="(address, index) in addresses.reverse().slice(0, 5)" :key="index">
                         <div class="address_container">
                             <!-- Yandex Map for each address -->
                             <yandex-map :settings="{
@@ -249,7 +252,7 @@ export default {
                             </yandex-map>
                         </div>
                         <!-- Add new address text -->
-                        <div class="address_text" @click="addressShow = true;">
+                        <div class="address_text" @click="showCreateAddressModal = true;">
                             <p>Добавить еще один адрес</p>
                         </div>
                     </div>
@@ -264,7 +267,7 @@ export default {
                             <p class="delete_pro_id_akk">Все адреса</p>
                         </div>
                     </div>
-                    <img src="/images/icons/dashboard/next.svg">
+                    <img src="/images/icons/dashboard/next.svg" @click="showAddresses = true">
                 </div>
             </div>
             <!-- User contacts -->
@@ -378,9 +381,12 @@ export default {
                          :userId=userId
         ></CreateMailModal>
         <!-- Add new address page -->
+        <Addresses
+            v-if="showAddresses" @goBack="goBack"
+            :userId=userId
+        ></Addresses>
         <CreateAddressModal
-            v-if="addressShow" @goBack="goBack"
-            :phoneNumber=phoneNumber
+            v-if="showCreateAddressModal" @goBack="goBack"
             :userId=userId
         ></CreateAddressModal>
         <!-- Edit existing address page -->

@@ -5,10 +5,12 @@ p {
 .data_container {
     width: 100%;
 }
-.data_container h3{
+
+.data_container h3 {
     font-weight: 400;
     font-size: 22px;
 }
+
 .data {
     height: 80px;
     justify-content: space-around;
@@ -56,7 +58,7 @@ p {
 .address_content_container {
     align-items: center;
     margin-top: 12px;
-    max-width: 565px;
+    max-width: 610px;
     width: 100%;
     overflow-y: hidden;
     overflow-x: auto;
@@ -65,7 +67,7 @@ p {
 }
 
 .address_container {
-    width: 125px;
+    width: 115px;
     height: 168px;
     border-radius: 20px;
     background: #F3F3F3;
@@ -75,6 +77,16 @@ p {
 
 .address_container img {
     margin-top: 20px;
+}
+
+
+.all_addresses_container {
+    display: grid;
+    grid-template-columns:  repeat(4, 140px);
+    grid-auto-rows: 180px;
+    justify-items: center;
+    justify-content: center;
+    margin-left: 10px;
 }
 
 .address_content_container .address_container {
@@ -98,7 +110,7 @@ p {
     position: relative;
     top: -100px;
     left: 3px;
-    width: 118px;
+    width: 109.05px;
     height: 76px;
     border-radius: 20px;
     background: #E3E3E3;
@@ -161,9 +173,11 @@ p {
 .education_items span, p {
     font-size: 15px !important;
 }
-.education_items *{
+
+.education_items * {
     color: #000000 !important;
 }
+
 .add_new_text {
     font-weight: 500 !important;
     font-size: 17px !important;
@@ -183,9 +197,11 @@ p {
     height: 30px;
     padding: 3px;
 }
-.delete_akk{
+
+.delete_akk {
     margin-top: 30px;
 }
+
 .delete_akk span {
     color: #525252;
     font-size: 17px;
@@ -237,22 +253,33 @@ p {
         margin-left: 10px;
         margin-right: 0;
     }
+
     .education__container {
         width: 170px;
     }
+
     .education__blocks {
         grid-template-columns: 182px auto;
     }
+
     .data .ava {
         width: 80px;
         height: 52px;
     }
+
+    .all_addresses_container {
+        grid-template-columns:  repeat(3, 130px);
+        margin-left: 0;
+    }
 }
 
-@media screen and (max-width: 390px){
+@media screen and (max-width: 390px) {
     .data .ava {
         width: 80px;
         height: 49px;
+    }
+    .all_addresses_container {
+        grid-template-columns: repeat(2, 159px);
     }
 }
 
