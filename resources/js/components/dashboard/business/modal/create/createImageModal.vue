@@ -99,7 +99,7 @@ export default {
                                     'background-size': 'cover',
                                     'background-position': 'center'
                                   }"
-                                    ><p class="ava_name_bank">{{ imageData === '' && avatarUrl == null ? name.slice(0,2) : '' }}</p></div>
+                                    ><p class="ava_name_bank">{{ imageData === '' && avatarUrl == null ? name.replace(' ','').slice(0,3) === 'OOO' ? name.replace(' ','').slice(3,5) : name.replace(' ','').slice(0,2) : '' }}</p></div>
 
                                     <!-- Avatar image actions -->
                                     <div class="foto_actions">

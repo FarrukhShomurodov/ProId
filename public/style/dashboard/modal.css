@@ -579,7 +579,7 @@ label {
 
 @media screen and (max-height: 970px) {
     .modal-container-create-business {
-        height: 930px !important;
+        height: 770px !important;
         overflow-y: scroll;
     }
 

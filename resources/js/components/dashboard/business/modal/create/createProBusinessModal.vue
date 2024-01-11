@@ -12,7 +12,7 @@ export default {
         return {
             // Data properties for the component
             inn: '',
-            name_of_business: 'ООО ',
+            name_of_business: 'OOO ',
             form_of_business: 'Частное предприятие - ЧП',
             name_of_bank: '',
             name_of_banking_akkaunt: '',

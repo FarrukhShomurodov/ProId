@@ -261,7 +261,7 @@ export default {
                     </swiper-slide>
                     <swiper-slide class="navbar__link">Подписки</swiper-slide>
                     <div class="border"></div>
-                    <swiper-slide class="navbar__link" onclick="window.location.href='https://divport.in-pro.net'">
+                    <swiper-slide class="navbar__link" onclick="window.location.href=' http://support.in-pro.net/help-center/categories/5/pro-id'">
                         Поддержка
                     </swiper-slide>
                     <swiper-slide class="navbar__link" onclick="window.location.href='https://divport.in-pro.net'">

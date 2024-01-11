@@ -69,7 +69,7 @@ export default {
                         'background-image': `url(${data.image === null ? data.image : '/storage/' + data.image})`,
                         'background-size': 'cover',
                         'background-position': 'center'
-                    }"> <p>{{ data.image === null ? data.name_of_business.slice(0,2) : '' }}</p> </div>
+                    }"> <p>{{ data.image === null ? data.name_of_business.replace(' ','').slice(0,3) === 'OOO' ? data.name_of_business.replace(' ','').slice(3,5) : data.name_of_business.replace(' ','').slice(0,2) : '' }}</p> </div>
                     <!-- Business content -->
                     <div class="business_content">
                         <p>{{ data.name_of_business }}</p>

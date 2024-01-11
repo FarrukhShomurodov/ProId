@@ -89,7 +89,7 @@ export default {
                 'background-position': 'center'
             }">
                 <img src="/images/icons/dashboard/edit.svg" alt="" @click="showCreateImage = true">
-                <p>{{business_details.image === null ? business_details.name_of_business.slice(0,2) : '' }}</p>
+                <p>{{ business_details.image === null ? business_details.name_of_business.replace(' ','').slice(0,3) === 'OOO' ? business_details.name_of_business.replace(' ','').slice(3,5) : business_details.name_of_business.replace(' ','').slice(0,2) : '' }}</p>
             </div>
         </div>
         <!-- Business details content -->
