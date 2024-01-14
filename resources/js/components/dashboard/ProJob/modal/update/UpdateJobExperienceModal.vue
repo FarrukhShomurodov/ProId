@@ -144,7 +144,7 @@ export default {
                                 <div class="status_radio flex-row">
                                     <p>Работаю по сей день</p>
                                     <div class="radio_rounded">
-                                        <input v-model="isWorking" type="checkbox" id="radio_rounded">
+                                        <input v-model="isWorking" type="checkbox" id="radio_rounded" :checked="isWorking">
                                         <label for="radio_rounded"></label>
                                     </div>
                                 </div>
