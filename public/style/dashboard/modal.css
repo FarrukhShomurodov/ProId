@@ -112,7 +112,7 @@ input:focus {
 }
 
 .error p {
-    font-size: 14px;
+    font-size: 14px !important;
     text-align: center;
     color: #FF0000;
 }
@@ -482,6 +482,7 @@ label {
     font-size: 17px;
     font-weight: 500;
     color: #000;
+    user-select: none;
 }
 
 .unactive {

@@ -83,7 +83,7 @@
 
 .education_details {
     max-width: 510px;
-    height: 87px;
+    height: auto;
     border-radius: 20px;
     background: #F3F3F3;
     padding: 10px 10px 20px;

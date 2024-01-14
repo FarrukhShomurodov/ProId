@@ -18,29 +18,18 @@ export default {
             // Data properties for the component
             name: '',
             service: 'Сервис Cloud',
-            bank_data_id: 1,
+            bank_data_id: '',
             dankData: [],
-            addBanking: false,
+            showAddBankingModal: false,
             active: false,
             show: false,
+            loading: false,
             error: '',
         }
     },
     // Component lifecycle hook - called when the component is mounted
     mounted() {
         this.show = true
-
-        // Initialize Select2 plugin for dropdowns
-        $('#select').select2();
-
-        // Capture the Vue instance
-        const vm = this;
-
-        // Change select value from string to integer "id"
-        $('#select2').select2().on('change', function () {
-            // Manually update Vue.js data property
-            vm.bank_data_id = $(this).val();
-        });
 
         // Fetch box office and bank data
         this.getboxOffice();
@@ -54,8 +43,11 @@ export default {
             // Populate data from the API response
             this.service = boxOfficeResponse.data.service
             this.name = boxOfficeResponse.data.name
-            this.active = boxOfficeResponse.data.isActive === 1 ? true : false;
-            vm.bank_data_id = boxOfficeResponse.bank_data_id
+            this.active = boxOfficeResponse.data.isActive === 1;
+            this.bank_data_id = boxOfficeResponse.data.bank_data_id
+
+            $('#select').val(this.service).trigger('change');
+            $('#select2').val(this.bank_data_id).trigger('change');
         },
         // Method to fetch bank data
         async getBankData() {
@@ -64,12 +56,19 @@ export default {
 
                 // Assuming the response contains an array of objects with 'id' and 'name_of_banking_akkaunt' properties
                 this.dankData = banksResponse.data;
+
+                // Initialize Select2 plugin for dropdowns
+                $('#select').select2();
+                $('#select2').select2();
+
+                this.loading = true
             } catch (error) {
                 console.error("Error fetching banking data:", error);
             }
         },
         // Method to save box office data
         save() {
+            this.bank_data_id = parseInt($('#select2').val())
             const box_office_data = {
                 'name': this.name,
                 'service': this.service,
@@ -90,20 +89,21 @@ export default {
         // Method to delete box office
         destroy() {
             axios.delete(`/api/box-offices/${this.box_office_id}`).then(() => this.$emit('close'))
-        }
-    },
-    // Component watch property
-    watch: {
-        // Watch for changes in bank_data_id and update Select2 dropdown value
-        bank_data_id(newVal) {
-            $('#select2').val(newVal).trigger('change');
         },
+        // Go Back method
+        goBack(){
+            this.showAddBankingModal = false;
+
+            // Fetch box office and bank data
+            this.getboxOffice();
+            this.getBankData();
+        }
     },
 };
 </script>
 
 <template>
-    <div>
+    <div v-if="!showAddBankingModal">
         <!-- Modal transition -->
         <transition name="modal-entire">
             <div class="modal-mask" v-show="show">
@@ -111,7 +111,7 @@ export default {
                     <transition name="modal">
                         <!-- Modal container for updating banking data -->
                         <div class="modal-container box-office-update-modal modal-container-bank-box-office"
-                             v-show="show">
+                             v-show="loading">
                             <!-- Header of the modal -->
                             <div class="header_modal">
                                 <h4>Изменение кассы</h4>
@@ -158,7 +158,7 @@ export default {
                                     </select>
                                 </div>
                                 <!-- Button to add new banking data -->
-                                <div class="add_bank" @click="addBanking = true" style="
+                                <div class="add_bank" @click="showAddBankingModal = true" style="
                                 margin-top: 15px;
                                 margin-bottom: 5px;
                                 max-width: 438px;
@@ -198,12 +198,16 @@ export default {
                             </div>
                         </div>
                     </transition>
+                    <!-- Loading indicator while data is being fetched -->
+                    <div v-if="!loading" class="loading-indicator">
+                        Loading...
+                    </div>
                 </div>
             </div>
         </transition>
     </div>
     <!-- Render the createBanksDataModal component if addBanking is true -->
-    <createBanksDataModal v-if="addBanking" @close="$emit('close')"
+    <createBanksDataModal v-if="showAddBankingModal" @close="goBack"
                           :business_id="this.business_id"></createBanksDataModal>
 </template>
 

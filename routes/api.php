@@ -89,7 +89,9 @@ Route::middleware('auth:api')->group(function () {
 
     // Experience
     Route::get('/experience/{proJob}',[ExperienceController::class, 'fetchByJob']);
+    Route::get('/experience-show/{experience}',[ExperienceController::class, 'show']);
     Route::post('/experience',[ExperienceController::class, 'store']);
+    Route::put('/experience/{experience}',[ExperienceController::class, 'update']);
 });
 
 // OTP

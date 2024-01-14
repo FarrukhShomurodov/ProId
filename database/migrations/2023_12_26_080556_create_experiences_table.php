@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('place');
             $table->string('post');
             $table->date('started');
-            $table->date('expired');
+            $table->date('expired')->nullable();
             $table->boolean('is_working')->default(0);
             $table->timestamps();
         });

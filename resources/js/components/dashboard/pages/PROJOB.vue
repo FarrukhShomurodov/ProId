@@ -1,14 +1,18 @@
 <script>
+// Import Component
 import CreateJobModal from "@/components/dashboard/ProJob/modal/CreateJobModal.vue";
+import UpdateJobModal from "@/components/dashboard/ProJob/modal/update/UpdateJobModal.vue";
 import ShowProJob from "@/components/dashboard/ProJob/ShowProJob.vue";
 export default {
     components: {
         CreateJobModal,
         ShowProJob,
+        UpdateJobModal
     },
     data() {
         return {
             showJobModal: false,
+            showUpdateJobModal: false,
             user_id: null,
             job_id: null,
             jobs: [],
@@ -27,8 +31,6 @@ export default {
                 //getting jobs by user
                 axios.get(`/api/job/${this.user_id}`).then((res) => {
                     this.jobs = res.data
-
-                    console.log(res.data)
 
                     this.loading = true
                 })
@@ -59,7 +61,7 @@ export default {
         },
         goBack() {
             this.getData();
-            this.showJobModal = this.showJob = false;
+            this.showJobModal = this.showUpdateJobModal = this.showJob = false;
         }
     }
 }
@@ -71,20 +73,20 @@ export default {
         <section class="job">
             <!-- Jobs -->
             <TransitionGroup name="list">
-                <div class="job-container" v-for="job in jobs" @click="job_id = job.id; showJob = true" :key="job.id">
+                <div class="job-container" v-for="job in jobs" :key="job.id">
                     <div class="job-header flex-row">
-                        <div class="job-items">
+                        <div class="job-items" @click="job_id = job.id; showJob = true">
 
                             <p>Профессия: {{ job.type.slice(0, 8) + '...' }}</p>
                             <span>Специализация: {{job.profession}}</span>
                         </div>
-                        <img src="/images/icons/dashboard/edit.svg" width="25" alt="Edit Icon"/>
+                        <img src="/images/icons/dashboard/edit.svg" width="25" alt="Edit Icon" @click="job_id = job.id; showUpdateJobModal = true"/>
                     </div>
 
-                    <p class="experience" v-if="job.experience_count !== undefined && job.experience_count !== null">
+                    <p class="experience" v-if="job.experience_count !== undefined && job.experience_count !== null" @click="job_id = job.id; showJob = true">
                         Стаж: {{ formatExperienceDate(job.experience_count) }}
                     </p>
-                    <p class="experience" v-else>Стаж: отсутствует</p>
+                    <p class="experience" v-else @click="job_id = job.id; showJob = true">Стаж: отсутствует</p>
                 </div>
             </TransitionGroup>
 
@@ -118,6 +120,7 @@ export default {
         Loading...
     </div>
     <CreateJobModal v-if="showJobModal" @goBack="goBack" :userId="this.user_id"></CreateJobModal>
+    <UpdateJobModal v-if="showUpdateJobModal" @goBack="goBack" :userId="this.user_id" :jobId="this.job_id"></UpdateJobModal>
     <ShowProJob v-if="showJob" @goBack="goBack" :job_id="this.job_id"></ShowProJob>
 </template>
 

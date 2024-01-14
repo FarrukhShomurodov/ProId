@@ -6,39 +6,56 @@ import axios from 'axios';
 import CreateEducationModal from "@/components/dashboard/data/modal/CreateEducationModal.vue";
 
 export default {
-    props: ['userId'],
+    props: ['userId', 'jobId'],
     components: {
         CreateEducationModal
     },
     data() {
         return {
             // Data properties for the component
-            type: 'Врач',
+            type: null,
             profession: '',
-            education_id: 'Без образования',
+            education_id: null,
             error: '',
             educations: [],
             show: false,
             showCreateEducationModal: false,
+            loading: false
         }
     },
     // Component lifecycle hook - called when the component is mounted
     mounted() {
-        this.getData()
+        this.initializeSelect2();
+        this.getData();
     },
     methods: {
-        getData(){
-            this.show = true;
+        // Initialize select2
+        initializeSelect2() {
             $('#select').select2();
-            this.$nextTick(() => {
-                $('#select').select2();
-                $('#select2').select2();
-            });
+            $('#select2').select2();
+        },
+        // Method for fetching data
+        getData() {
+            this.show = true;
 
             // Fetch education by user
             axios.get(`/api/education/${this.userId}`).then(res => {
                 this.educations = res.data
             })
+
+            // Fetch job data
+            axios.get(`/api/job-show/${this.jobId}`).then(res => {
+                const data = res.data;
+
+                this.type = data.type
+                this.profession = data.profession
+                this.education_id = data.education_id ?? 'Без образования'
+
+                $('#select').val(this.type).trigger('change');
+                $('#select2').val(this.education_id).trigger('change');
+
+                this.loading = true;
+            });
         },
         // Method to save education
         save() {
@@ -46,19 +63,17 @@ export default {
             this.education_id = isNaN(parseInt($('#select2').val())) ? null : parseInt($('#select2').val());
 
             const data = {
-                'user_id': this.userId,
                 'type': this.type,
                 'profession': this.profession,
                 'education_id': this.education_id,
             }
-
-            axios.post('/api/job', data).then(() => {
+            axios.put(`/api/job/${this.jobId}`, data).then(() => {
                 this.$emit('goBack');
             }).catch(err => {
                 this.error = err.response.data.message;
             })
         },
-        goBack(){
+        goBack() {
             this.showCreateEducationModal = false;
             this.getData();
         }
@@ -72,9 +87,9 @@ export default {
             <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
                     <transition name="modal">
-                        <div class="modal-container modal-container-job" v-show="show">
+                        <div class="modal-container modal-container-job" v-show="loading">
                             <div class="header_modal">
-                                <h3 class="education_text">Добавление професии</h3>
+                                <h3 class="education_text">Изменение професии</h3>
                                 <img
                                     src="/images/icons/dashboard/exit.svg"
                                     @click="$emit('goBack')"
@@ -91,7 +106,9 @@ export default {
                                         <optgroup label="Информационные технологии">
                                             <option value="Программист">Программист</option>
                                             <option value="Системный администратор">Системный администратор</option>
-                                            <option value="Инженер по безопасности информации">Инженер по безопасности информации</option>
+                                            <option value="Инженер по безопасности информации">Инженер по безопасности
+                                                информации
+                                            </option>
                                             <option value="Аналитик данных">Аналитик данных</option>
                                             <option value="Веб-разработчик">Веб-разработчик</option>
                                             <option value="Сетевой инженер">Сетевой инженер</option>
@@ -109,7 +126,8 @@ export default {
                                         <optgroup label="Образование">
                                             <option value="Учитель">Учитель</option>
                                             <option value="Профессор">Профессор</option>
-                                            <option value="Педагогический консультант">Педагогический консультант</option>
+                                            <option value="Педагогический консультант">Педагогический консультант
+                                            </option>
                                             <option value="Директор школы">Директор школы</option>
                                             <option value="Тренер">Тренер</option>
                                         </optgroup>
@@ -161,6 +179,10 @@ export default {
                             </div>
                         </div>
                     </transition>
+                    <!-- Loading indicator -->
+                    <div v-if="!loading" class="loading-indicator">
+                        Loading...
+                    </div>
                 </div>
             </div>
         </transition>

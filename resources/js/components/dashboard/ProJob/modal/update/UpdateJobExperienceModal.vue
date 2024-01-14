@@ -3,40 +3,77 @@
 import axios from 'axios';
 
 export default {
-    props: ['job_id'],
+    props: ['experienceId'],
     data() {
         return {
             // Data properties for the component
             place: '',
             post: '',
             started: '',
-            expired: '',
+            expired: null,
             isWorking: false,
             show: false,
             error: '',
+            loading: false,
         }
     },
     // Component lifecycle hook - called when the component is mounted
     mounted() {
         this.show = true;
+        axios.get(`/api/experience-show/${this.experienceId}`).then((res) => {
+            const data = res.data
+
+            // setting data from server
+            this.place = data.place
+            this.post = data.post
+            this.started = data.started
+            this.expired = data.expired
+            this.isWorking = data.is_working
+            this.loading = true
+        })
     },
     methods: {
         // Method to save experience
         save() {
-            const data = {
-                'job_id': this.job_id,
-                'place': this.place,
-                'post': this.post,
-                'started': this.started,
-                'expired': this.expired,
-                'is_working': this.isWorking
+            // comparing date
+            let timeDifference = false;
+            let comparingDate = false;
+
+            if (!this.isWorking) {
+                if (this.expired === null) {
+                    this.error = 'Поле "Период работы" является обязательным для заполнения.'
+                } else {
+                    const currentDate = new Date();
+                    const startedDate = new Date(this.started)
+                    const expiredDate = new Date(this.expired);
+
+                    // Calculate the absolute difference in milliseconds
+                    timeDifference = currentDate > expiredDate;
+                    comparingDate = startedDate > expiredDate;
+
+                    if (!timeDifference) this.error = 'Дата окончание не может быть в будушем времени'
+                    if (comparingDate) this.error = 'Дата окончание не может быть в меньше даты начало'
+                }
+            } else {
+                this.expired = null;
+                timeDifference = true;
             }
 
-            axios.post('/api/experience', data).then((res) => {
-                this.$emit('goBack');
-            }).catch(err => {
-                this.error = err.response.data.message;
-            })
+            if (timeDifference && !comparingDate) {
+                const data = {
+                    'place': this.place,
+                    'post': this.post,
+                    'started': this.started,
+                    'expired': this.expired,
+                    'is_working': this.isWorking
+                }
+
+                axios.put(`/api/experience/${this.experienceId}`, data).then(() => {
+                    this.$emit('goBack');
+                }).catch(err => {
+                    this.error = err.response.data.message;
+                })
+            }
         },
     },
 };
@@ -48,9 +85,9 @@ export default {
             <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
                     <transition name="modal">
-                        <div class="modal-container modal-container-experience" v-show="show">
+                        <div class="modal-container modal-container-experience" v-show="loading">
                             <div class="header_modal">
-                                <h3 class="education_text">Добавить информацию об образование</h3>
+                                <h3 class="education_text">Изменить информацию об трудовой стаже</h3>
                                 <img
                                     src="/images/icons/dashboard/exit.svg"
                                     @click="$emit('goBack')"
@@ -90,15 +127,16 @@ export default {
                                             class="form_input education_dates"
                                             type="date"
                                             v-model="started"
-                                            :class="{'form_input_error': error && started.length === 0}"
+                                            :class="{'form_input_error': error && started.length === 0, 'education_date_margin': !isWorking}"
                                             required
                                         />
-                                        -
+                                        <span v-show="!isWorking">-</span>
                                         <input
                                             class="form_input education_dates"
+                                            v-if="!isWorking"
                                             type="date"
                                             v-model="expired"
-                                            :class="{'form_input_error': error && expired.length === 0}"
+                                            :class="{'form_input_error': error && expired == null}"
                                             required
                                         />
                                     </div>
@@ -114,12 +152,16 @@ export default {
                             <div class="modal-footer">
                                 <slot name="footer">
                                     <button class="modal-default-button" @click="save">
-                                        Создать
+                                        Изменить
                                     </button>
                                 </slot>
                             </div>
                         </div>
                     </transition>
+                    <!-- Loading indicator -->
+                    <div v-if="!loading" class="loading-indicator">
+                        Loading...
+                    </div>
                 </div>
             </div>
         </transition>

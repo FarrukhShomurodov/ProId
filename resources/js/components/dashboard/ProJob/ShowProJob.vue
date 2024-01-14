@@ -1,12 +1,13 @@
 <script>
-import CreateJobExperience from "@/components/dashboard/ProJob/modal/CreateJobExperience.vue";
+import CreateJobExperience from "@/components/dashboard/ProJob/modal/CreateJobExperienceModal.vue";
 import UpdateEducationModal from "@/components/dashboard/data/modal/UpdateEducationModal.vue";
-
+import UpdateJobExperienceModal from "@/components/dashboard/ProJob/modal/update/UpdateJobExperienceModal.vue";
 export default {
     props: ['job_id'],
     components: {
         CreateJobExperience,
-        UpdateEducationModal
+        UpdateEducationModal,
+        UpdateJobExperienceModal
     },
     data() {
         return {
@@ -15,18 +16,24 @@ export default {
             experiences: [],
             experienceDate: 0,
             education_id: null,
+            experience_id: null,
             loading: false,
 
             //modal
             showCreateJobExperienceModal: false,
             showUpdateEducationModal: false,
+            showUpdateExperienceModal: false,
         }
     },
     mounted() {
-        this.fetchData()
+        this.fetchExperienceDate()
     },
     methods: {
-        async fetchData() {
+        async fetchExperienceDate() {
+            axios.get(`/api/job-show/${this.job_id}`).then(res => {
+                this.job = res.data;
+                axios.get(`/api/education-show/${this.job.education_id}`).then(res => this.education = res.data)
+            })
             try {
                 const response = await axios.get(`/api/experience/${this.job_id}`);
                 this.experiences = response.data;
@@ -45,7 +52,6 @@ export default {
                     await axios.put(`/api/job-experience/${this.job_id}`, {
                         'experience_count': BigInt(this.experienceDate).toString()
                     });
-                    console.log(this.experienceDate);
                 }
 
                 this.loading = true;
@@ -73,8 +79,8 @@ export default {
             return formattedDate.join(' ');
         },
         close() {
-            this.fetchData();
-            this.showCreateJobExperienceModal = this.showUpdateEducationModal = false;
+            this.fetchExperienceDate();
+            this.showCreateJobExperienceModal = this.showUpdateExperienceModal = this.showUpdateEducationModal = false;
             // this.experienceDate = 0;
         },
     },
@@ -97,7 +103,7 @@ export default {
                                 parseInt(experienceDate) !== 0 ? formatExperienceDate(experienceDate) : 'отсутствует'
                             }}</p>
                     </div>
-                    <p>Образование: {{ education.hasOwnProperty('id') ? 'Высшее' : 'отсутствует' }}</p>
+                    <p>Образование: {{ education.hasOwnProperty('id') ? education.type : 'отсутствует' }}</p>
                 </section>
             </div>
         </div>
@@ -119,7 +125,7 @@ export default {
                 </div>
                 <div class="d-flex flex_row align-items-center">
                     <p>Вид: {{ education.type }} </p>
-                    <p>Период: {{ education.started.slice(0, 4) }}-{{ education.expired.slice(0, 4) }}</p>
+                    <p>Период: {{ education.started.slice(0, 4) }}-{{ education.expired == null ? 'Учусь по сей день' : education.expired.slice(0,4)  }}</p>
                 </div>
             </section>
         </div>
@@ -134,7 +140,7 @@ export default {
                     <div class="d-flex flex-column justify-content-between">
                         <div class="d-flex flex_row">
                             <p class="univer_name">Место Работы: OOO "{{ experience.place }}” </p>
-                            <img src="/images/icons/dashboard/edit.svg" class="edit_education_icon">
+                            <img src="/images/icons/dashboard/edit.svg" class="edit_education_icon" @click="showUpdateExperienceModal = true; experience_id = experience.id">
                         </div>
                         <div class="d-flex flex-column justify-content-between">
                             <p>Должность: {{ experience.post }}</p>
@@ -163,6 +169,8 @@ export default {
 
     <UpdateEducationModal v-if="showUpdateEducationModal" @goBack="close"
                           :education_id="this.education_id"></UpdateEducationModal>
+    <UpdateJobExperienceModal v-if="showUpdateExperienceModal" @goBack="close"
+                          :experienceId="this.experience_id"></UpdateJobExperienceModal>
 </template>
 
 <style scoped>

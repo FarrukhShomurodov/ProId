@@ -19,7 +19,7 @@ export default {
             service: 'Сервис Cloud',
             bank_data_id: 1,
             bankData: [],
-            addBanking: false,
+            showAddBankingModal: false,
             show: false,
             error: '',
         }
@@ -29,14 +29,7 @@ export default {
 
         // Mounting phase tasks
         $('#select').select2();
-
-        // Capture the Vue instance
-        const vm = this;
-
-        // Select2 change event to manually update Vue.js data property
-        $('#select2').select2().on('change', function () {
-            vm.bank_data_id = $(this).val();
-        });
+        $('#select2').select2();
 
         // Fetch initial bank data
         this.getBankData();
@@ -51,12 +44,18 @@ export default {
 
                 // Update Vue.js data property with fetched data
                 this.bankData = banksResponse.data;
+
+                // Mounting phase tasks
+                $('#select').select2();
+                $('#select2').select2();
+
             } catch (error) {
                 console.error("Error fetching banking data:", error);
             }
         },
         // Save function to handle the submission of data
         save() {
+            this.bank_data_id = parseInt($('#select2').val())
             const box_office_data = {
                 'business_id': this.business_id,
                 'name': this.name,
@@ -71,18 +70,18 @@ export default {
                 this.error = err.response.data.message; // Display error message if save fails
             });
         },
-    },
-    watch: {
-        // Watch for changes in bank_data_id and update Select2 dropdown value
-        bank_data_id(newVal) {
-            $('#select2').val(newVal).trigger('change');
-        },
+        // Go Back method
+        go_back(){
+            this.showAddBankingModal = false;
+            this.getBankData();
+
+        }
     },
 };
 </script>
 
 <template>
-    <div>
+    <div v-if="!showAddBankingModal">
         <!-- Modal for creating a box office -->
         <transition name="modal-entire">
             <div class="modal-mask" v-show="show">
@@ -129,7 +128,7 @@ export default {
                                     </select>
                                 </div>
                                 <!-- Add new banking option -->
-                                <div class="add_bank" @click="addBanking = true" style="
+                                <div class="add_bank" @click="showAddBankingModal = true" style="
                                 margin-top: 15px;
                                 margin-bottom: 5px;
                                 max-width: 438px;
@@ -156,11 +155,10 @@ export default {
                 </div>
             </div>
         </transition>
-
-        <!-- Display createBanksDataModal component when addBanking is true -->
-        <createBanksDataModal v-if="addBanking" @close="$emit('close')"
-                              :business_id="this.business_id"></createBanksDataModal>
     </div>
+    <!-- Display createBanksDataModal component when showAddBankingModal is true -->
+    <createBanksDataModal v-if="showAddBankingModal" @close="go_back"
+                          :business_id="this.business_id"></createBanksDataModal>
 </template>
 
 <style scoped>
