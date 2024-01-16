@@ -94,7 +94,7 @@ export default {
                                         style="width: 92px; height: 92px; background-color: #5fe0d8;"
                                         :style="{
                                     'background-image': `url(${
-                                      avatarUrl === null ? imageData : '/storage' + avatarUrl
+                                      avatarUrl === null ? imageData : '/storage/' + avatarUrl
                                     })`,
                                     'background-size': 'cover',
                                     'background-position': 'center'
