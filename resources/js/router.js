@@ -161,7 +161,7 @@ router.beforeEach(async (to, from, next) => {
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
-            next();
+            next({name: 'login'});
         }
     } else {
         next();
