@@ -7,13 +7,15 @@ import axios from 'axios';
 // Initiliase axios
 window.axios = axios;
 
-// Auth Header
-const headers = {
-    'Authorization': `Bearer ` + localStorage.token,
-};
+if(localStorage.token){
+    // Auth Header
+    const headers = {
+        'Authorization': `Bearer ` + localStorage.token,
+    };
 
-// Set auth header in axios methods
-window.axios.defaults.headers.common = headers
+    // Set auth header in axios methods
+    window.axios.defaults.headers.common = headers
+}
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
