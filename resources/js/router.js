@@ -165,7 +165,7 @@ router.beforeEach(async (to, from, next) => {
             next({name: 'login'});
         }
     } else {
-        next();
+        next({name: 'login'});
     }
 });
 
