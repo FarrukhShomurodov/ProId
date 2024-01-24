@@ -30,13 +30,15 @@ export default {
         axios.get(`/api/education-show/${this.education_id}`).then(res => {
             const data = res.data;
 
+            console.log(data);
+
             this.type = data.type
             $('#select').val(this.type).trigger('change');
 
             this.name = data.name
             this.started = data.started
             this.expired = data.expired
-            this.isStudying = data.is_studying
+            this.isStudying = data.is_studying == 0 ? false : true
             this.loading = true;
         })
     },
