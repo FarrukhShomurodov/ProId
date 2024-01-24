@@ -30,7 +30,7 @@ export default {
                                 <h3 class="pochta">Почтовый яшик</h3>
                                 <img
                                     src="/images/icons/dashboard/exit.svg"
-                                    @click="$emit('close')"
+                                    @click="$emit('goBack')"
                                     alt="exit icon"
                                 />
                             </div>
