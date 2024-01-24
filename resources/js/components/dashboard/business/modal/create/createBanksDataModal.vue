@@ -40,7 +40,7 @@ export default {
             // Retrieve bank data based on MFO code
             axios.get('/api/bank-data-by-mfo').then(res => {
                 for (let i = 0; i < res.data.length; i++) {
-                    if (res.data[i].code === this.mfo) {
+                    if (res.data[i].code == this.mfo) {
                         this.name = res.data[i].name; // Set bank name based on MFO code
                     }
                 }
