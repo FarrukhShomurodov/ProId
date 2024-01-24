@@ -12,7 +12,6 @@ import UpdateAddressModal from "../data/modal/UpdateAddressModal.vue";
 import CreateEducationModal from "@/components/dashboard/data/modal/CreateEducationModal.vue";
 import UpdateEducationModal from "@/components/dashboard/data/modal/UpdateEducationModal.vue";
 import Addresses from "@/components/dashboard/data/Addresses.vue";
-import {Swiper, SwiperSlide} from "swiper/vue";
 import {
     YandexMap,
     YandexMapDefaultSchemeLayer,
@@ -22,15 +21,13 @@ import {
 } from 'vue-yandex-maps';
 
 export default {
-    props: {
-        fetchUser: {
-            type: Function,
-            required: true
-        }
-    },
+    // props: {
+    //     fetchUser: {
+    //         type: Function,
+    //         required: true
+    //     }
+    // },
     components: {
-        SwiperSlide,
-        Swiper,
         authModal,
         PhoneNumber,
         CreateMailModal,
@@ -56,7 +53,7 @@ export default {
             avatarUrl: '',
             phoneNumber: '',
             mail: '',
-            address_id: 0,
+            address_id: null,
             addresses: [],
             education_id: 0,
             educations: [],
@@ -76,10 +73,25 @@ export default {
         }
     },
     mounted() {
-        // Fetch user data when the component is mounted
-        this.getUser()
+        this.getUser();
+        
+        // destroy ymap
+        this.$nextTick(() => {
+            this.destroyYandexMap();
+        });
     },
     methods: {
+        destroyYandexMap() {
+            // Access the YandexMap component using the ref
+            const yandexMap = this.$refs.yandexMap;
+
+            // Check if the YandexMap component exists
+            if (yandexMap) {
+                // Call the destroy method to destroy the map
+                yandexMap.destroy();
+            }
+        },
+
         // Format phone number
         formatPhoneNumber(phoneNumber) {
             // Remove any non-digit characters from the phone number
@@ -91,60 +103,52 @@ export default {
             return formattedNumber;
         },
 
-        //Destroy map
-        destroyMap() {
-            // Check if the map instance exists
-            if (this.$refs.yandexMap) {
-                // Destroy the map instance
-                this.$refs.yandexMap.destroy();
-            }
-        },
-
         // Method to fetch user data
-        getUser() {
-            this.fetchUser()
+        async getUser() {
             this.showAuthModal = false
 
-            // Fetch user data and addresses
-            axios.get('/api/user').then(res => {
-                const data = res.data;
+            // Fetch user data
+            await axios.get('/api/user').then(res => {
+                const { id, name, surname, avatar, phone_number, email } = res.data;
 
                 // Set user data
-                this.userId = data.id
-                this.name = data.name;
-                this.surname = data.surname;
-                this.avatarUrl = data.avatar;
-                this.phoneNumber = data.phone_number
+                this.userId = id;
+                this.name = name;
+                this.surname = surname;
+                this.avatarUrl = avatar;
+                this.phoneNumber = phone_number;
 
-                // format phone number
-                const phoneNumber = `+${this.phoneNumber}`;
-                this.phoneNumber = this.formatPhoneNumber(phoneNumber);
+                // Format phone number
+                this.phoneNumber = this.formatPhoneNumber(`+${this.phoneNumber}`);
 
-                this.hasMail = data.email !== null
-                this.mail = data.email
+                this.hasMail = email !== null;
+                this.mail = email;
 
-                // Fetch user addresses
-                axios.get(`/api/address/${this.userId}`).then(res => {
-                    this.addresses = res.data
-                    if (this.addresses.length !== 0) {
-                        this.address_id = res.data[0].id
-                    }
-                    this.destroyMap();
-                })
+                this.getAddress();
+                this.getEducation();
 
-                axios.get(`/api/education/${this.userId}`).then(res => {
-                    this.educations = res.data;
-                    this.loading = true;
-                })
+                this.loading = true;
+            })           
+        },
+
+        // Fetch user education
+        async getEducation(){
+            await axios.get(`/api/education/${this.userId}`).then(res => {
+                this.educations = res.data;
+            })
+        },
+        // Fetch user addresses
+        async getAddress(){
+            await axios.get(`/api/address/${this.userId}`).then(res => {
+                this.addresses = res.data.reverse().slice(0,3)
             })
         },
         // Method to go back from subpages
         goBack() {
             this.showAddresses = this.showUpdateEducationModal = this.showCreateEducationModal = this.showEmailEdition = this.showAuthModal = this.showPhoneEditionModal = this.showMailModal = this.showCreateAddressModal = this.showUpdateAddressModal = false;
             this.getUser();
-        }
-
-    }
+        },
+    },
 }
 </script>
 
@@ -179,15 +183,15 @@ export default {
                 <!-- Address content container -->
                 <div class="address_content_container flex-row">
                     <!-- Display existing addresses -->
-                    <div v-for="(address, index) in addresses.reverse().slice(0, 5)" :key="index">
+                    <div v-for="address in addresses">
                         <div class="address_container">
                             <!-- Yandex Map for each address -->
-                            <yandex-map :settings="{
+                            <yandex-map ref="yandexMap" :settings="{
                                 location: {
                                     center:  JSON.parse(address.coords),
                                     zoom: 10,
                                 },
-                                behaviors: ['default', 'scrollZoom'],
+                                behaviors: ['default'],
                             }" class="yandexDataMap">
                                 <yandex-map-default-scheme-layer/>
                                 <yandex-map-default-features-layer/>
@@ -221,12 +225,12 @@ export default {
                     <div>
                         <div class="address_container flex-column">
                             <!-- Yandex Map for the user's location -->
-                            <yandex-map :settings="{
+                            <yandex-map ref="yandexMap" :settings="{
                                 location: {
                                     center:   [69.240562, 41.2800],
                                     zoom: 10,
                                 },
-                                behaviors: ['default', 'scrollZoom'],
+                                behaviors: ['default'],
                             }" class="yandexDataMap">
                                 <yandex-map-default-scheme-layer/>
                                 <yandex-map-default-features-layer/>

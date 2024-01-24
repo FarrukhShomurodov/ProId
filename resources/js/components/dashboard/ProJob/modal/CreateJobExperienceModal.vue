@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export default {
     props: ['job_id'],
+    emits: ['goBack'],
     data() {
         return {
             // Data properties for the component

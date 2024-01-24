@@ -9,6 +9,8 @@ export default {
         'box_office_id',
         'business_id'
     ],
+    emits: ['close'],
+
     components: {
         createBanksDataModal,
     },

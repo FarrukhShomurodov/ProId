@@ -149,7 +149,9 @@ p {
     gap: 5px;
     row-gap: 10px;
 }
-
+.education__blocks *{
+    user-select: none;
+}
 .education__container {
     width: 195px;
     height: 125px;

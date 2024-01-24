@@ -7,6 +7,8 @@ import CreateEducationModal from "@/components/dashboard/data/modal/CreateEducat
 
 export default {
     props: ['userId', 'jobId'],
+    emits: ['goBack'],
+
     components: {
         CreateEducationModal
     },
@@ -25,15 +27,11 @@ export default {
     },
     // Component lifecycle hook - called when the component is mounted
     mounted() {
-        this.initializeSelect2();
         this.getData();
+        $('#select').select2();
+        $('#select2').select2();
     },
     methods: {
-        // Initialize select2
-        initializeSelect2() {
-            $('#select').select2();
-            $('#select2').select2();
-        },
         // Method for fetching data
         getData() {
             this.show = true;
@@ -75,6 +73,12 @@ export default {
         },
         goBack() {
             this.showCreateEducationModal = false;
+
+            this.$nextTick(() => {
+                $('#select').select2();
+                $('#select2').select2();
+            });
+
             this.getData();
         }
     },

@@ -7,6 +7,7 @@ export default {
     props: [
         'userId'
     ],
+    emits: ['close'],
     // Component data initialization
     data() {
         return {

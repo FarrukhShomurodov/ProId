@@ -50,7 +50,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/address/{address}', [AddressController::class, 'update']);
 
     // Business
-    Route::get('/fetch-by-user/{user}', [ProBusinessController::class, 'fetchByUser']);
+    Route::get('/pro-business/{user}', [ProBusinessController::class, 'fetchByUser']);
     Route::get('/pro-business-show/{proBusiness}',[ProBusinessController::class, 'show']);
     Route::post('/pro-business', [ProBusinessController::class, 'store']);
     Route::post('/pro-business-image/{proBusiness}', [ProBusinessController::class, 'uploadImage']);

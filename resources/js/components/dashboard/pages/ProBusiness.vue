@@ -26,13 +26,13 @@ export default {
     },
     methods: {
         // Method to fetch user and business data
-        fetchUser() {
+        async fetchUser() {
             // User
-            axios.get('/api/user').then(res => {
+            await axios.get('/api/user').then(res => {
                 this.userId = res.data.id
 
                 // Business
-                axios.get(`/api/fetch-by-user/${this.userId}`).then(res => {
+                axios.get(`/api/pro-business/${this.userId}`).then(res => {
                     this.businessData = res.data;
                     // Use setTimeout to simulate asynchronous loading
                     setTimeout(() => {

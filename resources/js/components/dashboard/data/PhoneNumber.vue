@@ -7,6 +7,7 @@ export default {
         UpdatePhoneModal
     },
     props: ['userId'],
+    emits:['goBack'],
     data() {
         return {
             showModal: false,

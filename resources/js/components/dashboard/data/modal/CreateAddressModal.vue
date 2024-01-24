@@ -7,7 +7,6 @@ import {
     YandexMapMarker,
     YandexMapListener,
 } from 'vue-yandex-maps';
-import {setConsent} from "https://www.gstatic.com/firebasejs/10.6.0/firebase-analytics.js";
 
 export default {
     props: ['userId'],
@@ -27,7 +26,11 @@ export default {
             searchQuery: '',
             suggestions: [],
             zoom: 9,
+            show: false,
         };
+    },
+    mounted(){
+        this.show = true;
     },
     methods: {
         // Method to save the address data to the server
@@ -120,9 +123,9 @@ export default {
 <template>
     <!-- Main container for the address modal -->
     <div>
-        <transition name="modal">
+        <transition name="modal-entire">
             <!-- Modal mask and wrapper -->
-            <div class="modal-mask">
+            <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
                     <!-- Modal container for phone number editing -->
                     <div class="modal-container modal-container-address-phone-mail">

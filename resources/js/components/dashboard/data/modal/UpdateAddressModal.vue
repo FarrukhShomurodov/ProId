@@ -10,6 +10,7 @@ import {
 
 export default {
     props: ['address_id'],
+    emits:['goBack'],
     components: {
         YandexMap,
         YandexMapDefaultSchemeLayer,
@@ -25,10 +26,12 @@ export default {
             searchQuery: '',
             suggestions: [],
             zoom: 9,
+            show: false,
             loading: false
         };
     },
     mounted() {
+        this.show = true;
         axios.get(`/api/address-show/${this.address_id}`).then(res => {
             this.address = res.data.name
             this.searchQuery = res.data.name
@@ -124,75 +127,77 @@ export default {
 
 <template>
     <div>
-        <transition name="modal">
-            <div class="modal-mask">
+        <transition name="modal-entire">
+            <div class="modal-mask" v-show="show">
                 <div class="modal-wrapper">
-                    <div class="modal-container modal-container-address-phone-mail" v-if="loading">
-                        <div class="header_modal">
-                            <h3 class="add_address">Изменить адрес</h3>
-                            <img
-                                src="/images/icons/dashboard/exit.svg"
-                                @click="$emit('goBack')"
-                                alt="exit icon"
-                            />
-                        </div>
+                    <transition name="modal">
+                        <div class="modal-container modal-container-address-phone-mail" v-if="loading">
+                            <div class="header_modal">
+                                <h3 class="add_address">Изменить адрес</h3>
+                                <img
+                                    src="/images/icons/dashboard/exit.svg"
+                                    @click="$emit('goBack')"
+                                    alt="exit icon"
+                                />
+                            </div>
 
-                        <!-- Map Section -->
-                        <div class="custom-search">
-                            <input v-model="searchQuery" placeholder="Адрес" class="form_input"
-                                   @input="handleSearchInput" />
-                            <div v-if="suggestions.length > 0" class="suggestions">
-                                <div v-for="suggestion in suggestions" :key="suggestion"
-                                     @click="selectSuggestion(suggestion)">
-                                    {{ suggestion.properties.get('address') }}
+                            <!-- Map Section -->
+                            <div class="custom-search">
+                                <input v-model="searchQuery" placeholder="Адрес" class="form_input"
+                                    @input="handleSearchInput" />
+                                <div v-if="suggestions.length > 0" class="suggestions">
+                                    <div v-for="suggestion in suggestions" :key="suggestion"
+                                        @click="selectSuggestion(suggestion)">
+                                        {{ suggestion.properties.get('address') }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="map" style="width: 100px"></div>
-                        <div class="yaMap">
-                            <yandex-map
-                                :settings="{
-                                location: {
-                                  center: coords,
-                                  zoom: zoom,
-                                },
-                              }">
-                                <yandex-map-default-scheme-layer />
-                                <yandex-map-default-features-layer />
-                                <yandex-map-listener :settings="{
-                                    onUpdate : moveMap
-                                }"/>
-                                <yandex-map-marker
+                            <div id="map" style="width: 100px"></div>
+                            <div class="yaMap">
+                                <yandex-map
                                     :settings="{
-                                        coordinates: coords,
-                                    }"
-                                >
-                                    <template #default>
-                                        <img
-                                            alt=""
-                                            :src="'/images/icons/marker.svg'"
-                                            :style="{
-                                            width: '20px',
-                                            position: 'relative',
-                                            boxSizing: 'border-box',
-                                            transform: 'translate(-50%, calc(-50% - 24px))',
-                                            cursor: 'pointer',
+                                    location: {
+                                    center: coords,
+                                    zoom: zoom,
+                                    },
+                                }">
+                                    <yandex-map-default-scheme-layer />
+                                    <yandex-map-default-features-layer />
+                                    <yandex-map-listener :settings="{
+                                        onUpdate : moveMap
+                                    }"/>
+                                    <yandex-map-marker
+                                        :settings="{
+                                            coordinates: coords,
                                         }"
-                                        />
-                                    </template>
-                                </yandex-map-marker>
-                            </yandex-map>
-                        </div>
+                                    >
+                                        <template #default>
+                                            <img
+                                                alt=""
+                                                :src="'/images/icons/marker.svg'"
+                                                :style="{
+                                                width: '20px',
+                                                position: 'relative',
+                                                boxSizing: 'border-box',
+                                                transform: 'translate(-50%, calc(-50% - 24px))',
+                                                cursor: 'pointer',
+                                            }"
+                                            />
+                                        </template>
+                                    </yandex-map-marker>
+                                </yandex-map>
+                            </div>
 
-                        <!-- Footer Section -->
-                        <div class="modal-footer">
-                            <slot name="footer">
-                                <button class="modal-default-button address-save-btn" @click="save">
-                                    Сохранить
-                                </button>
-                            </slot>
+                            <!-- Footer Section -->
+                            <div class="modal-footer">
+                                <slot name="footer">
+                                    <button class="modal-default-button address-save-btn" @click="save">
+                                        Сохранить
+                                    </button>
+                                </slot>
+                            </div>
                         </div>
-                    </div>
+                    </transition>
                     <!-- Loading indicator -->
                     <div v-if="!loading" class="loading-indicator">
                         Loading...

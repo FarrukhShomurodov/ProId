@@ -7,6 +7,8 @@ export default {
     props: [
         'banking_id'
     ],
+    emits: ['close'],
+
     // Component data initialization
     data() {
         return {

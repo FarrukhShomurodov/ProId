@@ -8,6 +8,7 @@ export default {
     components: {
         UpdateBoxOfficeModal
     },
+    emits:['close'],
     props: [
         'box_office_id',
         'business_id',

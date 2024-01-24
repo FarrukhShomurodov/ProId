@@ -9,6 +9,7 @@ export default {
     props: [
         'business_id'
     ],
+    emits: ['close'],
     components: {
         createBanksDataModal,
     },

@@ -7,6 +7,7 @@ import CreateEducationModal from "@/components/dashboard/data/modal/CreateEducat
 
 export default {
     props: ['userId'],
+    emits: ['goBack'],
     components: {
         CreateEducationModal
     },
@@ -29,7 +30,7 @@ export default {
     methods: {
         getData(){
             this.show = true;
-            $('#select').select2();
+            
             this.$nextTick(() => {
                 $('#select').select2();
                 $('#select2').select2();

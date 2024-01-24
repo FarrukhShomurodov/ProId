@@ -5,6 +5,7 @@ export default {
     props: [
         'business_id'
     ],
+    emits: ['close'],
     data() {
         return {
             mfo: '',

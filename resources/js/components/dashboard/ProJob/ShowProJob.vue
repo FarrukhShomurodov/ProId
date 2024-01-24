@@ -4,6 +4,7 @@ import UpdateEducationModal from "@/components/dashboard/data/modal/UpdateEducat
 import UpdateJobExperienceModal from "@/components/dashboard/ProJob/modal/update/UpdateJobExperienceModal.vue";
 export default {
     props: ['job_id'],
+    emits: ['goBack'],
     components: {
         CreateJobExperience,
         UpdateEducationModal,

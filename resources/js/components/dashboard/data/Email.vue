@@ -3,6 +3,7 @@ import DeleteEmailModal from "@/components/dashboard/data/modal/DeleteEmailModal
 
 export default {
     props:['email', 'userId'],
+    emits:['goBack'],
     components:{
         DeleteEmailModal
     },

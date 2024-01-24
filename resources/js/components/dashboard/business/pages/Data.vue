@@ -10,6 +10,7 @@ import BoxOffice from "@/components/dashboard/business/pages/BoxOffice.vue";
 
 export default {
     props: ['business_id'],
+    emits:['close'],
     components: {
         UpdateProBusinessModal,
         UpdateBanksDataModal,

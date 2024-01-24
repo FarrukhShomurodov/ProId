@@ -14,6 +14,7 @@ export default {
             required: true
         },
     },
+    emits:['close'],
     components: {
         Reports,
         createBoxOfficeModal,

@@ -4,6 +4,8 @@ import axios from 'axios';
 
 export default {
     props: ['experienceId'],
+    emits: ['goBack'],
+
     data() {
         return {
             // Data properties for the component

@@ -18,6 +18,7 @@ export default {
     props: [
         'userId'
     ],
+    emits:['goBack'],
     components: {
         CreateAddressModal,
         UpdateAddressModal,

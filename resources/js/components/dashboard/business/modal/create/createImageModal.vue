@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export default {
     props: ['business_id'],
+    emits: ['close'],
     data() {
         return {
             // Vue.js data properties

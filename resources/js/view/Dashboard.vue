@@ -275,7 +275,8 @@ export default {
         <div>
             <section class="main__content">
                 <!-- Router view to render component based on the route -->
-                <router-view :fetchUser="fetchUser"/>
+                <!-- <router-view :fetchUser="fetchUser"/> -->
+                <router-view/>
             </section>
         </div>
 

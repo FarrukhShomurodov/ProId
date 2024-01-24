@@ -126,6 +126,9 @@
 .add-job-container {
     cursor: pointer;
 }
+.job-container *{
+    user-select: none;
+}
 
 @media screen and (max-width: 600px) {
     .job {
