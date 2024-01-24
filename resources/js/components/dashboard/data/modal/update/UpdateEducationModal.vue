@@ -29,9 +29,7 @@ export default {
         });
         axios.get(`/api/education-show/${this.education_id}`).then(res => {
             const data = res.data;
-
-            console.log(data);
-
+            
             this.type = data.type
             $('#select').val(this.type).trigger('change');
 
