@@ -1,7 +1,7 @@
 <script>
 import axios from "axios";
 
-// Import components
+// Importing other components
 import UpdateBoxOfficeModal from "@/components/dashboard/business/modal/update/UpdateBoxOfficeModal.vue";
 
 export default {
@@ -15,21 +15,23 @@ export default {
     ],
     data() {
         return {
-            // Frontend state
-            showUpdateBoxOffice: false,
+            // Backend data
             name: '',
             service: '',
-            active: true,
             nameOfBankingAkkaunt: '',
+
+            // Frontend state
+            showUpdateBoxOffice: false,
+            active: true,
             loading: false
         }
     },
     mounted() {
         // Fetch box office data and associated banking data when the component is mounted
-        this.getboxOffice();
+        this.getBoxOffice();
     },
     methods: {
-        async getboxOffice() {
+        async getBoxOffice() {
             // Fetch box office data and associated banking data from the API
 
             // Get box office data

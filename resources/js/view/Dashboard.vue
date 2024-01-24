@@ -26,8 +26,8 @@ export default {
                     return 'pay';
                 case 'dashboard-business':
                     return 'business';
-                case 'dashboard-pro-job':
-                    return 'pro-job';
+                case 'dashboard-job':
+                    return 'job';
             }
         },
     },
@@ -251,8 +251,8 @@ export default {
                     <swiper-slide class="navbar__link">
                         Безопасность
                     </swiper-slide>
-                    <swiper-slide @click="$router.push({ name: 'dashboard-pro-job' })"
-                                  :class="{'active': this.$route.name === 'dashboard-pro-job'}" class="navbar__link">
+                    <swiper-slide @click="$router.push({ name: 'dashboard-job' })"
+                                  :class="{'active': this.$route.name === 'dashboard-job'}" class="navbar__link">
                         PRO JOB
                     </swiper-slide>
                     <swiper-slide @click="$router.push({ name: 'dashboard-business' })"

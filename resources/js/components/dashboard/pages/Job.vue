@@ -1,8 +1,10 @@
 <script>
-// Import Component
-import CreateJobModal from "@/components/dashboard/ProJob/modal/CreateJobModal.vue";
-import UpdateJobModal from "@/components/dashboard/ProJob/modal/update/UpdateJobModal.vue";
-import ShowProJob from "@/components/dashboard/ProJob/ShowProJob.vue";
+
+// Importing other components
+import CreateJobModal from "../job/modal/create/CreateJobModal.vue";
+import UpdateJobModal from "../job/modal/update/UpdateJobModal.vue";
+import ShowProJob from "../job/ShowProJob.vue";
+
 export default {
     components: {
         CreateJobModal,
@@ -11,13 +13,16 @@ export default {
     },
     data() {
         return {
-            showJobModal: false,
-            showUpdateJobModal: false,
+            // Backend data
             user_id: null,
             job_id: null,
             jobs: [],
+
+            // Frontend state
+            showJob: false,
+            showJobModal: false,
+            showUpdateJobModal: false,
             loading: false,
-            showJob: false
         }
     },
     mounted() {

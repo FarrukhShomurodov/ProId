@@ -12,9 +12,9 @@ export default {
             post: '',
             started: '',
             expired: null,
+            error: '',
             isWorking: false,
             show: false,
-            error: '',
         }
     },
     // Component lifecycle hook - called when the component is mounted

@@ -32,9 +32,9 @@ class User extends Authenticatable
      * Define the relationship to fetch businesses
      * @return HasMany
      */
-    public function proBusinesses(): HasMany
+    public function businesses(): HasMany
     {
-        return $this->hasMany(ProBusiness::class);
+        return $this->hasMany(Business::class);
     }
 
     /**
@@ -59,8 +59,8 @@ class User extends Authenticatable
      * Define the relationship to fetch educations
      * @return HasMany
      */
-    public function proJob(): HasMany
+    public function job(): HasMany
     {
-        return $this->hasMany(ProJob::class);
+        return $this->hasMany(Job::class);
     }
 }

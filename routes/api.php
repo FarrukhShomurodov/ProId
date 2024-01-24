@@ -9,7 +9,7 @@ use App\Http\Controllers\Dashboard\EducationController;
 use App\Http\Controllers\Dashboard\ExperienceController;
 use App\Http\Controllers\Dashboard\JobController;
 use App\Http\Controllers\Dashboard\MFOController;
-use App\Http\Controllers\Dashboard\ProBusinessController;
+use App\Http\Controllers\Dashboard\BusinessController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Auth
+// Auth
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class,'register']);
 Route::post('/token',[AuthController::class, 'token'])->name('token');
@@ -50,11 +50,11 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/address/{address}', [AddressController::class, 'update']);
 
     // Business
-    Route::get('/pro-business/{user}', [ProBusinessController::class, 'fetchByUser']);
-    Route::get('/pro-business-show/{proBusiness}',[ProBusinessController::class, 'show']);
-    Route::post('/pro-business', [ProBusinessController::class, 'store']);
-    Route::post('/pro-business-image/{proBusiness}', [ProBusinessController::class, 'uploadImage']);
-    Route::put('/pro-business/{proBusiness}', [ProBusinessController::class, 'update']);
+    Route::get('/pro-business/{user}', [BusinessController::class, 'fetchByUser']);
+    Route::get('/pro-business-show/{proBusiness}',[BusinessController::class, 'show']);
+    Route::post('/pro-business', [BusinessController::class, 'store']);
+    Route::post('/pro-business-image/{proBusiness}', [BusinessController::class, 'uploadImage']);
+    Route::put('/pro-business/{proBusiness}', [BusinessController::class, 'update']);
 
     // Banks Data
     Route::get('/banking-data-show/{banksData}', [BanksDataController::class, 'show']);
@@ -80,7 +80,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/education',[EducationController::class, 'store']);
     Route::put('/education/{education}',[EducationController::class, 'update']);
 
-    // Job
+    // job
     Route::get('/job/{user}',[JobController::class, 'fetchByUser']);
     Route::get('/job-show/{proJob}',[JobController::class, 'show']);
     Route::post('/job',[JobController::class, 'store']);

@@ -1,17 +1,20 @@
 <script>
-import CreateJobExperience from "@/components/dashboard/ProJob/modal/CreateJobExperienceModal.vue";
-import UpdateEducationModal from "@/components/dashboard/data/modal/UpdateEducationModal.vue";
-import UpdateJobExperienceModal from "@/components/dashboard/ProJob/modal/update/UpdateJobExperienceModal.vue";
+// Importing other components
+import CreateJobExperienceModal from "../job/modal/create/CreateJobExperienceModal.vue";
+import UpdateEducationModal from "../data/modal/update/UpdateEducationModal.vue";
+import UpdateJobExperienceModal from "../job/modal/update/UpdateJobExperienceModal.vue";
+
 export default {
     props: ['job_id'],
     emits: ['goBack'],
     components: {
-        CreateJobExperience,
+        CreateJobExperienceModal,
         UpdateEducationModal,
         UpdateJobExperienceModal
     },
     data() {
         return {
+            // Backend data
             job: [],
             education: [],
             experiences: [],
@@ -20,7 +23,7 @@ export default {
             experience_id: null,
             loading: false,
 
-            //modal
+            // Frontend state
             showCreateJobExperienceModal: false,
             showUpdateEducationModal: false,
             showUpdateExperienceModal: false,
@@ -91,11 +94,11 @@ export default {
 
 <template>
     <div v-if="loading">
-        <!--Job Details-->
+        <!--job Details-->
         <div>
             <div class="d-flex">
                 <img src=/images/icons/dashboard/back.svg width="13" height="23" class="back back_job"
-                     @click="$emit('goBack')">
+                     @click="$emit('goBack')" alt="back icon">
                 <section class="job_info d-flex flex-column justify-content-between">
                     <h3>Профессия: {{ job.profession }}</h3>
                     <div class="flex_row justify-content-between w-100">
@@ -122,7 +125,7 @@ export default {
                 <div class="d-flex flex_row align-items-center">
                     <p class="univer_name">{{ education.name }}</p>
                     <img src="/images/icons/dashboard/edit.svg" class="edit_education_icon"
-                         @click="showUpdateEducationModal = true; education_id = education.id">
+                         @click="showUpdateEducationModal = true; education_id = education.id" alt="edit icon">
                 </div>
                 <div class="d-flex flex_row align-items-center">
                     <p>Вид: {{ education.type }} </p>
@@ -141,7 +144,7 @@ export default {
                     <div class="d-flex flex-column justify-content-between">
                         <div class="d-flex flex_row">
                             <p class="univer_name">Место Работы: OOO "{{ experience.place }}” </p>
-                            <img src="/images/icons/dashboard/edit.svg" class="edit_education_icon" @click="showUpdateExperienceModal = true; experience_id = experience.id">
+                            <img src="/images/icons/dashboard/edit.svg" class="edit_education_icon" @click="showUpdateExperienceModal = true; experience_id = experience.id" alt="edit icon">
                         </div>
                         <div class="d-flex flex-column justify-content-between">
                             <p>Должность: {{ experience.post }}</p>
@@ -165,8 +168,8 @@ export default {
     <div v-if="!loading" class="loading-indicator">
         Loading...
     </div>
-    <CreateJobExperience v-if="showCreateJobExperienceModal" @goBack="close"
-                         :job_id="this.job_id"></CreateJobExperience>
+    <CreateJobExperienceModal v-if="showCreateJobExperienceModal" @goBack="close"
+                         :job_id="this.job_id"></CreateJobExperienceModal>
 
     <UpdateEducationModal v-if="showUpdateEducationModal" @goBack="close"
                           :education_id="this.education_id"></UpdateEducationModal>

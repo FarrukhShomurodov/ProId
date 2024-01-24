@@ -1,5 +1,6 @@
 <script>
-import DeleteEmailModal from "@/components/dashboard/data/modal/DeleteEmailModal.vue";
+// Importing other components
+import DeleteEmailModal from "../data/modal/DeleteEmailModal.vue";
 
 export default {
     props:['email', 'userId'],
@@ -9,7 +10,8 @@ export default {
     },
     data(){
         return{
-            ShowEmailEdition: false
+            // Frontend state
+            ShowEmailEditionModal: false
         }
     },
     methods:{
@@ -29,7 +31,7 @@ export default {
                 <span>Узнайте, как email помогает защитить ваши данные</span>
             </div>
         </div>
-        <div class="edition_container" @click="ShowEmailEdition = true">
+        <div class="edition_container" @click="ShowEmailEditionModal = true">
             <div class="flex_row">
                 <div>
                     <span>для защиты аккаунта</span><br>
@@ -39,7 +41,7 @@ export default {
             </div>
         </div>
     </div>
-    <DeleteEmailModal v-if="ShowEmailEdition" :userId=this.userId :email=this.email @close="close" @goBack="$emit('goBack')"></DeleteEmailModal>
+    <DeleteEmailModal v-if="ShowEmailEditionModal" :userId=this.userId :email=this.email @close="close" @goBack="$emit('goBack')"></DeleteEmailModal>
 </template>
 
 <style scoped>

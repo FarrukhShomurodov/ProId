@@ -15,9 +15,9 @@ import PersonalAccessTokens from './components/passport/PersonalAccessTokens.vue
 import Dashboard from "./view/Dashboard.vue"
 import Main from './components/dashboard/pages/Main.vue'
 import Data from './components/dashboard/pages/Data.vue'
-import ProBusiness from './components/dashboard/pages/ProBusiness.vue';
+import Business from './components/dashboard/pages/Business.vue';
 import Pay from './components/dashboard/pages/Pay.vue'
-import PROJOB from "./components/dashboard/pages/PROJOB.vue";
+import Job from "./components/dashboard/pages/Job.vue";
 
 //Routes
 const routes = [
@@ -92,13 +92,13 @@ const routes = [
             },
             {
                 path: 'business',
-                component: ProBusiness,
+                component: Business,
                 name: 'dashboard-business', //assign unique names for navigation
             },
             {
                 path: 'job',
-                component: PROJOB,
-                name: 'dashboard-pro-job', //assign unique names for navigation
+                component: Job,
+                name: 'dashboard-job', //assign unique names for navigation
             },
         ],
         beforeEnter(to, from, next) {

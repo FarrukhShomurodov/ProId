@@ -1,17 +1,20 @@
 <script>
-import UpdatePhoneModal from './modal/UpdatePhoneModal.vue';
 import axios from "axios";
 
+// Importing other components
+import UpdatePhoneModal from './modal/update/UpdatePhoneModal.vue';
+
 export default {
-    components: {
-        UpdatePhoneModal
-    },
+    components: {UpdatePhoneModal},
     props: ['userId'],
-    emits:['goBack'],
+    emits: ['goBack'],
     data() {
         return {
-            showModal: false,
+            // Backend data
             phoneNumber: '',
+
+            // Frontend state
+            showModal: false,
             loading: false,
         }
     },
@@ -30,7 +33,6 @@ export default {
             return formattedNumber;
         },
         fetchUser() {
-
             //getting user data
             axios.get('/api/user').then(res => {
                 const data = res.data;

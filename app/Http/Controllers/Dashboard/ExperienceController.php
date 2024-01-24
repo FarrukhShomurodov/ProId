@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Experience;
-use App\Models\ProJob;
+use App\Models\Job;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -12,10 +12,10 @@ class ExperienceController extends Controller
 {
     /**
      * Fetching job's experience
-     * @param ProJob $proJob
+     * @param Job $proJob
      * @return JsonResponse
      */
-    public function fetchByJob(ProJob $proJob): JsonResponse
+    public function fetchByJob(Job $proJob): JsonResponse
     {
         // getting experience by job
         $experience = $proJob->experience()->get();
@@ -44,7 +44,7 @@ class ExperienceController extends Controller
     {
         //validated
         $validated = $request->validate([
-            'job_id' => 'required|int|exists:pro_jobs,id',
+            'job_id' => 'required|int|exists:jobs,id',
             'place' => 'required|string|max:150',
             'post' => 'required|string|max:150',
             'started' => 'required|date',

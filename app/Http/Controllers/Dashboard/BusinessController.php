@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProBusiness;
+use App\Models\Business;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ProBusinessController extends Controller
+class BusinessController extends Controller
 {
     /**
      * Show pro business
-     * @param ProBusiness $proBusiness
+     * @param Business $proBusiness
      * @return JsonResponse
      */
-    public function show(ProBusiness $proBusiness): JsonResponse
+    public function show(Business $proBusiness): JsonResponse
     {
         return new JsonResponse($proBusiness);
     }
@@ -29,14 +29,14 @@ class ProBusinessController extends Controller
     public function fetchByUser(User $user): JsonResponse
     {
         //businesses
-        $businesses = $user->proBusinesses()->get();
+        $businesses = $user->businesses()->get();
 
         //return response
         return new JsonResponse($businesses);
     }
 
     /**
-     * Store ProBusiness data
+     * Store Business data
      * @param Request $request
      * @return JsonResponse
      */
@@ -60,19 +60,19 @@ class ProBusinessController extends Controller
         ]);
 
         //store proBusiness data in db
-        $proBusiness = ProBusiness::query()->create($validated);
+        $proBusiness = Business::query()->create($validated);
 
         //return response
         return new JsonResponse($proBusiness);
     }
 
     /**
-     * Update ProBusiness data
-     * @param ProBusiness $proBusiness
+     * Update Business data
+     * @param Business $proBusiness
      * @param Request $request
      * @return JsonResponse
      */
-    public function update(ProBusiness $proBusiness, Request $request): JsonResponse
+    public function update(Business $proBusiness, Request $request): JsonResponse
     {
         //validate
         $validated = $request->validate([
@@ -98,11 +98,11 @@ class ProBusinessController extends Controller
     }
 
     /**
-     * @param ProBusiness $proBusiness
+     * @param Business $proBusiness
      * @param Request $request
      * @return JsonResponse
      */
-    public function uploadImage(ProBusiness $proBusiness, Request $request): JsonResponse
+    public function uploadImage(Business $proBusiness, Request $request): JsonResponse
     {
         //validate
         $request->validate([

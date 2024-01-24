@@ -1,10 +1,9 @@
 <script>
-// import axios
 import axios from "axios";
 
-// import components
-import CreateAddressModal from "../data/modal/CreateAddressModal.vue";
-import UpdateAddressModal from "../data/modal/UpdateAddressModal.vue";
+// Importing other components
+import CreateAddressModal from "./modal/create/CreateAddressModal.vue";
+import UpdateAddressModal from "./modal/update/UpdateAddressModal.vue";
 import {
     YandexMap,
     YandexMapDefaultSchemeLayer,
@@ -30,7 +29,10 @@ export default {
     },
     data() {
         return {
+            // Backend data
             addresses: [],
+
+            // Frontend state
             address_id: null,
             loading: false,
             showCreateAddressModal: false,

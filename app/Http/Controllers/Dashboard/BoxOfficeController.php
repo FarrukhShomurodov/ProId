@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\BoxOffice;
-use App\Models\ProBusiness;
+use App\Models\Business;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,10 +22,10 @@ class BoxOfficeController extends Controller
 
     /**
      * Fetching box offices by Business
-     * @param ProBusiness $proBusiness
+     * @param Business $proBusiness
      * @return JsonResponse
      */
-    public function fetchByBusiness(ProBusiness $proBusiness): JsonResponse
+    public function fetchByBusiness(Business $proBusiness): JsonResponse
     {
         //getting box offices by business
         $boxOffice = $proBusiness->boxOffices()->get();
@@ -43,7 +43,7 @@ class BoxOfficeController extends Controller
     {
         //validate
         $validated = $request->validate([
-            'business_id' => 'required|integer|exists:pro_businesses,id',
+            'business_id' => 'required|integer|exists:businesses,id',
             'name' => 'required|string|max:100',
             'service' => 'required|string',
             'bank_data_id' => 'required|integer|exists:banks_data,id',

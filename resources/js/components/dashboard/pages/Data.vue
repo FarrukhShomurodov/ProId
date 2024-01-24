@@ -1,17 +1,16 @@
 <script>
-// Import necessary dependencies
 import axios from "axios";
 
 // Importing other components
-import authModal from '../data/modal/UserData.vue'
+import authModal from '../data/modal/update/UpdateUserDataModal.vue'
 import PhoneNumber from '../data/PhoneNumber.vue'
 import Email from "../data/Email.vue";
-import CreateMailModal from '../data/modal/CreateMailModal.vue';
-import CreateAddressModal from "../data/modal/CreateAddressModal.vue";
-import UpdateAddressModal from "../data/modal/UpdateAddressModal.vue";
-import CreateEducationModal from "@/components/dashboard/data/modal/CreateEducationModal.vue";
-import UpdateEducationModal from "@/components/dashboard/data/modal/UpdateEducationModal.vue";
-import Addresses from "@/components/dashboard/data/Addresses.vue";
+import CreateMailModal from '../data/modal/create/CreateMailModal.vue';
+import CreateAddressModal from "../data/modal/create/CreateAddressModal.vue";
+import UpdateAddressModal from "../data/modal/update/UpdateAddressModal.vue";
+import CreateEducationModal from "../data/modal/create/CreateEducationModal.vue";
+import UpdateEducationModal from "../data/modal/update/UpdateEducationModal.vue";
+import Addresses from "../data/Addresses.vue";
 import {
     YandexMap,
     YandexMapDefaultSchemeLayer,
@@ -45,7 +44,7 @@ export default {
     },
     data() {
         return {
-            // User data
+            // Backend data
             userId: null,
             image: '',
             name: '',
@@ -74,7 +73,7 @@ export default {
     },
     mounted() {
         this.getUser();
-        
+
         // destroy ymap
         this.$nextTick(() => {
             this.destroyYandexMap();
@@ -128,7 +127,7 @@ export default {
                 this.getEducation();
 
                 this.loading = true;
-            })           
+            })
         },
 
         // Fetch user education

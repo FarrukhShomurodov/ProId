@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\BanksData;
-use App\Models\ProBusiness;
+use App\Models\Business;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -12,10 +12,10 @@ class BanksDataController extends Controller
 {
     /**
      * Getting user's banks data by business
-     * @param ProBusiness $proBusiness
+     * @param Business $proBusiness
      * @return JsonResponse
      */
-    public function fetchByBusiness(ProBusiness $proBusiness): JsonResponse
+    public function fetchByBusiness(Business $proBusiness): JsonResponse
     {
         //banks data
         $banksData = $proBusiness->banks()->get();
@@ -43,7 +43,7 @@ class BanksDataController extends Controller
     {
         //validate
         $validated = $request->validate([
-            'business_id' => 'required|integer|exists:pro_businesses,id',
+            'business_id' => 'required|integer|exists:businesses,id',
             'name' => 'required|string',
             'name_of_banking_akkaunt' => 'required|string|max:100',
             'mfo' => 'required|integer',

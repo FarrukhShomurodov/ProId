@@ -2,21 +2,24 @@
 import axios from "axios";
 
 // Importing other components
-import createProBusiness from "../business/modal/create/createProBusinessModal.vue"
-import BusinessDetails from "../business/pages/Data.vue";
+import createBusinessModal from "../business/modal/create/createBusinessModal.vue"
+import BusinessDetailModal from "../business/pages/Data.vue";
 
 export default {
     components: {
-        createProBusiness,
-        BusinessDetails
+        createBusinessModal,
+        BusinessDetailModal
     },
     data() {
         return {
-            createBusiness: false,
+            // Backend data
             userId: '',
-            businessData: '',
+            businessData: [],
             business_id: 0,
-            businessDetail: false,
+
+            // Frontend state
+            showCreateBusinessModal: false,
+            showBusinessDetailModal: false,
             loading: false
         }
     },
@@ -34,36 +37,29 @@ export default {
                 // Business
                 axios.get(`/api/pro-business/${this.userId}`).then(res => {
                     this.businessData = res.data;
-                    // Use setTimeout to simulate asynchronous loading
-                    setTimeout(() => {
-                        this.loading = true;
-                    }, 1000);
+
+                    this.loading = true;
                 });
             })
         },
         // Method to close modal and refresh data
         close() {
-            this.createBusiness = this.businessDetail = false;
+            this.showCreateBusinessModal = this.showBusinessDetailModal = false;
             this.fetchUser();
         },
-        // Method to show business details
-        showBusinessDetails(id) {
-            this.business_id = id;
-            this.businessDetail = true;
-        }
     }
 }
 </script>
 
 <template>
     <!-- Main content section -->
-    <div class="main_container" v-if="!businessDetail && loading">
+    <div class="main_container" v-if="!showBusinessDetailModal && loading">
         <!-- Business list -->
         <h3>Мои бизнесы</h3>
         <TransitionGroup name="list">
             <div class="business_container" v-for="data in businessData" :key="data.id">
                 <!-- Clickable business block -->
-                <div class="business_block flex-row" @click="showBusinessDetails(data.id)">
+                <div class="business_block flex-row" @click="showBusinessDetailModal = true; business_id = data.id;">
                     <!-- Business image -->
                     <div class="business_image" style="width: 80px; height: 80px; border-radius: 25px" :style="{
                         'background-image': `url(${data.image === null ? data.image : '/storage/' + data.image})`,
@@ -79,14 +75,14 @@ export default {
             </div>
         </TransitionGroup>
         <!-- Add Business button -->
-        <div class="add_business flex-row" @click="createBusiness = true">
+        <div class="add_business flex-row" @click="showCreateBusinessModal = true">
             <img src="/images/icons/dashboard/add.svg" alt="">
             <p>Добавить новый бизнес</p>
         </div>
     </div>
 
     <!-- Links to Government services -->
-    <div class="links_to_services" v-if="!businessDetail && loading">
+    <div class="links_to_services" v-if="!showBusinessDetailModal && loading">
         <h3>Полезные ссылки</h3>
         <!-- Link 1 -->
         <div class="add_business flex-row links">
@@ -104,10 +100,10 @@ export default {
     </div>
 
     <!-- Create Business modal -->
-    <createProBusiness v-if="createBusiness" @close="close" :userId=userId></createProBusiness>
+    <createBusinessModal v-if="showCreateBusinessModal" @close="close" :userId=userId></createBusinessModal>
 
     <!-- Business Details modal -->
-    <BusinessDetails v-if="businessDetail" @close="close" :business_id="business_id"></BusinessDetails>
+    <BusinessDetailModal v-if="showBusinessDetailModal" @close="close" :business_id="business_id"></BusinessDetailModal>
 </template>
 
 <style scoped>

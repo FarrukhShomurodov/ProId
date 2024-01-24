@@ -1,8 +1,8 @@
 <script>
 import axios from "axios";
 
-// Import components
-import UpdateProBusinessModal from "@/components/dashboard/business/modal/update/UpdateProBusinessModal.vue";
+// Importing other components
+import UpdateBusinessModal from "@/components/dashboard/business/modal/update/UpdateBusinessModal.vue";
 import UpdateBanksDataModal from "@/components/dashboard/business/modal/update/UpdateBanksDataModal.vue";
 import createBanksDataModal from "@/components/dashboard/business/modal/create/createBanksDataModal.vue";
 import createImageModal from "@/components/dashboard/business/modal/create/createImageModal.vue";
@@ -12,7 +12,7 @@ export default {
     props: ['business_id'],
     emits:['close'],
     components: {
-        UpdateProBusinessModal,
+        UpdateBusinessModal,
         UpdateBanksDataModal,
         createBanksDataModal,
         BoxOffice,
@@ -20,13 +20,15 @@ export default {
     },
     data() {
         return {
-            // Frontend state
+            // Backend data
             business_details: [],
             banking_details: [],
+            banking_id: 0,
+
+            // Frontend state
             updateBusiness: false,
             updateBanking: false,
             addBanking: false,
-            banking_id: 0,
             showBoxOffice: false,
             showReport: false,
             showCreateImage: false,
@@ -159,8 +161,8 @@ export default {
 
     <!-- Modals -->
     <createImageModal v-if="showCreateImage" @close="close" :business_id="this.business_id"></createImageModal>
-    <UpdateProBusinessModal v-if="updateBusiness" @close="close"
-                            :business_id="this.business_id"></UpdateProBusinessModal>
+    <UpdateBusinessModal v-if="updateBusiness" @close="close"
+                            :business_id="this.business_id"></UpdateBusinessModal>
     <UpdateBanksDataModal v-if="updateBanking" @close="close" :banking_id="this.banking_id"></UpdateBanksDataModal>
     <createBanksDataModal v-if="addBanking" @close="close" :business_id="this.business_id"></createBanksDataModal>
 </template>

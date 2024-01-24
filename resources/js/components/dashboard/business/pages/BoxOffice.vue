@@ -1,7 +1,7 @@
 <script>
 import axios from "axios";
 
-// Import components
+// Importing other components
 import Reports from "@/components/dashboard/business/pages/Reports.vue";
 import createBoxOfficeModal from "@/components/dashboard/business/modal/create/createBoxOfficeModal.vue";
 import UpdateBoxOfficeModal from "@/components/dashboard/business/modal/update/UpdateBoxOfficeModal.vue";
@@ -22,16 +22,16 @@ export default {
     },
     data() {
         return {
+            // Backend data
+            boxOfficeDetails: [],
+            bankData: [],
+            box_office_id: 0,
+
             // Frontend state
             showReport: false,
             showCreateBoxOffice: false,
             showUpdateBoxOffice: false,
             loading: false,
-
-            // Backend data
-            boxOfficeDetails: [],
-            bankData: [],
-            box_office_id: 0,
         }
     },
     mounted() {

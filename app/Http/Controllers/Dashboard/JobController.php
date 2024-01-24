@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProJob;
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class JobController extends Controller
     public function fetchByUser(User $user): JsonResponse
     {
         // getting pro job by user
-        $proJob = $user->proJob()->get();
+        $proJob = $user->job()->get();
 
         // return response
         return new JsonResponse($proJob);
@@ -26,10 +26,10 @@ class JobController extends Controller
 
     /**
      * Show pro job by one
-     * @param ProJob $proJob
+     * @param Job $proJob
      * @return JsonResponse
      */
-    public function show(ProJob $proJob): JsonResponse
+    public function show(Job $proJob): JsonResponse
     {
         return new JsonResponse($proJob);
     }
@@ -55,7 +55,7 @@ class JobController extends Controller
             ]);
 
         // store data in db
-        $proJob = ProJob::query()->create($validation);
+        $proJob = Job::query()->create($validation);
 
         // return response
         return new JsonResponse($proJob);
@@ -63,11 +63,11 @@ class JobController extends Controller
 
     /**
      * Update data in db
-     * @param ProJob $proJob
+     * @param Job $proJob
      * @param Request $request
      * @return JsonResponse
      */
-    public function update(ProJob $proJob, Request $request): JsonResponse
+    public function update(Job $proJob, Request $request): JsonResponse
     {
         // validate
         $validation = $request->validate([
@@ -90,11 +90,11 @@ class JobController extends Controller
 
     /**
      * Update experience value
-     * @param ProJob $proJob
+     * @param Job $proJob
      * @param Request $request
      * @return JsonResponse
      */
-    public function addExperience(ProJob $proJob, Request $request): JsonResponse
+    public function addExperience(Job $proJob, Request $request): JsonResponse
     {
         // update experience count
         $proJob->update([
@@ -107,10 +107,10 @@ class JobController extends Controller
 
     /**
      * Delete data from db
-     * @param ProJob $proJob
+     * @param Job $proJob
      * @return JsonResponse
      */
-    public function destroy(ProJob $proJob): JsonResponse
+    public function destroy(Job $proJob): JsonResponse
     {
         $proJob->delete();
 
