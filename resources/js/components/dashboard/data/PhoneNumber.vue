@@ -6,7 +6,6 @@ import UpdatePhoneModal from './modal/update/UpdatePhoneModal.vue';
 
 export default {
     components: {UpdatePhoneModal},
-    props: ['userId'],
     emits: ['goBack'],
     data() {
         return {
@@ -79,7 +78,7 @@ export default {
     <div v-if="!loading" class="loading-indicator">
         Loading...
     </div>
-    <UpdatePhoneModal v-if="showModal" :phoneNumber=phoneNumber :userId="userId" @close="close"></UpdatePhoneModal>
+    <UpdatePhoneModal v-if="showModal" :phoneNumber=phoneNumber @close="close"></UpdatePhoneModal>
 </template>
 
 <style scoped>

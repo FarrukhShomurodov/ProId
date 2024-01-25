@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 export default {
-    props: ['userId', 'email'],
+    props: ['email'],
     data() {
         return {
             show: false
@@ -13,7 +13,7 @@ export default {
     },
     methods: {
         destroy() {
-            axios.delete(`/api/add-delete/${this.userId}`).then(() => this.$emit('goBack'))
+            axios.delete("/api/delete-email").then(() => this.$emit('goBack'))
         },
     }
 };

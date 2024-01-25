@@ -14,9 +14,6 @@ import {
 
 
 export default {
-    props: [
-        'userId'
-    ],
     emits:['goBack'],
     components: {
         CreateAddressModal,
@@ -45,7 +42,7 @@ export default {
     },
     methods: {
         getAddressDate() {
-            axios.get(`/api/address/${this.userId}`).then(res => {
+            axios.get("/api/address").then(res => {
                 this.addresses = res.data
                 this.loading = true;
                 if (this.addresses.length !== 0) {
@@ -162,7 +159,6 @@ export default {
 
     <CreateAddressModal
         v-if="showCreateAddressModal" @goBack="goBackFromModal"
-        :userId=this.userId
     ></CreateAddressModal>
     <!-- Edit existing address page -->
     <UpdateAddressModal

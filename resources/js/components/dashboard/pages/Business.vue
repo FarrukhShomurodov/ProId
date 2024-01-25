@@ -13,7 +13,6 @@ export default {
     data() {
         return {
             // Backend data
-            userId: '',
             businessData: [],
             business_id: 0,
 
@@ -24,28 +23,22 @@ export default {
         }
     },
     mounted() {
-        // Fetch user and business data when the component is mounted
-        this.fetchUser();
+        // Fetch business data when the component is mounted
+        this.fetchBusiness();
     },
     methods: {
-        // Method to fetch user and business data
-        async fetchUser() {
-            // User
-            await axios.get('/api/user').then(res => {
-                this.userId = res.data.id
+        // Method to fetch  business data
+        async fetchBusiness() {
+            axios.get("/api/pro-business").then(res => {
+                this.businessData = res.data;
 
-                // Business
-                axios.get(`/api/pro-business/${this.userId}`).then(res => {
-                    this.businessData = res.data;
-
-                    this.loading = true;
-                });
-            })
+                this.loading = true;
+            });
         },
         // Method to close modal and refresh data
         close() {
             this.showCreateBusinessModal = this.showBusinessDetailModal = false;
-            this.fetchUser();
+            this.fetchBusiness();
         },
     }
 }
@@ -100,7 +93,7 @@ export default {
     </div>
 
     <!-- Create Business modal -->
-    <createBusinessModal v-if="showCreateBusinessModal" @close="close" :userId=userId></createBusinessModal>
+    <createBusinessModal v-if="showCreateBusinessModal" @close="close"></createBusinessModal>
 
     <!-- Business Details modal -->
     <BusinessDetailModal v-if="showBusinessDetailModal" @close="close" :business_id="business_id"></BusinessDetailModal>

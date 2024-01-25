@@ -7,6 +7,8 @@ use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class AddressController extends Controller
 {
@@ -17,6 +19,8 @@ class AddressController extends Controller
      */
     public function fetchByUser(User $user): JsonResponse
     {
+        $user = Auth::user();
+
         //addresses
         $address = $user->address()->get();
 
@@ -41,6 +45,9 @@ class AddressController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        // set auth user id
+        $request['user_id'] = Auth::user()->id;
+        
         //validate
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',

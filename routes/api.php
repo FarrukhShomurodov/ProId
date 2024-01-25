@@ -15,7 +15,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -31,26 +30,26 @@ Route::middleware('auth:api')->group(function () {
     // Маршруты, доступные только аутентифицированным пользователям с действующим токеном
 
     // User
-    Route::put('/update/{user}', [UserController::class,'update']);
-    Route::post('/edit-phone-number/{user}', [UserController::class,'editPhoneNumber']);
+    Route::put('/update-user-data', [UserController::class,'update']);
+    Route::post('/edit-phone-number', [UserController::class,'editPhoneNumber']);
 
     // Email
     Route::post('/send-verify-code-email', [SendEmailController::class,'sendEmail']);
-    Route::post('/add-email/{user}', [UserController::class,'addEmail']);
-    Route::delete('/add-delete/{user}', [UserController::class,'deleteEmail']);
+    Route::post('/add-email', [UserController::class,'addEmail']);
+    Route::delete('/delete-email', [UserController::class,'deleteEmail']);
 
     // User photo
-    Route::post('/upload-avatar/{user}', [UserController::class,'uploadAvatar']);
-    Route::delete('/delete-avatar/{user}', [UserController::class,'deleteAvatar']);
+    Route::post('/upload-avatar', [UserController::class,'uploadAvatar']);
+    Route::delete('/delete-avatar', [UserController::class,'deleteAvatar']);
 
     // Addresses
-    Route::get('/address/{user}', [AddressController::class, 'fetchByUser']);
+    Route::get('/address', [AddressController::class, 'fetchByUser']);
     Route::get('/address-show/{address}', [AddressController::class, 'show']);
     Route::post('/address', [AddressController::class, 'store']);
     Route::put('/address/{address}', [AddressController::class, 'update']);
 
     // Business
-    Route::get('/pro-business/{user}', [BusinessController::class, 'fetchByUser']);
+    Route::get('/pro-business', [BusinessController::class, 'fetchByUser']);
     Route::get('/pro-business-show/{proBusiness}',[BusinessController::class, 'show']);
     Route::post('/pro-business', [BusinessController::class, 'store']);
     Route::post('/pro-business-image/{proBusiness}', [BusinessController::class, 'uploadImage']);
@@ -71,17 +70,17 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/box-offices-disActivate/{boxOffice}', [BoxOfficeController::class, 'disActivate']);
     Route::get('/box-offices-activate/{boxOffice}', [BoxOfficeController::class, 'activate']);
     Route::put('/box-offices/{boxOffice}', [BoxOfficeController::class, 'update']);
-    Route::post('/box-offices/', [BoxOfficeController::class, 'store']);
+    Route::post('/box-offices', [BoxOfficeController::class, 'store']);
     Route::delete('/box-offices/{boxOffice}', [BoxOfficeController::class, 'destroy']);
 
     // Education
-    Route::get('/education/{user}',[EducationController::class, 'fetchByUser']);
+    Route::get('/education',[EducationController::class, 'fetchByUser']);
     Route::get('/education-show/{education}',[EducationController::class, 'show']);
     Route::post('/education',[EducationController::class, 'store']);
     Route::put('/education/{education}',[EducationController::class, 'update']);
 
     // job
-    Route::get('/job/{user}',[JobController::class, 'fetchByUser']);
+    Route::get('/job',[JobController::class, 'fetchByUser']);
     Route::get('/job-show/{proJob}',[JobController::class, 'show']);
     Route::post('/job',[JobController::class, 'store']);
     Route::put('/job/{proJob}',[JobController::class, 'update']);
@@ -92,6 +91,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/experience-show/{experience}',[ExperienceController::class, 'show']);
     Route::post('/experience',[ExperienceController::class, 'store']);
     Route::put('/experience/{experience}',[ExperienceController::class, 'update']);
+
+   
 });
 
 // OTP

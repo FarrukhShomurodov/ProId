@@ -20,12 +20,6 @@ import {
 } from 'vue-yandex-maps';
 
 export default {
-    // props: {
-    //     fetchUser: {
-    //         type: Function,
-    //         required: true
-    //     }
-    // },
     components: {
         authModal,
         PhoneNumber,
@@ -45,7 +39,6 @@ export default {
     data() {
         return {
             // Backend data
-            userId: null,
             image: '',
             name: '',
             surname: '',
@@ -108,10 +101,9 @@ export default {
 
             // Fetch user data
             await axios.get('/api/user').then(res => {
-                const { id, name, surname, avatar, phone_number, email } = res.data;
+                const { name, surname, avatar, phone_number, email } = res.data;
 
                 // Set user data
-                this.userId = id;
                 this.name = name;
                 this.surname = surname;
                 this.avatarUrl = avatar;
@@ -132,13 +124,13 @@ export default {
 
         // Fetch user education
         async getEducation(){
-            await axios.get(`/api/education/${this.userId}`).then(res => {
+            await axios.get("/api/education/").then(res => {
                 this.educations = res.data;
             })
         },
         // Fetch user addresses
         async getAddress(){
-            await axios.get(`/api/address/${this.userId}`).then(res => {
+            await axios.get("/api/address").then(res => {
                 this.addresses = res.data.reverse().slice(0,3)
             })
         },
@@ -371,26 +363,21 @@ export default {
         <!-- Edit phone number page -->
         <PhoneNumber v-if="showPhoneEditionModal" @goBack="goBack"
                      :phoneNumber=phoneNumber
-                     :userId=userId
         ></PhoneNumber>
         <!-- Edit email page -->
         <Email v-if="showEmailEdition" @goBack="goBack"
                :email=mail
-               :userId=userId
         ></Email>
         <!-- Add new email page -->
         <CreateMailModal v-if="showMailModal" @goBack="goBack"
                          :phoneNumber=phoneNumber
-                         :userId=userId
         ></CreateMailModal>
         <!-- Add new address page -->
         <Addresses
             v-if="showAddresses" @goBack="goBack"
-            :userId=userId
         ></Addresses>
         <CreateAddressModal
             v-if="showCreateAddressModal" @goBack="goBack"
-            :userId=userId
         ></CreateAddressModal>
         <!-- Edit existing address page -->
         <UpdateAddressModal
@@ -399,7 +386,6 @@ export default {
         ></UpdateAddressModal>
         <!-- Add Education data -->
         <CreateEducationModal v-if="showCreateEducationModal" @goBack="goBack"
-                     :userId=userId
         ></CreateEducationModal>
         <!-- Update Education data -->
         <UpdateEducationModal v-if="showUpdateEducationModal" @goBack="goBack"

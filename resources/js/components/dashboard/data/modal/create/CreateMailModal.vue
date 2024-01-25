@@ -2,7 +2,6 @@
 import axios from 'axios';
 
 export default {
-    props: ['userId'],
     data() {
         return {
             // State variables for OTP, email, and related functionality
@@ -50,7 +49,7 @@ export default {
             }
 
             if (this.code && this.showCorrectSignal) {
-                axios.post(`/api/add-email/${this.userId}`, {
+                axios.post("/api/add-email", {
                     email: this.email
                 }).then(() => {
                     this.$emit('goBack')

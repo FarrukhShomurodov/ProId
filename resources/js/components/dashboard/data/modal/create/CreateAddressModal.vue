@@ -9,7 +9,6 @@ import {
 } from 'vue-yandex-maps';
 
 export default {
-    props: ['userId'],
     components: {
         // Importing Yandex Map components
         YandexMap,
@@ -36,7 +35,6 @@ export default {
         // Method to save the address data to the server
         save() {
             const data = {
-                user_id: this.userId,
                 name: this.address,
                 coords: this.coords
             }

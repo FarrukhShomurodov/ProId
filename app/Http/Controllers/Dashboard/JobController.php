@@ -4,19 +4,21 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Job;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
     /**
      * Fetching job by user
-     * @param User $user
      * @return JsonResponse
      */
-    public function fetchByUser(User $user): JsonResponse
+    public function fetchByUser(): JsonResponse
     {
+        // chech user auth
+        $user = Auth::user();
+
         // getting pro job by user
         $proJob = $user->job()->get();
 
@@ -41,6 +43,9 @@ class JobController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        // set auth user id
+        $request['user_id'] = Auth::user()->id;
+
         // validate
         $validation = $request->validate([
             'user_id' => 'required|exists:users,id',

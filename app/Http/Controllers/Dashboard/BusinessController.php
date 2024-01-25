@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class BusinessController extends Controller
 {
@@ -28,6 +29,9 @@ class BusinessController extends Controller
      */
     public function fetchByUser(User $user): JsonResponse
     {
+        // checkk user auth
+        $user = Auth::user();
+
         //businesses
         $businesses = $user->businesses()->get();
 
@@ -42,6 +46,9 @@ class BusinessController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        // set auth user id
+        $request['user_id'] = Auth::user()->id;
+
         //validate
         $validated = $request->validate([
             'user_id' => 'required|integer|exists:users,id',

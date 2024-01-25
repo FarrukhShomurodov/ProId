@@ -6,7 +6,6 @@ import axios from 'axios';
 import CreateEducationModal from "../../../data/modal/create/CreateEducationModal.vue";
 
 export default {
-    props: ['userId'],
     emits: ['goBack'],
     components: {
         CreateEducationModal
@@ -37,7 +36,7 @@ export default {
             });
 
             // Fetch education by user
-            axios.get(`/api/education/${this.userId}`).then(res => {
+            axios.get("/api/education").then(res => {
                 this.educations = res.data
             })
         },
@@ -47,7 +46,6 @@ export default {
             this.education_id = isNaN(parseInt($('#select2').val())) ? null : parseInt($('#select2').val());
 
             const data = {
-                'user_id': this.userId,
                 'type': this.type,
                 'profession': this.profession,
                 'education_id': this.education_id,
@@ -167,9 +165,7 @@ export default {
             </div>
         </transition>
     </div>
-    <CreateEducationModal v-if="showCreateEducationModal" @goBack="goBack"
-                          :userId=userId
-    ></CreateEducationModal>
+    <CreateEducationModal v-if="showCreateEducationModal" @goBack="goBack"></CreateEducationModal>
 </template>
 
 <style scoped>

@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 export default {
-    props: ['phoneNumber', 'userId'],
+    props: ['phoneNumber'],
     data() {
         return {
             otp: Array(6).fill(''),
@@ -91,18 +91,23 @@ export default {
             this.phone();
             this.changeNum = true;
 
+            console.log(this.changedPhoneNumber)
+
             // Check Phone Number from db
             axios.post('/api/login', {
                 phone_number: this.changedPhoneNumber,
             }).then(() => {
                 this.error = "Введенный номер уже существует."
             }).catch(() => {
-                this.codeLength === 13 || this.codeLength === 12 ? this.showConfirmNumber = true : this.showConfirmNumber = false;
-                if (this.showConfirmNumber) {
+                if(this.codeLength === 13 || this.codeLength === 12){ 
+                    this.showConfirmNumber = true
                     this.changeNum = false;
+                    
                     axios.post('/api/sendOTP', {
                         phone_number: this.changedPhoneNumber
                     });
+                } else{
+                    this.showConfirmNumber = false;
                 }
             })
         },
@@ -115,7 +120,7 @@ export default {
         // Save the edited phone number
         save() {
             if (this.showCorrectSignal) {
-                axios.post(`/api/edit-phone-number/${this.userId}`, {
+                axios.post("/api/edit-phone-number", {
                     phone_number: this.changedPhoneNumber
                 }).then(() => this.$emit('close'));
             }

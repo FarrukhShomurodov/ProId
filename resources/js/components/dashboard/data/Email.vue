@@ -3,7 +3,7 @@
 import DeleteEmailModal from "../data/modal/DeleteEmailModal.vue";
 
 export default {
-    props:['email', 'userId'],
+    props:['email'],
     emits:['goBack'],
     components:{
         DeleteEmailModal
@@ -41,7 +41,7 @@ export default {
             </div>
         </div>
     </div>
-    <DeleteEmailModal v-if="ShowEmailEditionModal" :userId=this.userId :email=this.email @close="close" @goBack="$emit('goBack')"></DeleteEmailModal>
+    <DeleteEmailModal v-if="ShowEmailEditionModal" :email=this.email @close="close" @goBack="$emit('goBack')"></DeleteEmailModal>
 </template>
 
 <style scoped>

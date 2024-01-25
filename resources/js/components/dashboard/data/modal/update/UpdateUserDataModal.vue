@@ -68,7 +68,7 @@ export default {
         },
         // Delete user's avatar image
         deleteImage() {
-            axios.delete(`/api/delete-avatar/${this.userId}`).then(res => console.log(res));
+            axios.delete("/api/delete-avatar").then(res => console.log(res));
             this.avatarUrl = '';
             this.imageData = '';
             this.editAVA = true;
@@ -83,7 +83,7 @@ export default {
                 const formData = new FormData();
                 formData.append('avatar', this.avatarFile);
 
-                axios.post(`/api/upload-avatar/${this.userId}`, formData)
+                axios.post("/api/upload-avatar", formData)
                     .then(response => {
                         this.avatarUrl = response.data.avatar_url;
                     })
@@ -106,7 +106,7 @@ export default {
             };
 
             // Send update request to the API
-            axios.put(`/api/update/${this.userId}`, data).then(() => {
+            axios.put("/api/update-user-data", data).then(() => {
                 this.$emit('close');
             });
         },

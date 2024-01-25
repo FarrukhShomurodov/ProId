@@ -6,7 +6,7 @@ import axios from 'axios';
 import CreateEducationModal from "../../../data/modal/create/CreateEducationModal.vue";
 
 export default {
-    props: ['userId', 'jobId'],
+    props: ['jobId'],
     emits: ['goBack'],
 
     components: {
@@ -37,7 +37,7 @@ export default {
             this.show = true;
 
             // Fetch education by user
-            axios.get(`/api/education/${this.userId}`).then(res => {
+            axios.get("/api/education").then(res => {
                 this.educations = res.data
             })
 
@@ -192,9 +192,7 @@ export default {
             </div>
         </transition>
     </div>
-    <CreateEducationModal v-if="showCreateEducationModal" @goBack="goBack"
-                          :userId=userId
-    ></CreateEducationModal>
+    <CreateEducationModal v-if="showCreateEducationModal" @goBack="goBack"></CreateEducationModal>
 </template>
 
 <style scoped>

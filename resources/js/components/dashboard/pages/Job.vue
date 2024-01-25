@@ -14,7 +14,6 @@ export default {
     data() {
         return {
             // Backend data
-            user_id: null,
             job_id: null,
             jobs: [],
 
@@ -26,19 +25,14 @@ export default {
         }
     },
     mounted() {
-        this.getData();
+        this.fetchJobs();
     },
     methods: {
-        getData(){
-            axios.get('/api/user').then(res => {
-                this.user_id = res.data.id
+        fetchJobs(){
+            axios.get("/api/job").then((res) => {
+                this.jobs = res.data
 
-                //getting jobs by user
-                axios.get(`/api/job/${this.user_id}`).then((res) => {
-                    this.jobs = res.data
-
-                    this.loading = true
-                })
+                this.loading = true
             })
         },
         formatExperienceDate(milliseconds) {
@@ -65,7 +59,7 @@ export default {
             return formattedDate.join(' ');
         },
         goBack() {
-            this.getData();
+            this.fetchJobs();
             this.showJobModal = this.showUpdateJobModal = this.showJob = false;
         }
     }
@@ -124,8 +118,8 @@ export default {
     <div v-if="!loading" class="loading-indicator">
         Loading...
     </div>
-    <CreateJobModal v-if="showJobModal" @goBack="goBack" :userId="this.user_id"></CreateJobModal>
-    <UpdateJobModal v-if="showUpdateJobModal" @goBack="goBack" :userId="this.user_id" :jobId="this.job_id"></UpdateJobModal>
+    <CreateJobModal v-if="showJobModal" @goBack="goBack"></CreateJobModal>
+    <UpdateJobModal v-if="showUpdateJobModal" @goBack="goBack" :jobId="this.job_id"></UpdateJobModal>
     <ShowProJob v-if="showJob" @goBack="goBack" :job_id="this.job_id"></ShowProJob>
 </template>
 

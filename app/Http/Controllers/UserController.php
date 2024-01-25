@@ -2,20 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    protected $user;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            return $next($request);
+        });
+    }
+
     /**
      * Update user data
      * @param Request $request
-     * @param User $user
      * @return JsonResponse
      */
-    public function update(Request $request, User $user): JsonResponse
+    public function update(Request $request): JsonResponse
     {
         //validate
         $validated = $request->validate([
@@ -26,20 +35,18 @@ class UserController extends Controller
         ]);
 
         //update user information
-        $user->update($validated);
+        $this->user->update($validated);
 
         //return response
-        return new JsonResponse($user);
+        return new JsonResponse($this->user);
     }
-
 
     /**
      * Edit phone number
      * @param Request $request
-     * @param User $user
      * @return JsonResponse
      */
-    public function editPhoneNumber(Request $request, User $user): JsonResponse
+    public function editPhoneNumber(Request $request): JsonResponse
     {
         //validate
         $validated = $request->validate([
@@ -47,19 +54,18 @@ class UserController extends Controller
         ]);
 
         //update user phone number
-        $user->update($validated);
+        $this->user->update($validated);
 
         //return response
-        return new JsonResponse($user);
+        return new JsonResponse($this->user);
     }
 
     /**
      * Add User Email
      * @param Request $request
-     * @param User $user
      * @return JsonResponse
      */
-    public function addEmail(Request $request, User $user): JsonResponse
+    public function addEmail(Request $request): JsonResponse
     {
         //validate
         $validated = $request->validate([
@@ -67,21 +73,20 @@ class UserController extends Controller
         ]);
 
         //add user email in user data
-        $user->update($validated);
+        $this->user->update($validated);
 
         //return response
-        return new JsonResponse($user);
+        return new JsonResponse($this->user);
     }
 
     /**
      * Delete user email from db
-     * @param User $user
      * @return JsonResponse
      */
-    public function deleteEmail(User $user): JsonResponse
+    public function deleteEmail(): JsonResponse
     {
         //set null in email
-        $user->update([
+        $this->user->update([
             'email' => null
         ]);
 
@@ -92,10 +97,9 @@ class UserController extends Controller
     /**
      * Upload user photo
      * @param Request $request
-     * @param User $user
      * @return JsonResponse
      */
-    public function uploadAvatar(Request $request, User $user): JsonResponse
+    public function uploadAvatar(Request $request): JsonResponse
     {
         //validate
         $request->validate([
@@ -103,15 +107,15 @@ class UserController extends Controller
         ]);
 
         //delete old avatar if exists
-        if ($user->avatar) {
-            Storage::disk('public')->delete($user->avatar);
+        if ($this->user->avatar) {
+            Storage::disk('public')->delete($this->user->avatar);
         }
 
         //store new avatar
         $avatarPath = $request->file('avatar')->store('avatars', 'public');
 
         //update user's avatar path in the database
-        $user->update(['avatar' => $avatarPath]);
+        $this->user->update(['avatar' => $avatarPath]);
 
         //return response
         return new JsonResponse(['avatar_url' => asset("storage/{$avatarPath}")]);
@@ -119,21 +123,19 @@ class UserController extends Controller
 
     /**
      * Delete user photo
-     * @param User $user
      * @return JsonResponse
      */
-    public function deleteAvatar(User $user): JsonResponse
+    public function deleteAvatar(): JsonResponse
     {
         //delete old avatar if exists
-        if ($user->avatar) {
-            Storage::disk('public')->delete($user->avatar);
+        if ($this->user->avatar) {
+            Storage::disk('public')->delete($this->user->avatar);
         }
 
         //update user's avatar path in the database
-        $user->update(['avatar' => null]);
+        $this->user->update(['avatar' => null]);
 
         //return response
         return new JsonResponse(['avatar_url' => 'deleted successfully']);
     }
-
 }

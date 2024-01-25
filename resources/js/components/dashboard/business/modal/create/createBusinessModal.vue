@@ -3,10 +3,6 @@
 import axios from 'axios';
 
 export default {
-    // Component properties
-    props: [
-        'userId'
-    ],
     emits: ['close'],
     // Component data initialization
     data() {
@@ -36,7 +32,6 @@ export default {
         // Method to save business and bank data
         save() {
             const data = {
-                'user_id': this.userId,
                 'inn': this.inn,
                 'name_of_business': this.name_of_business,
                 'form_of_business': this.form_of_business,

@@ -3,7 +3,6 @@
 import axios from 'axios';
 
 export default {
-    props: ['userId'],
     data() {
         return {
             // Data properties for the component
@@ -53,7 +52,6 @@ export default {
             if(timeDifference && !comparingDate){
                 this.type = $('#select').val()
                 const data = {
-                    'user_id': this.userId,
                     'type': this.type,
                     'name': this.name,
                     'started': this.started,
