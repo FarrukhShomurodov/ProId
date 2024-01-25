@@ -55,6 +55,10 @@ h3 {
     flex-direction: column;
 }
 
+img{
+    cursor: pointer;
+}
+
 /*Header*/
 header {
     position: fixed;

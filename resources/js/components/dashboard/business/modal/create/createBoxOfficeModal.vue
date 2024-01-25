@@ -139,7 +139,8 @@ export default {
                                 display: flex;
                                 flex-direction: row;
                                 align-items: center;
-                                padding-left: 11px;">
+                                padding-left: 11px;
+                                cursor: pointer;">
                                     <img src="/images/icons/dashboard/add.svg" alt="" style="margin-right: 11px;">
                                     <p>Добавить новый банковский счет</p>
                                 </div>

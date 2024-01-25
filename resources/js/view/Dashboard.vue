@@ -109,7 +109,7 @@ export default {
                      @click="$router.push({name: 'dashboard-main'})"
                      style="border-radius: 0;">
                 <div class="min_nav" :class="{'radiosNone': showUserMenu || showServiceMenu}">
-                    <img src="/images/icons/dashboard/menu.svg" alt="" @click="showServices">
+                    <img src="/images/icons/dashboard/menu.svg" alt="" @click="showServices" style="cursor: auto;">
                     <!-- User avatar -->
                     <div class="ava" style="width: 47px; height: 47px;" :style="{
                         'background-image': `url(${avatarUrl !== null ? '/storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
@@ -129,7 +129,7 @@ export default {
                                                 'background-image': `url(${avatarUrl !== null ? '/storage/' + avatarUrl : '/images/icons/dashboard/user.svg'})`,
                                                 'background-size': 'cover',
                                                 'background-position': 'center',
-                                                'background-color': 'white'
+                                                'background-color': 'white',
                                             }"></div>
                             <h4 style="margin-top: 10px;">{{ name }}<br>{{ surname }}</h4>
                         </div>

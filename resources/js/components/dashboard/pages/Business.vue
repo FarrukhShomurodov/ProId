@@ -75,10 +75,10 @@ export default {
             </div>
         </TransitionGroup>
         <!-- Add Business button -->
-        <div class="add_business flex-row" @click="showCreateBusinessModal = true">
+        <button class="add_business flex-row" @click="showCreateBusinessModal = true">
             <img src="/images/icons/dashboard/add.svg" alt="">
             <p>Добавить новый бизнес</p>
-        </div>
+        </button>
     </div>
 
     <!-- Links to Government services -->

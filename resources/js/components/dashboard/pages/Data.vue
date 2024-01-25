@@ -216,9 +216,9 @@ export default {
                             </yandex-map>
                         </div>
                         <!-- Display existing addresses text -->
-                        <div class="address_text" @click="showUpdateAddressModal = true; address_id = address.id">
+                        <button class="address_text" @click="showUpdateAddressModal = true; address_id = address.id">
                             <p>{{ address.name.slice(0, 30) + "..." }}</p>
-                        </div>
+                        </button>
                     </div>
                     <!-- Add new address button -->
                     <div>
@@ -255,9 +255,9 @@ export default {
                             </yandex-map>
                         </div>
                         <!-- Add new address text -->
-                        <div class="address_text" @click="showCreateAddressModal = true;">
+                        <button class="address_text" @click="showCreateAddressModal = true;">
                             <p>Добавить еще один адрес</p>
-                        </div>
+                        </button>
                     </div>
                 </div>
                 <!-- All addresses button -->

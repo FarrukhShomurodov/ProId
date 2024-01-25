@@ -158,10 +158,10 @@ export default {
                 </section>
             </TransitionGroup>
         </div>
-        <div class="add_business flex-row add_experience" @click="showCreateJobExperienceModal = true">
+        <button class="add_business flex-row add_experience" @click="showCreateJobExperienceModal = true">
             <img src="/images/icons/dashboard/add.svg" alt="">
             <p>Добавить информацию о трудовом стаже</p>
-        </div>
+        </button>
     </div>
 
     <!-- Loading indicator -->

@@ -30,6 +30,7 @@ p {
     margin-top: 13px;
     align-items: center;
     user-select: none;
+    border: none;
 }
 
 .add_business img {

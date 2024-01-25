@@ -104,10 +104,10 @@ export default {
             </div>
         </TransitionGroup>
         <!-- Button to add a new box office -->
-        <div class="add_box_office" @click="showCreateBoxOffice = true">
+        <button class="add_box_office" @click="showCreateBoxOffice = true">
             <img src="/images/icons/dashboard/add.svg" alt="">
             <p>Добавить новую кассу</p>
-        </div>
+        </button>
     </div>
 
     <!-- Loading indicator -->
