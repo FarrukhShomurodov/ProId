@@ -31,4 +31,17 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+
+    /*
+     * MyId Provider
+     * */
+
+    'myid' => [
+        'client_id' => env('MYID_ID'),
+        'response_type' => 'code',
+        'redirect_uri' => env('MYID_REDIRECT_URI'),
+        'scope' => env('MYID_SCOPE'),
+        'method' => 'strong',
+        'state' => 'xyzABC123',
+    ]
 ];

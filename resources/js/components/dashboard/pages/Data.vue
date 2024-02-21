@@ -64,26 +64,10 @@ export default {
             loading: false,
         }
     },
-    mounted() {
+    beforeMount() {
         this.getUser();
-
-        // destroy ymap
-        this.$nextTick(() => {
-            this.destroyYandexMap();
-        });
     },
     methods: {
-        destroyYandexMap() {
-            // Access the YandexMap component using the ref
-            const yandexMap = this.$refs.yandexMap;
-
-            // Check if the YandexMap component exists
-            if (yandexMap) {
-                // Call the destroy method to destroy the map
-                yandexMap.destroy();
-            }
-        },
-
         // Format phone number
         formatPhoneNumber(phoneNumber) {
             // Remove any non-digit characters from the phone number
@@ -177,7 +161,7 @@ export default {
                     <div v-for="address in addresses">
                         <div class="address_container">
                             <!-- Yandex Map for each address -->
-                            <yandex-map ref="yandexMap" :settings="{
+                            <yandex-map :settings="{
                                 location: {
                                     center:  JSON.parse(address.coords),
                                     zoom: 10,
@@ -389,7 +373,7 @@ export default {
         ></CreateEducationModal>
         <!-- Update Education data -->
         <UpdateEducationModal v-if="showUpdateEducationModal" @goBack="goBack"
-                     :education_id=education_id
+                              :education_id=education_id
         ></UpdateEducationModal>
     </div>
 

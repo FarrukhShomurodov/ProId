@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\OTPController;
+use App\Http\Controllers\Auth\SocialOAuthController;
 use App\Http\Controllers\Dashboard\AddressController;
 use App\Http\Controllers\Dashboard\BanksDataController;
 use App\Http\Controllers\Dashboard\BoxOfficeController;
@@ -25,6 +26,15 @@ Route::post('/register', [AuthController::class,'register']);
 Route::post('/token',[AuthController::class, 'token'])->name('token');
 Route::middleware('auth:api')->post('logout', [AuthController::class, 'logout']);
 
+
+// OTP
+Route::post('/sendOTP', [OTPController::class,'sendOTP']);
+Route::post('/checkCode', [OTPController::class,'checkCode']);
+Route::delete('/deleteCode', [OTPController::class,'deleteCode']);
+
+// OAuth with MyId
+Route::get('/oauth/myid/redirect',[SocialOAuthController::class, 'redirect']);
+Route::post('/oauth/myid/callback',[SocialOAuthController::class, 'callback']);
 
 Route::middleware('auth:api')->group(function () {
     // Маршруты, доступные только аутентифицированным пользователям с действующим токеном
@@ -91,11 +101,4 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/experience-show/{experience}',[ExperienceController::class, 'show']);
     Route::post('/experience',[ExperienceController::class, 'store']);
     Route::put('/experience/{experience}',[ExperienceController::class, 'update']);
-
-   
 });
-
-// OTP
-Route::post('/sendOTP', [OTPController::class,'sendOTP']);
-Route::post('/checkCode', [OTPController::class,'checkCode']);
-Route::delete('/deleteCode', [OTPController::class,'deleteCode']);
