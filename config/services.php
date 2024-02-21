@@ -34,6 +34,7 @@ return [
 
     /*
      * MyId Provider
+     * 
      * */
 
     'myid' => [
