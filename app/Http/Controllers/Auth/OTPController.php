@@ -66,7 +66,6 @@ class OTPController extends Controller
     }
 
     /**
-     * Todo: make delete code correct
      * @param Request $request
      * @return JsonResponse
      */

@@ -107,7 +107,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Todo check
      * @param Request $request
      * @return JsonResponse
      */
