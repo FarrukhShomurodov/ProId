@@ -8,19 +8,29 @@ use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class SocialOAuthController extends Controller
 {
-    public function redirect(): PromiseInterface|Response
+    public function redirect()
     {
-        return Http::withUrlParameters([
+        $state = Str::random(40);
+
+        $headers = [
+            'Content-Type' => 'PARAMS',
+            'Accept' => 'application/json'
+        ];
+
+        $query = http_build_query([
             'client_id' => env('MYID_ID'),
             'response_type' => 'code',
             'redirect_uri' => env('MYID_REDIRECT_URI'),
             'scope' => env('MYID_SCOPE'),
             'method' => 'strong',
-            'state' => 'xyzABC123',
-        ])->get('https://devmyid.uz/api/v1/oauth2/authorization');
+            'state' => $state,
+        ]);
+
+        return redirect('https://devmyid.uz/api/v1/oauth2/authorization?' . $query)->withHeaders($headers);
     }
 
     /**
@@ -57,6 +67,6 @@ class SocialOAuthController extends Controller
      */
     public function getUser($accessToken): PromiseInterface|Response
     {
-        return Http::withToken($accessToken,'Bearer')->get('https://devmyid.uz/api/v1/users/me');
+        return Http::withToken($accessToken, 'Bearer')->get('https://devmyid.uz/api/v1/users/me');
     }
 }
