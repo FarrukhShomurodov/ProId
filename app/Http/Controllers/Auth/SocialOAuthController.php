@@ -13,7 +13,7 @@ class SocialOAuthController extends Controller
 {
     public function redirect(): PromiseInterface|Response
     {
-        return Http::withQueryParameters([
+        return Http::withUrlParameters([
             'client_id' => env('MYID_ID'),
             'response_type' => 'code',
             'redirect_uri' => env('MYID_REDIRECT_URI'),
