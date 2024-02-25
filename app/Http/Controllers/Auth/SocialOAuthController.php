@@ -8,17 +8,19 @@ use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Laravel\Socialite\Facades\Socialite;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SocialOAuthController extends Controller
 {
-    /**
-     * @return RedirectResponse|\Illuminate\Http\RedirectResponse
-     */
-    public function redirect(): RedirectResponse|\Illuminate\Http\RedirectResponse
+    public function redirect(): PromiseInterface|Response
     {
-        return Socialite::driver('myid')->redirect();
+        return Http::withQueryParameters([
+            'client_id' => env('MYID_ID'),
+            'response_type' => 'code',
+            'redirect_uri' => env('MYID_REDIRECT_URI'),
+            'scope' => env('MYID_SCOPE'),
+            'method' => 'strong',
+            'state' => 'xyzABC123',
+        ])->get('https://devmyid.uz/api/v1/oauth2/authorization');
     }
 
     /**
