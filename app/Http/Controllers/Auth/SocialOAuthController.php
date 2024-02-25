@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use GuzzleHttp\Promise\PromiseInterface;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class SocialOAuthController extends Controller
 {
-    public function redirect()
+    /**
+     * @return Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+     */
+    public function redirect(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $state = Str::random(40);
 
@@ -35,38 +41,54 @@ class SocialOAuthController extends Controller
 
     /**
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
-    public function callback(Request $request): Response
+    public function callback(Request $request): JsonResponse
     {
-        // getting code form code
-        $code = $request->get('code');
+        try {
+            // Get authorization code from the request
+            $code = $request->get('code');
 
-        // getting access token
-        $response = Http::post('https://devmyid.uz/api/v1/oauth2/authorization', [
-            'grant_type' => 'authorization_code',
-            'code' => $code,
-            'client_id' => env('MYID_ID'),
-            'client_secret' => env('MYID_SECRET'),
-        ]);
+            // Exchange authorization code for an access token
+            $response = Http::post('https://devmyid.uz/api/v1/oauth2/token', [
+                'grant_type' => 'authorization_code',
+                'code' => $code,
+                'client_id' => env('MYID_ID'),
+                'client_secret' => env('MYID_SECRET'),
+            ]);
 
-        // user
-        $callbackUser = $this->getUser($response['access_token']);
+            // Check if the token request was successful
+            if ($response->successful()) {
+                $accessToken = $response['access_token'];
 
-        // update user with passport data
-        $user = User::query()->update([$callbackUser]);
+                // Fetch user information using the access token
+                $userDataResponse = Http::withToken($accessToken)->get('https://devmyid.uz/api/v1/users/me');
 
-        // return response
-        return $user;
-    }
+                // Check if user data retrieval was successful
+                if ($userDataResponse->successful()) {
+                    $userData = $userDataResponse->json();
+                    $userData = $userData['profile']["common_data"];
 
+                    $user = Auth::user();
+                    $user->name = $userData['first_name'];
+                    $user->surname = $userData['last_name'];
+                    $user->date_of_birth = $userData['birth_date'];
+                    $user->gender = $userData['gender'];
+                    $user->save();
 
-    /**
-     * @param $accessToken
-     * @return PromiseInterface|Response
-     */
-    public function getUser($accessToken): PromiseInterface|Response
-    {
-        return Http::withToken($accessToken, 'Bearer')->get('https://devmyid.uz/api/v1/users/me');
+                    // Return a response indicating success
+                    return response()->json(['message' => 'User data updated successfully', 'data' => $user]);
+                } else {
+                    // Handle failure to retrieve user data
+                    return response()->json(['error' => 'Failed to retrieve user data'], $userDataResponse->status());
+                }
+            } else {
+                // Handle failure to obtain access token
+                return response()->json(['error' => 'Failed to obtain access token'], $response->status());
+            }
+        } catch (Exception $e) {
+            // Handle any other exceptions
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
 }
