@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('phone_number')->unique();
             $table->string('email')->unique()->nullable();
             $table->date('date_of_birth')->nullable();
-            $table->string('gender')->nullable();
+            $table->string('gender')->default('male');
             $table->string('avatar')->nullable();
             $table->boolean('is_admin')->default(0);
             $table->rememberToken();
