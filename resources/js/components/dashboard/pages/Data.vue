@@ -11,13 +11,6 @@ import UpdateAddressModal from "../data/modal/update/UpdateAddressModal.vue";
 import CreateEducationModal from "../data/modal/create/CreateEducationModal.vue";
 import UpdateEducationModal from "../data/modal/update/UpdateEducationModal.vue";
 import Addresses from "../data/Addresses.vue";
-import {
-    YandexMap,
-    YandexMapDefaultSchemeLayer,
-    YandexMapDefaultFeaturesLayer,
-    YandexMapMarker,
-    YandexMapListener,
-} from 'vue-yandex-maps';
 
 export default {
     components: {
@@ -27,11 +20,6 @@ export default {
         CreateAddressModal,
         UpdateAddressModal,
         Email,
-        YandexMap,
-        YandexMapDefaultSchemeLayer,
-        YandexMapDefaultFeaturesLayer,
-        YandexMapMarker,
-        YandexMapListener,
         CreateEducationModal,
         UpdateEducationModal,
         Addresses
@@ -85,7 +73,7 @@ export default {
 
             // Fetch user data
             await axios.get('/api/user').then(res => {
-                const { name, surname, avatar, phone_number, email } = res.data;
+                const {name, surname, avatar, phone_number, email} = res.data;
 
                 // Set user data
                 this.name = name;
@@ -107,17 +95,23 @@ export default {
         },
 
         // Fetch user education
-        async getEducation(){
+        async getEducation() {
             await axios.get("/api/education/").then(res => {
                 this.educations = res.data;
             })
         },
         // Fetch user addresses
-        async getAddress(){
+        async getAddress() {
             await axios.get("/api/address").then(res => {
-                this.addresses = res.data.reverse().slice(0,3)
+                this.addresses = res.data.reverse().slice(0, 3)
             })
         },
+
+        // Generate link for get screen from yandex map
+        generateMapUrl(coords) {
+            return `https://static-maps.yandex.ru/1.x/?lang=ru-RU&ll=${JSON.parse(coords)[0]},${JSON.parse(coords)[1]}&size=115,168&z=13&l=map`;
+        },
+
         // Method to go back from subpages
         goBack() {
             this.showAddresses = this.showUpdateEducationModal = this.showCreateEducationModal = this.showEmailEdition = this.showAuthModal = this.showPhoneEditionModal = this.showMailModal = this.showCreateAddressModal = this.showUpdateAddressModal = false;
@@ -159,37 +153,22 @@ export default {
                 <div class="address_content_container flex-row">
                     <!-- Display existing addresses -->
                     <div v-for="address in addresses">
-                        <div class="address_container">
-                            <!-- Yandex Map for each address -->
-                            <yandex-map :settings="{
-                                location: {
-                                    center:  JSON.parse(address.coords),
-                                    zoom: 10,
-                                },
-                                behaviors: ['default'],
-                            }" class="yandexDataMap">
-                                <yandex-map-default-scheme-layer/>
-                                <yandex-map-default-features-layer/>
-                                <yandex-map-marker
-                                    :settings="{
-                                        coordinates:  JSON.parse(address.coords),
+                        <div class="address_container flex-column">
+                            <!-- Yandex Map for each address, -->
+                            <img :src="generateMapUrl(address.coords)"
+                                 style="margin: 0;border-radius: 20px" width="100%" height="100%">
+
+                            <img
+                                alt=""
+                                :src="'/images/icons/marker.svg'"
+                                :style="{
+                                        width: '40px',
+                                        position: 'relative',
+                                        boxSizing: 'border-box',
+                                        transform: 'translate(-0%, calc(-50% - 60px))',
+                                        cursor: 'pointer',
                                     }"
-                                >
-                                    <template #default>
-                                        <img
-                                            alt=""
-                                            :src="'/images/icons/marker.svg'"
-                                            :style="{
-                                                width: '40px',
-                                                position: 'relative',
-                                                boxSizing: 'border-box',
-                                                transform: 'translate(-50%, calc(-50% - 58px))',
-                                                cursor: 'pointer',
-                                            }"
-                                        />
-                                    </template>
-                                </yandex-map-marker>
-                            </yandex-map>
+                            />
                         </div>
                         <!-- Display existing addresses text -->
                         <button class="address_text" @click="showUpdateAddressModal = true; address_id = address.id">
@@ -200,35 +179,22 @@ export default {
                     <div>
                         <div class="address_container flex-column">
                             <!-- Yandex Map for the user's location -->
-                            <yandex-map ref="yandexMap" :settings="{
-                                location: {
-                                    center:   [69.240562, 41.2800],
-                                    zoom: 10,
-                                },
-                                behaviors: ['default'],
-                            }" class="yandexDataMap">
-                                <yandex-map-default-scheme-layer/>
-                                <yandex-map-default-features-layer/>
-                                <yandex-map-marker
-                                    :settings="{
-                                        coordinates:  [69.240562, 41.2800],
+                            <img
+                                src="https://static-maps.yandex.ru/1.x/?lang=ru-RU&ll=69.240562,41.2800&size=115,168&z=13&l=map"
+                                style="margin: 0;border-radius: 20px" width="100%" height="100%">
+
+                            <img
+                                alt=""
+                                :src="'/images/icons/marker.svg'"
+                                :style="{
+                                        width: '40px',
+                                        position: 'relative',
+                                        boxSizing: 'border-box',
+                                        transform: 'translate(-0%, calc(-50% - 60px))',
+                                        cursor: 'pointer',
                                     }"
-                                >
-                                    <template #default>
-                                        <img
-                                            alt=""
-                                            :src="'/images/icons/marker.svg'"
-                                            :style="{
-                                                width: '40px',
-                                                position: 'relative',
-                                                boxSizing: 'border-box',
-                                                transform: 'translate(-50%, calc(-50% - 58px))',
-                                                cursor: 'pointer',
-                                            }"
-                                        />
-                                    </template>
-                                </yandex-map-marker>
-                            </yandex-map>
+                            />
+
                         </div>
                         <!-- Add new address text -->
                         <button class="address_text" @click="showCreateAddressModal = true;">
@@ -308,18 +274,23 @@ export default {
                     <TransitionGroup name="list">
                         <div v-for="education in educations" :key="education.id">
                             <div class="education__container">
-                                <img src="/images/icons/dashboard/edit.svg" alt="" @click="showUpdateEducationModal = true; education_id = education.id" width="25">
+                                <img src="/images/icons/dashboard/edit.svg" alt=""
+                                     @click="showUpdateEducationModal = true; education_id = education.id" width="25">
                                 <div class="education_items flex-column">
                                     <p> Вид: <span> {{ education.type }}</span></p>
                                     <p> {{ education.name }}</p>
-                                    <p> Период: <span> {{ education.started.slice(0,4) }}-{{ education.expired == null ? 'Учусь по сей день' : education.expired.slice(0,4) }}</span></p>
+                                    <p> Период: <span> {{
+                                            education.started.slice(0, 4)
+                                        }}-{{
+                                            education.expired == null ? 'Учусь по сей день' : education.expired.slice(0, 4)
+                                        }}</span></p>
                                 </div>
                             </div>
                         </div>
                     </TransitionGroup>
                     <!-- Add Education -->
                     <div class="education__container" @click="showCreateEducationModal = true">
-                        <img src="/images/icons/dashboard/add_white.svg" alt="" class="add_new_icon" >
+                        <img src="/images/icons/dashboard/add_white.svg" alt="" class="add_new_icon">
                         <div class="education_items flex-column">
                             <p class="add_new_text"> Добавить новую
                                 должность</p>
