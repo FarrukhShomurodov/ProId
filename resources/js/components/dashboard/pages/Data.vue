@@ -157,16 +157,16 @@ export default {
                             <!-- Yandex Map for each address, -->
                             <img :src="generateMapUrl(address.coords)"
                                  style="margin: 0;border-radius: 20px; width: 100%;
-  height: 100%;" width="100%" height="100%">
+  height: 100vh;" width="100%" height="100%">
 
                             <img
                                 alt=""
                                 :src="'/images/icons/marker.svg'"
                                 :style="{
                                         width: '40px',
-                                        position: 'relative',
+                                        position: 'absolute',
                                         boxSizing: 'border-box',
-                                        transform: 'translate(-0%, calc(-50% - 60px))',
+                                        transform: 'translate(-0%, calc(-50% - 0px))',
                                         cursor: 'pointer',
                                     }"
                             />
@@ -183,16 +183,16 @@ export default {
                             <img
                                 src="https://static-maps.yandex.ru/1.x/?lang=ru-RU&ll=69.240562,41.2800&size=115,168&z=13&l=map"
                                 style="margin: 0;border-radius: 20px; width: 100%;
-  height: 100%;" width="100%" height="100%">
+  height: 100vh;" width="100%" height="100%">
 
                             <img
                                 alt=""
                                 :src="'/images/icons/marker.svg'"
                                 :style="{
                                         width: '40px',
-                                        position: 'relative',
+                                        position: 'absolute',
                                         boxSizing: 'border-box',
-                                        transform: 'translate(-0%, calc(-50% - 60px))',
+                                        transform: 'translate(-0%, calc(-50% - 0px))',
                                         cursor: 'pointer',
                                     }"
                             />
