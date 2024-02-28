@@ -166,7 +166,7 @@ export default {
                                         width: '40px',
                                         position: 'absolute',
                                         boxSizing: 'border-box',
-                                        transform: 'translate(-0%, calc(-50% - 0px))',
+                                        transform: 'translate(-0%, calc(-50% - 10px))',
                                         cursor: 'pointer',
                                     }"
                             />
@@ -192,7 +192,7 @@ export default {
                                         width: '40px',
                                         position: 'absolute',
                                         boxSizing: 'border-box',
-                                        transform: 'translate(-0%, calc(-50% - 0px))',
+                                        transform: 'translate(-0%, calc(-50% - 10px))',
                                         cursor: 'pointer',
                                     }"
                             />
