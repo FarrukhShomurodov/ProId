@@ -156,7 +156,7 @@ export default {
                         <div class="address_container flex-column">
                             <!-- Yandex Map for each address, -->
                             <img :src="generateMapUrl(address.coords)"
-                                 style="margin: 0;border-radius: 20px" width="100%" height="100%">
+                                 style="margin: 0;border-radius: 20px;" width="100%" height="100%">
 
                             <img
                                 alt=""
