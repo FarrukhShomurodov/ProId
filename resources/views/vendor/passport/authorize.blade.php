@@ -69,36 +69,38 @@
 </div>
 
 <script>
-  const redirect = document.querySelector('.reirect_link');
-    redirect.addEventListener('click', function() {
-        window.close();
-    });
+    document.addEventListener("DOMContentLoaded", function() {
+        const redirect = document.querySelector('.reirect_link');
+        redirect.addEventListener('click', function() {
+            window.close();
+        });
 
-    
-    // Set default value in second
-    let second = 5;
+        // Set default value in second
+        let second = 5;
 
-    // Getting second element form html
-    let secondEl = document.querySelector('#second');
+        // Getting second element form html
+        let secondEl = document.querySelector('#second');
 
-    // Setting second value in element and decreasing value each second
-    function timer() {
-        if (second > 0) {
-            second -= 1;
-            secondEl.innerHTML = second;
-        } else {
-            clearInterval(timerInterval)
-            document.getElementById('approvalForm').submit();
+        // Setting second value in element and decreasing value each second
+        function timer() {
+            if (second > 0) {
+                second -= 1;
+                secondEl.innerHTML = second;
+            } else {
+                clearInterval(timerInterval)
+                document.getElementById('approvalForm').submit();
+                window.close()
+            }
+        }
+        let timerInterval = setInterval(timer, 1000)
+
+        // Clear interval if time out
+        if (second <= 0) {
+            clearInterval(timerInterval);
             window.close()
         }
-    }
-    let timerInterval = setInterval(timer, 1000)
-
-    // Clear interval if time out
-    if (second <= 0) {
-        clearInterval(timerInterval);
-        window.close()
-    }
+    });
 </script>
+
 </body>
 </html>
