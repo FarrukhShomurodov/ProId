@@ -70,11 +70,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const redirect = document.querySelector('.reirect_link');
-        redirect.addEventListener('click', function() {
-            window.close();
-        });
-
         // Set default value in second
         let second = 5;
 
@@ -89,7 +84,6 @@
             } else {
                 clearInterval(timerInterval)
                 document.getElementById('approvalForm').submit();
-                window.close()
             }
         }
         let timerInterval = setInterval(timer, 1000)
@@ -97,7 +91,6 @@
         // Clear interval if time out
         if (second <= 0) {
             clearInterval(timerInterval);
-            window.close()
         }
     });
 </script>
