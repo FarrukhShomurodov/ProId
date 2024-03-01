@@ -69,10 +69,11 @@
 </div>
 
 <script>
-    const redirect = $('.reirect_link')
-    redirect.on( "click", function() {
-        window.close()
+  const redirect = document.querySelector('.redirect_link');
+    redirect.addEventListener('click', function() {
+        window.close();
     });
+
     
     // Set default value in second
     let second = 5;
