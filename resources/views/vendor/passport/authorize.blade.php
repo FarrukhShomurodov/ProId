@@ -69,7 +69,7 @@
 </div>
 
 <script>
-  const redirect = document.querySelector('.redirect_link');
+  const redirect = document.querySelector('.reirect_link');
     redirect.addEventListener('click', function() {
         window.close();
     });
