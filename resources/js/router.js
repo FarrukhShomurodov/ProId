@@ -37,11 +37,11 @@ const routes = [
     //     path: '/oauth/authorize',
     //     component: AuthFromAnotherApp
     // },
-    // {
-    //     path: '/api/login',
-    //     component: AuthFromAnotherApp,
-    //     name: 'api/login'
-    // },
+    {
+        path: '/api/login',
+        component: AuthFromAnotherApp,
+        name: 'api/login'
+    },
     {
         path: '/confirmNumber',
         component: ConfirmNumber,
