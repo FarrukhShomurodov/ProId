@@ -59,6 +59,7 @@ export default {
                 axios.post('/api/login', {
                     phone_number: this.phone_number,
                 }).then(response => {
+                    console.log(response)
                     if (response.data.name && response.data.surname) {
                         this.count++;
                         if (this.count < 5) {

@@ -34,7 +34,7 @@ class AuthController extends Controller
             Auth::login($user);
 
             //return response
-            return new JsonResponse($user);
+            return new JsonResponse(session()->get('authRequest'));
         }
 
         //return error
