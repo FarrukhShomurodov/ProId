@@ -17,11 +17,14 @@ class Authenticate extends Middleware
             // Start modified line
             if ($request->path() === 'oauth/authorize') {
                 if (isset($request->query()['client_id'])) {
-                    $params = array(
-                        'client_id' => $request->query()['client_id'],
-                        'return_to' => (new \Illuminate\Http\Request)->getRequestUri(),
-                    );
-                    return route('login', $params);
+                    $params = [
+                        'client_id' => $request->query('client_id'),
+                        'return_to' => $request->getRequestUri(),
+                    ];
+
+                    $queryString = http_build_query($params);
+
+                    return redirect()->to('api/login?' . $queryString);
                 } else {
                     return route('login');
                 }
