@@ -21,7 +21,7 @@ class Authenticate extends Middleware
                         'return_to' => $request->getRequestUri(),
                     ];
 
-                    Session::put('redirect_data', $params);
+//                    Session::put('redirect_data', $params);
 
                     // Redirect with a single header
                     return redirect()->to('/api/login');
