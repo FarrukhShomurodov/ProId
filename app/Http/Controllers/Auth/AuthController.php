@@ -122,6 +122,10 @@ class AuthController extends Controller
     {
         $user = Auth::user();
 
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
         $user->token()->revoke();
 
         return new JsonResponse('Successfully logged out', 200);
