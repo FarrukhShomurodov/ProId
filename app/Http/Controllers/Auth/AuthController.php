@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -34,8 +35,15 @@ class AuthController extends Controller
 
         //check has user
         if ($user) {
-            if (isset($request->query()['return_to'])) {
-                return new JsonResponse($request->query()['return_to']);
+            // Retrieve data from the session
+            $oauthData = Session::get('redirect_data');
+
+            // Use the data as needed
+            if ($oauthData) {
+                $clientId = $oauthData['client_id'];
+                $returnTo = $oauthData['return_to'];
+
+                return new JsonResponse($oauthData);
             } else {
                 return new JsonResponse("no");
             }
