@@ -22,31 +22,32 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        if (isset($request->query()['return_to'])) {
-            return new JsonResponse($request->query()['return_to']);
-        } else {
-            return new JsonResponse("no");
+
+        //validate
+        $validated = $request->validate([
+            'phone_number' => 'required|regex:/^\+?[0-9]{10,}$/',
+        ]);
+
+        //getting user data by phone number
+        $user = User::query()->where('phone_number', $validated['phone_number'])->first();
+
+
+        //check has user
+        if ($user) {
+            if (isset($request->query()['return_to'])) {
+                return new JsonResponse($request->query()['return_to']);
+            } else {
+                return new JsonResponse("no");
+            }
+
+            Auth::login($user);
+
+            //return response
+            return new JsonResponse($user);
         }
-//        //validate
-//        $validated = $request->validate([
-//            'phone_number' => 'required|regex:/^\+?[0-9]{10,}$/',
-//        ]);
-//
-//        //getting user data by phone number
-//        $user = User::query()->where('phone_number', $validated['phone_number'])->first();
-//
-//
-//        //check has user
-//        if ($user) {
-//
-//            Auth::login($user);
-//
-//            //return response
-//            return new JsonResponse($user);
-//        }
-//
-//        //return error
-//        throw new AuthenticationException("Нет аккаунта c таким номером.", [Response::HTTP_FORBIDDEN]);
+
+        //return error
+        throw new AuthenticationException("Нет аккаунта c таким номером.", [Response::HTTP_FORBIDDEN]);
     }
 
     /**
