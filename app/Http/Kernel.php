@@ -24,8 +24,7 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
-
-
+        \App\Http\Middleware\SaveRedirectUrl::class,
     ];
 
     /**

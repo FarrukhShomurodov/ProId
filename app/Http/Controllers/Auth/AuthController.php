@@ -33,7 +33,8 @@ class AuthController extends Controller
 
         //check has user
         if ($user) {
-            Auth::login($user);
+            $redirect_url = session('redirect_url', '/');
+            Auth::login($redirect_url);
 
             //return response
             return new JsonResponse($user);
