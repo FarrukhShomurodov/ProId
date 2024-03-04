@@ -13,7 +13,7 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request)
     {
-        if (! $request->expectsJson()) {
+        if (!$request->expectsJson()) {
             if ($request->path() === 'oauth/authorize') {
                 if (isset($request->query()['client_id'])) {
                     $params = [
@@ -21,17 +21,16 @@ class Authenticate extends Middleware
                         'return_to' => $request->getRequestUri(),
                     ];
 
-//                    Session::put('redirect_data', $params);
+                    Session::put('redirect_data', $params);
 
-                    // Redirect with a single header
-                    return redirect()->to('api/login');
+                    return redirect()->route('login');
                 } else {
                     // Redirect with a single header
-                    return redirect()->to('api/login');
+                    return redirect()->route('login');
                 }
             }
             // Redirect with a single header
-            return redirect()->to('api/login');
+            return redirect()->route('login');
         }
     }
 }
