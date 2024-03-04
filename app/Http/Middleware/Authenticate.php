@@ -1,4 +1,3 @@
-User
 <?php
 
 namespace App\Http\Middleware;
