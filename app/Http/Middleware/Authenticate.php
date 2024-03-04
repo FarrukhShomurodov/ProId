@@ -12,7 +12,7 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        dd($request->path());
+        \Log::info('Redirecting with params: ' . json_encode($request->path())); // Log the params
         if (! $request->expectsJson()) {
             // Start modified line
             if ($request->path() === 'oauth/authorize') {
@@ -21,6 +21,7 @@ class Authenticate extends Middleware
                         'client_id' => $request->query()['client_id'],
                         'return_to' => (new \Illuminate\Http\Request)->getRequestUri(),
                     );
+                    \Log::info('Redirecting with params: ' . json_encode($params)); // Log the params
                     return route('login', $params);
                 } else {
                     return route('login');
