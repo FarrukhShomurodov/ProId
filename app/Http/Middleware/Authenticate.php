@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Session;
 
 class Authenticate extends Middleware
 {
@@ -20,9 +21,9 @@ class Authenticate extends Middleware
                         'return_to' => $request->getRequestUri(),
                     ];
 
-                    $queryString = http_build_query($params);
+                    Session::put('redirect_data', $params);
 
-                    return redirect()->to('api/login?' . $queryString);
+                    return redirect()->to('api/login');
                 } else {
                     return route('login');
                 }
