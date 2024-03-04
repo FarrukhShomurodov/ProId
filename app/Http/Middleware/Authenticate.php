@@ -1,9 +1,11 @@
+User
 <?php
 
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class Authenticate extends Middleware
 {
@@ -13,7 +15,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            // Start modified line]
+            // Start modified line
             if ($request->path() === 'oauth/authorize') {
                 if (isset($request->query()['client_id'])) {
                     $params = [
@@ -21,9 +23,9 @@ class Authenticate extends Middleware
                         'return_to' => $request->getRequestUri(),
                     ];
 
-                    Session::put('redirect_data', $params);
+                    $queryString = http_build_query($params);
 
-                    return redirect()->route('login');
+                    return redirect()->to('api/login?' . $queryString);
                 } else {
                     return route('login');
                 }
