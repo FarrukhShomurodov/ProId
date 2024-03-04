@@ -34,10 +34,10 @@ class AuthController extends Controller
         //check has user
         if ($user) {
             $redirect_url = session('redirect_url', '/');
-            Auth::login($redirect_url);
+            Auth::login($user);
 
             //return response
-            return new JsonResponse($user);
+            return new JsonResponse($redirect_url);
         }
 
         //return error
