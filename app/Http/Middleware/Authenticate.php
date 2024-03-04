@@ -23,6 +23,7 @@ class Authenticate extends Middleware
 
                     Session::put('redirect_data', $params);
 
+                    return redirect()->to('https://id.in-pro.net/api/login');
                 }
             }
         }
