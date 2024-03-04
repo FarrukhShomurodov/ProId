@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -18,39 +17,46 @@ class AuthController extends Controller
     /**
      * Checking the user for authorization
      * @param Request $request
-     * @return JsonResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws AuthenticationException
      */
-    public function login(Request $request): JsonResponse
+    public function login(Request $request)
     {
-        //validate
-        $validated = $request->validate([
-            'phone_number' => 'required|regex:/^\+?[0-9]{10,}$/',
-        ]);
-
-        //getting user data by phone number
-        $user = User::query()->where('phone_number', $validated['phone_number'])->first();
-
-        //check has user
-        if ($user) {
-            $redirect_url = session('redirect_url', '/');
-            Auth::login($user);
-
-            //return response
-            return new JsonResponse($redirect_url);
+        if (isset($request->query()['return_to'])) {
+            // Then redirect to /oauth/authorize?blablabla
+            return new JsonResponse($request->query()['return_to']);
+        } else {
+            return redirect('/dashboard');
         }
-
-        //return error
-        throw new AuthenticationException("Нет аккаунта c таким номером.", [Response::HTTP_FORBIDDEN]);
+//        //validate
+//        $validated = $request->validate([
+//            'phone_number' => 'required|regex:/^\+?[0-9]{10,}$/',
+//        ]);
+//
+//        //getting user data by phone number
+//        $user = User::query()->where('phone_number', $validated['phone_number'])->first();
+//
+//
+//        //check has user
+//        if ($user) {
+//
+//            Auth::login($user);
+//
+//            //return response
+//            return new JsonResponse($user);
+//        }
+//
+//        //return error
+//        throw new AuthenticationException("Нет аккаунта c таким номером.", [Response::HTTP_FORBIDDEN]);
     }
 
     /**
      * Getting access token when user confirm number
      * @param Request $request
-     * @return JsonResponse|RedirectResponse
+     * @return JsonResponse
      * @throws AuthenticationException
      */
-    public function token(Request $request): JsonResponse|RedirectResponse
+    public function token(Request $request): JsonResponse
     {
         //validate
         $validated = $request->validate([
@@ -67,12 +73,8 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return $request->wantsJson()
-                ? new JsonResponse($success, 204)
-                : redirect()->intended();
-
             //return json with access token
-//            return new JsonResponse($success);
+            return new JsonResponse($success);
         }
 
         //error
