@@ -15,7 +15,6 @@ class Authenticate extends Middleware
         if (! $request->expectsJson()) {
             // Start modified line
             if ($request->path() === 'oauth/authorize') {
-                $request->session()->put("t", 'est');
                 if (isset($request->query()['client_id'])) {
                     $params = array(
                         'client_id' => $request->query()['client_id'],
