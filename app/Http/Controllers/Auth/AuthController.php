@@ -23,10 +23,9 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         if (isset($request->query()['return_to'])) {
-            // Then redirect to /oauth/authorize?blablabla
             return new JsonResponse($request->query()['return_to']);
         } else {
-            return new JsonResponse($request);
+            return new JsonResponse("no");
         }
 //        //validate
 //        $validated = $request->validate([

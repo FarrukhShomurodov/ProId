@@ -12,6 +12,7 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
+        dd($request->path());
         if (! $request->expectsJson()) {
             // Start modified line
             if ($request->path() === 'oauth/authorize') {
