@@ -16,6 +16,14 @@ export default {
             phoneNumber: '',
         };
     },
+    mounted() {
+        console.log("dassf")
+
+        const previousUrl = window.history.length > 1 ? window.history.previousUrl : null;
+        console.log("dsf")
+        console.log(previousUrl);
+
+    },
     methods: {
         // Format phone number input
         formatPhoneNumber(event) {
