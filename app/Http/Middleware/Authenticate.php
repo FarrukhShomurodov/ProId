@@ -3,17 +3,16 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class Authenticate extends Middleware
 {
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      */
-    protected function redirectTo(Request $request)
+    protected function redirectTo($request)
     {
-        if (!$request->expectsJson()) {
+        if (! $request->expectsJson()) {
+            // Start modified line]
             if ($request->path() === 'oauth/authorize') {
                 if (isset($request->query()['client_id'])) {
                     $params = [
@@ -21,16 +20,15 @@ class Authenticate extends Middleware
                         'return_to' => $request->getRequestUri(),
                     ];
 
-                    Session::put('redirect_data', $params);
+                    $queryString = http_build_query($params);
 
-                    return redirect()->route('login');
+                    return redirect()->to('api/login?' . $queryString);
                 } else {
-                    // Redirect with a single header
-                    return redirect()->route('login');
+                    return route('login');
                 }
             }
-            // Redirect with a single header
-            return redirect()->route('login');
+            // End modified line
+            return route('login');
         }
     }
 }
