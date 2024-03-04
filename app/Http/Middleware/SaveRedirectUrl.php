@@ -4,15 +4,15 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class SaveRedirectUrl
 {
-    public function handle(Request $request, Closure $next, $guard = null)
+    public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard($guard)->check()) {
-            // Пользователь аутентифицирован, сохраняем текущий URL
-            session(['redirect_url' => url()->previous()]);
+        // Проверяем, если пользователь не аутентифицирован
+        if (!auth()->check()) {
+            // Сохраняем текущий URL в сессии
+            session(['redirect_url' => $request->fullUrl()]);
         }
 
         return $next($request);
