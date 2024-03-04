@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -44,10 +46,10 @@ class AuthController extends Controller
     /**
      * Getting access token when user confirm number
      * @param Request $request
-     * @return JsonResponse
+     * @return JsonResponse|RedirectResponse
      * @throws AuthenticationException
      */
-    public function token(Request $request): JsonResponse
+    public function token(Request $request): JsonResponse|RedirectResponse
     {
         //validate
         $validated = $request->validate([
@@ -62,8 +64,14 @@ class AuthController extends Controller
             $success['token'] = $user->createToken('token')->accessToken;
             $success['user'] = $user;
 
+            $request->session()->regenerate();
+
+            return $request->wantsJson()
+                ? new JsonResponse($success, 204)
+                : redirect()->intended();
+
             //return json with access token
-            return new JsonResponse($success);
+//            return new JsonResponse($success);
         }
 
         //error
@@ -98,7 +106,7 @@ class AuthController extends Controller
 
             //return response
             return new JsonResponse($success, Response::HTTP_CREATED);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             //return error
             return new JsonResponse(['error' => 'Internal Server Error'], Response::HTTP_INTERNAL_SERVER_ERROR);
