@@ -26,7 +26,7 @@ class AuthController extends Controller
             // Then redirect to /oauth/authorize?blablabla
             return new JsonResponse($request->query()['return_to']);
         } else {
-            return new JsonResponse("a");
+            return new JsonResponse($request);
         }
 //        //validate
 //        $validated = $request->validate([
