@@ -23,7 +23,7 @@ class AuthController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
-        return new JsonResponse(redirect()->intended());
+        return new JsonResponse(redirect()->intended()->getCallback());
         //validate
         $validated = $request->validate([
             'phone_number' => 'required|regex:/^\+?[0-9]{10,}$/',
