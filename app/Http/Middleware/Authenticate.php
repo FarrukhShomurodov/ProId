@@ -23,7 +23,7 @@ class Authenticate extends Middleware
 
                     Session::put('redirect_data', $params);
 
-                    return redirect()->to('api/login');
+                    return route('login');
                 } else {
                     return route('login');
                 }
