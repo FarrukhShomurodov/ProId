@@ -14,7 +14,6 @@ class Authenticate extends Middleware
     protected function redirectTo(Request $request)
     {
         if (! $request->expectsJson()) {
-            // Start modified line]
             if ($request->path() === 'oauth/authorize') {
                 if (isset($request->query()['client_id'])) {
                     $params = [
@@ -24,12 +23,14 @@ class Authenticate extends Middleware
 
                     Session::put('redirect_data', $params);
 
+                    // Redirect with a single header
                     return redirect()->to('api/login');
                 } else {
+                    // Redirect with a single header
                     return redirect()->to('/');
                 }
             }
-            // End modified line
+            // Redirect with a single header
             return redirect()->to('/');
         }
     }
