@@ -21,13 +21,13 @@ class Authenticate extends Middleware
                         'client_id' => $request->query()['client_id'],
                         'return_to' => (new \Illuminate\Http\Request)->getRequestUri(),
                     );
-                    return route('login', $params);
+                    return route('api/login', $params);
                 } else {
-                    return route('login');
+                    return route('api/login');
                 }
             }
             // End modified line
-            return route('login');
+            return route('api/login');
         }
     }
 }
