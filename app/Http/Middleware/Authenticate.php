@@ -22,15 +22,15 @@ class Authenticate extends Middleware
                         'return_to' => $request->getRequestUri(),
                     ];
 
-                    $request->session()->put('redirect_data', $params);
+                    Session::put('redirect_data', $params);
 
                     return redirect()->to('api/login');
                 } else {
-                    return route('login');
+                    return redirect()->to('/');
                 }
             }
             // End modified line
-            return route('login');
+            return redirect()->to('/');
         }
     }
 }
