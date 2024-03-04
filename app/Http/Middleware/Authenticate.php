@@ -24,14 +24,14 @@ class Authenticate extends Middleware
 //                    Session::put('redirect_data', $params);
 
                     // Redirect with a single header
-                    return redirect()->to('/api/login');
+                    return redirect()->to('api/login');
                 } else {
                     // Redirect with a single header
-                    return redirect()->to('/api/login');
+                    return redirect()->to('api/login');
                 }
             }
             // Redirect with a single header
-            return redirect()->to('/api/login');
+            return redirect()->to('api/login');
         }
     }
 }
