@@ -16,10 +16,10 @@ class AuthController extends Controller
     /**
      * Checking the user for authorization
      * @param Request $request
-     * @return JsonResponse
+     * @return JsonResponse|\Illuminate\Http\RedirectResponse
      * @throws AuthenticationException
      */
-    public function login(Request $request): JsonResponse
+    public function login(Request $request)
     {
         //validate
         $validated = $request->validate([
@@ -34,7 +34,8 @@ class AuthController extends Controller
             Auth::login($user);
 
             //return response
-            return new JsonResponse(session()->get('promptedForLogin'));
+//            return new JsonResponse($user);
+            return redirect()->intended();
         }
 
         //return error
@@ -107,10 +108,9 @@ class AuthController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return JsonResponse
      */
-    public function logout(Request $request): JsonResponse
+    public function logout(): JsonResponse
     {
         $user = Auth::user();
 
