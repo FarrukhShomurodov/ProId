@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\SavePreviusUrl;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -16,6 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
 //         \App\Http\Middleware\TrustHosts::class,
+        \App\Http\Middleware\SavePreviusUrl::class,
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
@@ -24,7 +24,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
-        SavePreviusUrl::class,
     ];
 
     /**
