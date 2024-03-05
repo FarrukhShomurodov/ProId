@@ -36,9 +36,10 @@ class AuthController extends Controller
         //check has user
         if ($user) {
             Auth::login($user);
+            $oauthData = Session::get('redirect_data');
 
             //return response
-            return new JsonResponse($user);
+            return new JsonResponse( $oauthData['return_to']);
         }
 
         //return error
@@ -66,7 +67,7 @@ class AuthController extends Controller
             $oauthData = Session::get('redirect_data');
 
             // Remove session data after retrieving it
-            Session::forget('redirect_data');
+//            Session::forget('redirect_data');
 
             // Assign the redirect URL to the success response
             $success['redirect_url'] = $oauthData['return_to'];
