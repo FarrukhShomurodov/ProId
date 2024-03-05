@@ -16,9 +16,8 @@ class SavePreviusUrl
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Check if the request is for oauth/authorize and contains client_id
+        dd($request->path());
         if ($request->path() === 'oauth/authorize') {
-            // Store the request URI in session data
             Session::put('redirect_data', $request->getRequestUri());
         }
 
