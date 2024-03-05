@@ -17,7 +17,6 @@ class SaveRedirectUrl
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->path() === 'oauth/authorize') {
-            dd($request->getRequestUri());
             Session::put('redirect_data', $request->getRequestUri());
         }
 
