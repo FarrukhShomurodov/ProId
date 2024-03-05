@@ -10,22 +10,13 @@ class Authenticate extends Middleware
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      */
-    protected function redirectTo($request)
+    protected function redirectTo($request): string
     {
-        if (! $request->expectsJson()) {
-            // Start modified line
-            if ($request->path() === 'oauth/authorize') if (isset($request->query()['client_id'])) {
-                $params = [
-                    'client_id' => $request->query('client_id'),
-                    'return_to' => $request->getRequestUri(),
-                ];
 
-                Session::put('redirect_data', $params);
-
-                return 'login';
-            } else{
-                return 'login';
-            }
+        // Start modified line
+        if ($request->path() === 'oauth/authorize') if (isset($request->query()['client_id'])) {
+            Session::put('redirect_data', $request->getRequestUri());
         }
+        return 'login';
     }
 }
