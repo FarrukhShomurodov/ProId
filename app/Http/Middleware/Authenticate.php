@@ -13,7 +13,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            // Start modified line]
+            // Start modified line
             if ($request->path() === 'oauth/authorize') {
                 if (isset($request->query()['client_id'])) {
                     $params = [
@@ -23,8 +23,10 @@ class Authenticate extends Middleware
 
                     Session::put('redirect_data', $params);
 
-                    return redirect()->to('https://id.in-pro.net/api/login');
+                    return \redirect()->to('api/login');
                 }
+            }else{
+                return \redirect()->to('/');
             }
         }
     }
