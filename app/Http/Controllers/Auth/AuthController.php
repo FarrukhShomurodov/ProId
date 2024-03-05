@@ -35,7 +35,6 @@ class AuthController extends Controller
 
         //check has user
         if ($user) {
-            Auth::login($user);
             $oauthData = Session::get('redirect_data');
 
             //return response
