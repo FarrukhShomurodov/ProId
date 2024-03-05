@@ -63,6 +63,7 @@ export default {
                         axios.defaults.headers.common = headers;
                         axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+                        console.log(response.data);
                         if(response.data.redirect_url !== null){
                             router.push({path: '/dashboard'});
                         }else{
