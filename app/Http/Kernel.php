@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\SavePreviusUrl;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -23,6 +24,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+        SavePreviusUrl::class,
     ];
 
     /**
