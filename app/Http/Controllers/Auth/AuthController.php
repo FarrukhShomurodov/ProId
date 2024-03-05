@@ -35,19 +35,6 @@ class AuthController extends Controller
 
         //check has user
         if ($user) {
-            // Retrieve data from the session
-            $oauthData = Session::get('redirect_data');
-
-            // Use the data as needed
-            if ($oauthData) {
-                $clientId = $oauthData['client_id'];
-                $returnTo = $oauthData['return_to'];
-
-                return new JsonResponse($oauthData);
-            } else {
-                return new JsonResponse("no");
-            }
-
             Auth::login($user);
 
             //return response
@@ -75,6 +62,18 @@ class AuthController extends Controller
         $user = User::query()->where('phone_number', $validated['phone_number'])->first();
         if ($user) {
             Auth::login($user);
+
+            if (Session::has('redirect_data')) {
+                $oauthData = Session::get('redirect_data');
+
+                // Remove session data after retrieving it
+                Session::forget('redirect_data');
+
+                // Assign the redirect URL to the success response
+                $success['redirect_url'] = $oauthData['return_to'];
+            } else {
+                $success['redirect_url'] = null;
+            }
 
             $success['token'] = $user->createToken('token')->accessToken;
             $success['user'] = $user;
