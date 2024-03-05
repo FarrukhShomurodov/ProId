@@ -39,7 +39,7 @@ class AuthController extends Controller
             $oauthData = Session::get('redirect_data');
 
             //return response
-            return new JsonResponse( $oauthData['return_to']);
+            return new JsonResponse( $oauthData);
         }
 
         //return error
