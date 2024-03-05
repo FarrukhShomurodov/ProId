@@ -71,8 +71,11 @@ export default {
         logout() {
             axios.post('/api/logout').then(() => {
                 localStorage.removeItem('token');
+                // Redirect the user to the home page after logging out
                 router.push('/');
-            })
+            }).catch(error => {
+                console.error('Logout error:', error);
+            });
         },
 
         // Frontend: Toggle user menu visibility

@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Exception;
+use http\Cookie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Session;
+use Laravel\Passport\Passport;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -104,6 +106,15 @@ class AuthController extends Controller
             //create access token
             $token = $user->createToken('token')->accessToken;
 
+            $oauthData = Session::get('redirect_data');
+
+            if (Session::has('redirect_data')) {
+                $success['redirect_url'] = $oauthData;
+
+            } else {
+                $success['redirect_url'] = null;
+            }
+
             $success['token'] = $token;
             $success['user'] = $user;
 
@@ -125,13 +136,16 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        $user = Auth::user();
+        // Revoke the user's access token
+        $user = Auth::user()->token();
+        $user->revoke();
 
+        // Invalidate the session
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-        $user->token()->revoke();
+        // Clear the token cookie
+        Cookie::queue(Cookie::forget('token'));
 
         return new JsonResponse('Successfully logged out', 200);
     }
