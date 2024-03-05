@@ -18,10 +18,10 @@ class AuthController extends Controller
     /**
      * Checking the user for authorization
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return JsonResponse
      * @throws AuthenticationException
      */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
 
         //validate
