@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class SavePreviusUrl
+class SaveRedirectUrl
 {
     /**
      * Handle an incoming request.

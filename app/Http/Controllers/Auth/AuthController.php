@@ -35,11 +35,8 @@ class AuthController extends Controller
 
         //check has user
         if ($user) {
-            // Retrieve data from the session
-            $oauthData = Session::get('redirect_data');
-
             //return response
-            return new JsonResponse($oauthData);
+            return new JsonResponse($user);
         }
 
         //return error
@@ -63,6 +60,10 @@ class AuthController extends Controller
         $user = User::query()->where('phone_number', $validated['phone_number'])->first();
         if ($user) {
             Auth::login($user);
+
+            $oauthData = Session::get('redirect_data');
+
+            $success['redirect_url'] = $oauthData;
 
             $success['token'] = $user->createToken('token')->accessToken;
             $success['user'] = $user;
