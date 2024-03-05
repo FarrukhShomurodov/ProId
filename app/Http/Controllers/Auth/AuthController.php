@@ -63,7 +63,7 @@ class AuthController extends Controller
 
             $oauthData = Session::get('redirect_data');
 
-            $success['redirect_url'] = $oauthData == '' ? $oauthData : null;
+            $success['redirect_url'] = $oauthData !== '' ? $oauthData : null;
 
             $success['token'] = $user->createToken('token')->accessToken;
             $success['user'] = $user;
