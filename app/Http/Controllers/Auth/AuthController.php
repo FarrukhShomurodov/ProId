@@ -63,17 +63,14 @@ class AuthController extends Controller
         if ($user) {
             Auth::login($user);
 
-            if (Session::has('redirect_data')) {
-                $oauthData = Session::get('redirect_data');
+            $oauthData = Session::get('redirect_data');
 
-                // Remove session data after retrieving it
-                Session::forget('redirect_data');
+            // Remove session data after retrieving it
+            Session::forget('redirect_data');
 
-                // Assign the redirect URL to the success response
-                $success['redirect_url'] = $oauthData['return_to'];
-            } else {
-                $success['redirect_url'] = null;
-            }
+            // Assign the redirect URL to the success response
+            $success['redirect_url'] = $oauthData['return_to'];
+
 
             $success['token'] = $user->createToken('token')->accessToken;
             $success['user'] = $user;
