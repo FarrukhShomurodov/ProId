@@ -38,13 +38,8 @@ class AuthController extends Controller
             // Retrieve data from the session
             $oauthData = Session::get('redirect_data');
 
-            // Use the data as needed
-            if ($oauthData) {
-                return new JsonResponse($oauthData);
-            }
-
             //return response
-            return new JsonResponse($user);
+            return new JsonResponse($oauthData);
         }
 
         //return error
