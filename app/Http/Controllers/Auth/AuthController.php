@@ -128,22 +128,24 @@ class AuthController extends Controller
 
     }
 
+
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return Response
      */
-    public function logout(Request $request): JsonResponse
+    public function logout(Request $request): Response
     {
         // Revoke the user's access token
         $user = Auth::user();
-
-        $user->token()->revoke();
-
-        Auth::logout();
+        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
 
         // Invalidate the session
         $request->session()->invalidate();
 
-        return new JsonResponse('Successfully logged out', 200);
+        // Clear the token cookie
+        $response = new Response('Successfully logged out');
+        $response->withCookie(cookie()->forget('laravel_token'));
+
+        return $response;
     }
 }
