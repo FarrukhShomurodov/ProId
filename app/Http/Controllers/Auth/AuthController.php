@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
-
+use Lcobucci\JWT\Token\Parser;
 
 class AuthController extends Controller
 {
@@ -137,11 +137,10 @@ class AuthController extends Controller
     public function logout(Request $request): JsonResponse
     {
         // Revoke the user's access token
-//        $user = Auth::user();
-//
-//        $user->token()->revoke();
-
-        $this->guard()->logout();
+        $value = $request->bearerToken();
+        $id = (new Parser())->parse($value)->headers();
+        $token = $request->user()->tokens->find($id);
+        $token->revoke();
 
         $request->session()->invalidate();
 
