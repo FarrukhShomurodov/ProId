@@ -136,25 +136,13 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        // Revoke the user's access token
-        $value = $request->bearerToken();
-        $id = (new Parser())->parse($value)->headers();
-        $token = $request->user()->tokens->find($id);
-        $token->revoke();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-
-        return new JsonResponse('Successfully logged out', 200);
+        $result = $request->user()->token()->revoke();
+        if($result){
+            $response = response()->json(['error'=>false,'message'=>'User logout successfully.','result'=>[]],200);
+        }else{
+            $response = response()->json(['error'=>true,'message'=>'Something is wrong.','result'=>[]],400);
+        }
+        return $response;
     }
 
-    /**
-     * @return Guard|StatefulGuard
-     */
-    protected function guard(): Guard|StatefulGuard
-    {
-        return Auth::guard('api');
-    }
 }
