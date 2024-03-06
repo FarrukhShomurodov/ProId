@@ -58,6 +58,9 @@ class AuthController extends Controller
         //getting user by phone number
         $user = User::query()->where('phone_number', $validated['phone_number'])->first();
         if ($user) {
+
+            $user = Auth::login($user);
+
             $oauthData = Session::get('redirect_data');
 
             if (Session::has('redirect_data')) {
@@ -138,6 +141,9 @@ class AuthController extends Controller
                 'message' => 'Logged out successfully',
             ]);
         }
+
+        Auth::guard('web')->logout();
+
         return response()->json(['success'=>false,'message'=>'User does not logout successfully'], 500);
     }
 
