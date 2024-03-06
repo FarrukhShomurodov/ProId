@@ -138,8 +138,8 @@ class AuthController extends Controller
         $user = Auth::user()->token();
         $user->revoke();
 
-        // Invalidate the session
-        $request->session()->invalidate();
+//        // Invalidate the session
+//        $request->session()->invalidate();
 
         return new JsonResponse('Successfully logged out', 200);
     }
