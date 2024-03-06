@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Exception;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
-use Lcobucci\JWT\Token\Parser;
 
 class AuthController extends Controller
 {
@@ -61,8 +58,6 @@ class AuthController extends Controller
         //getting user by phone number
         $user = User::query()->where('phone_number', $validated['phone_number'])->first();
         if ($user) {
-            Auth::login($user);
-
             $oauthData = Session::get('redirect_data');
 
             if (Session::has('redirect_data')) {
@@ -75,7 +70,7 @@ class AuthController extends Controller
             $success['token'] = $user->createToken('token')->accessToken;
             $success['user'] = $user;
 
-            $request->session()->regenerate();
+            Session::forget('redirect_data');
 
             //return json with access token
             return new JsonResponse($success);
@@ -118,12 +113,12 @@ class AuthController extends Controller
             $success['token'] = $token;
             $success['user'] = $user;
 
-            $request->session()->regenerate();
+            Session::forget('redirect_data');
+
 
             //return response
             return new JsonResponse($success, Response::HTTP_CREATED);
         } catch (Exception $e) {
-
             //return error
             return new JsonResponse(['error' => 'Internal Server Error'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -131,15 +126,12 @@ class AuthController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return JsonResponse
      */
-    public function logout(Request $request): JsonResponse
+    public function logout(): JsonResponse
     {
         if ($user = Auth::guard('api')->user()) {
             $user->token()->revoke();
-
-            Session::flush();
 
             return response()->json([
                 'success' => true,

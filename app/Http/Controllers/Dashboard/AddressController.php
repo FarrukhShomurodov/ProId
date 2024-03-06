@@ -14,10 +14,9 @@ class AddressController extends Controller
 {
     /**
      * Getting user's addresses
-     * @param User $user
      * @return JsonResponse
      */
-    public function fetchByUser(User $user): JsonResponse
+    public function fetchByUser(): JsonResponse
     {
         $user = Auth::user();
 
@@ -47,7 +46,7 @@ class AddressController extends Controller
     {
         // set auth user id
         $request['user_id'] = Auth::user()->id;
-        
+
         //validate
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
