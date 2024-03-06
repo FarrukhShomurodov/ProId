@@ -142,7 +142,6 @@ class AuthController extends Controller
 
         // Invalidate the session
         $request->session()->invalidate();
-        $request->session()->regenerateToken();
 
         return new JsonResponse('Successfully logged out', 200);
     }
