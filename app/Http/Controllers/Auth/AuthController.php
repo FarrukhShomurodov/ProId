@@ -138,7 +138,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        Auth::guard()->logout();
+        Auth::guard('web')->logout();
 
         if ($user = Auth::guard('api')->user()) {
             $user->token()->revoke();
@@ -149,7 +149,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $request->session()->regenerate();
+        $request->session()->flush();
 
         return response()->json(['error'=>false,'message'=>'User logout successfully.','result'=>[]],200);
     }
