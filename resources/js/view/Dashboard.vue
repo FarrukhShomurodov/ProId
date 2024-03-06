@@ -69,13 +69,20 @@ export default {
         },
         // Backend: Logout user
         logout() {
-            axios.post('/api/logout').then(() => {
-                localStorage.removeItem('token');
-                // Redirect the user to the home page after logging out
-                router.push('/');
-            }).catch(error => {
-                console.error('Logout error:', error);
-            });
+            axios.post('/api/logout')
+                .then(() => {
+                    // Remove token from local storage
+                    localStorage.removeItem('token');
+
+                    // Remove token cookie
+                    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+                    // Redirect to home page
+                    router.push('/');
+                })
+                .catch(error => {
+                    console.error('Logout error:', error);
+                });
         },
 
         // Frontend: Toggle user menu visibility

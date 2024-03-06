@@ -151,11 +151,11 @@ router.beforeEach(async (to, from, next) => {
             const isLogin = response.status === 200;
 
             if (isLogin) {
-                if (to.name === 'client' && isAdmin !== "1") {
-                    next({name: 'dashboard'});
-                } else {
-                    next();
-                }
+                // if (to.name === 'client' && isAdmin !== "1") {
+                //     next({name: 'dashboard'});
+                // } else {
+                //     next();
+                // }
             } else {
                 next({name: 'login'});
             }

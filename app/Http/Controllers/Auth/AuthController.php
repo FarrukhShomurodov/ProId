@@ -144,9 +144,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // Clear the token cookie
-//        Cookie::queue(Cookie::forget('token'));
-
         return new JsonResponse('Successfully logged out', 200);
     }
 }
