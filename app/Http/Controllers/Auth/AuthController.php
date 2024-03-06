@@ -156,6 +156,6 @@ class AuthController extends Controller
      */
     protected function guard(): Guard|StatefulGuard
     {
-        return Auth::guard();
+        return Auth::guard('api');
     }
 }
