@@ -69,6 +69,8 @@ class AuthController extends Controller
                 $success['redirect_url'] = null;
             }
 
+            Session::forget('redirect_data');
+
             $success['token'] = $user->createToken('token')->accessToken;
             $success['user'] = $user;
 
@@ -115,6 +117,9 @@ class AuthController extends Controller
             $success['token'] = $token;
             $success['user'] = $user;
 
+            Session::forget('redirect_data');
+
+
             $request->session()->regenerate();
 
             //return response
@@ -128,10 +133,13 @@ class AuthController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return JsonResponse
      */
-    public function logout(): JsonResponse
+    public function logout(Request $request): JsonResponse
     {
+        Auth::guard()->logout();
+
         if ($user = Auth::guard('api')->user()) {
             $user->token()->revoke();
 
@@ -141,7 +149,7 @@ class AuthController extends Controller
             ]);
         }
 
-        Auth::guard('web')->logout();
+        $request->session()->regenerate();
 
         return response()->json(['error'=>false,'message'=>'User logout successfully.','result'=>[]],200);
     }
