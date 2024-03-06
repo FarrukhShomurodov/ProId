@@ -136,9 +136,17 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->token()->revoke();
+        if ($user = Auth::guard('api')->user()) {
+            $user->token()->revoke();
 
-        return response()->json(['error'=>false,'message'=>'User logout successfully.','result'=>[]],200);
+            Session::flush();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Logged out successfully',
+            ]);
+        }
+        return response()->json(['success'=>false,'message'=>'User does not logout successfully'], 500);
     }
 
 }
