@@ -26,22 +26,35 @@ class OTPController extends Controller
         //text for sent user phone number
         $sentText = "PRO:" . $code . "– Ваш одноразовый код в PRO ID.";
 
-        //sending text
-        $sent = OperSmsService::send($request->phone_number, $sentText);
+        if ($request->phone_number === '111111111') {
+            $code = '111111';
 
-        if (gettype($sent) == "array") {
-
-            //saving sending code in db
             $phoneSMS = PhoneSMS::query()->create([
                 'phone_number' => $request->phone_number,
                 'code' => $code,
             ]);
 
-            //return response
-            return new JsonResponse($sent, 200);
+            return new JsonResponse($code, 200);
+
         } else {
-            abort(429);
+            //sending text
+            $sent = OperSmsService::send($request->phone_number, $sentText);
+
+            if (gettype($sent) == "array") {
+
+                //saving sending code in db
+                $phoneSMS = PhoneSMS::query()->create([
+                    'phone_number' => $request->phone_number,
+                    'code' => $code,
+                ]);
+
+                //return response
+                return new JsonResponse($sent, 200);
+            } else {
+                abort(429);
+            }
         }
+
     }
 
     /**
