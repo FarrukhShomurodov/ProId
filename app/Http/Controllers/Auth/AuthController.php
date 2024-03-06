@@ -136,12 +136,16 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        $result = $request->user()->token()->revoke();
+        $result = Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerate();
+
         if($result){
             $response = response()->json(['error'=>false,'message'=>'User logout successfully.','result'=>[]],200);
         }else{
             $response = response()->json(['error'=>true,'message'=>'Something is wrong.','result'=>[]],400);
         }
+
         return $response;
     }
 
