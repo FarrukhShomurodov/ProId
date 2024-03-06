@@ -4,14 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Exception;
-use http\Cookie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Session;
-use Laravel\Passport\Passport;
 use Symfony\Component\HttpFoundation\Response;
 
 
