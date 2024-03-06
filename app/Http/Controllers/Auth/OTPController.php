@@ -21,14 +21,12 @@ class OTPController extends Controller
     public function sendOTP(Request $request): JsonResponse
     {
         if ($request->phone_number === '111111111') {
-            $code = '111111';
-
             $phoneSMS = PhoneSMS::query()->create([
                 'phone_number' => $request->phone_number,
-                'code' => $code,
+                'code' => '111111',
             ]);
 
-            return new JsonResponse($code, 200);
+            return new JsonResponse($phoneSMS, 200);
 
         } else {
             //random code
@@ -65,7 +63,8 @@ class OTPController extends Controller
     public function checkCode(Request $request): JsonResponse
     {
         if ($request->input('phoneNumber') === '111111111'){
-            return new JsonResponse(['success' => true]);
+            $phone = PhoneSMS::query()->where('phone_number', '=', '111111111')->latest()->first();
+            return new JsonResponse(['success' => true, 'data' => $phone]);
         }
 
         //getting sending code by phone number
