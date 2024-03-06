@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Exception;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -135,13 +137,25 @@ class AuthController extends Controller
     public function logout(Request $request): JsonResponse
     {
         // Revoke the user's access token
-        $user = Auth::user();
+//        $user = Auth::user();
+//
+//        $user->token()->revoke();
 
-        $user->token()->revoke();
+        $this->guard()->logout();
 
-        // Invalidate the session
         $request->session()->invalidate();
 
+        $request->session()->regenerateToken();
+
+
         return new JsonResponse('Successfully logged out', 200);
+    }
+
+    /**
+     * @return Guard|StatefulGuard
+     */
+    protected function guard(): Guard|StatefulGuard
+    {
+        return Auth::guard();
     }
 }
