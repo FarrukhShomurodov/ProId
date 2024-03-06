@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Session;
-use Laravel\Passport\Passport;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -135,11 +134,14 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        // Revoke the user's access token
-        $user = Auth::user()->token();
-        $user->revoke();
 
-        \Cookie::queue(\Cookie::forget(Passport::cookie()));
+        $user = $request->user();
+
+        foreach ($user->tokens as $token) {
+            $token->revoke();
+        }
+
+        Auth::logout();
 
         return new JsonResponse('Successfully logged out', 200);
     }
