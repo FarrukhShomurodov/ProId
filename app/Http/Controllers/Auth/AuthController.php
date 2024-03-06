@@ -58,8 +58,7 @@ class AuthController extends Controller
         //getting user by phone number
         $user = User::query()->where('phone_number', $validated['phone_number'])->first();
         if ($user) {
-
-            $user = Auth::login($user);
+            Auth::login($user);
 
             $oauthData = Session::get('redirect_data');
 
@@ -73,7 +72,7 @@ class AuthController extends Controller
             $success['token'] = $user->createToken('token')->accessToken;
             $success['user'] = $user;
 
-            Session::forget('redirect_data');
+            $request->session()->regenerate();
 
             //return json with access token
             return new JsonResponse($success);
@@ -116,12 +115,12 @@ class AuthController extends Controller
             $success['token'] = $token;
             $success['user'] = $user;
 
-            Session::forget('redirect_data');
-
+            $request->session()->regenerate();
 
             //return response
             return new JsonResponse($success, Response::HTTP_CREATED);
         } catch (Exception $e) {
+
             //return error
             return new JsonResponse(['error' => 'Internal Server Error'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -144,7 +143,7 @@ class AuthController extends Controller
 
         Auth::guard('web')->logout();
 
-        return response()->json(['success'=>false,'message'=>'User does not logout successfully'], 500);
+        return response()->json(['error'=>false,'message'=>'User logout successfully.','result'=>[]],200);
     }
 
 }
