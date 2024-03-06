@@ -24,7 +24,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class,'register']);
 Route::post('/token',[AuthController::class, 'token'])->name('token');
-Route::middleware('auth:api')->post('logout', [AuthController::class, 'logout']);
 
 
 // OTP
@@ -38,6 +37,7 @@ Route::post('/oauth/myid/callback',[SocialOAuthController::class, 'callback']);
 
 Route::middleware('auth:api')->group(function () {
     // Маршруты, доступные только аутентифицированным пользователям с действующим токеном
+    Route::post('/logout', [AuthController::class, 'logout']);
 
     // User
     Route::put('/update-user-data', [UserController::class,'update']);
