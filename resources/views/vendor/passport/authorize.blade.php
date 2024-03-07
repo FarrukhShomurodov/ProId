@@ -50,7 +50,7 @@
                     <input type="hidden" name="state" value="{{ $request->state }}">
                     <input type="hidden" name="client_id" value="{{ $client->getKey() }}">
                     <input type="hidden" name="auth_token" value="{{ $authToken }}">
-                    <button type="submit" class="reirect_link">Перейти на сайт {{  $client->name  }}</button>
+                    <button type="submit" class="reirect_link" style="cursor:pointer;">Перейти на {{  $client->name  }}</button>
                 </form>
             </div>
 
