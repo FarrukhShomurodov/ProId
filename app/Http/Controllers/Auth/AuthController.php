@@ -142,6 +142,10 @@ class AuthController extends Controller
 
         $request->session()->flush();
 
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
         $request->user()->token()->revoke();
 
         return response()->json([
