@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -60,16 +59,16 @@ class AuthController extends Controller
         if ($user) {
             Auth::login($user);
 
-            $oauthData = Session::get('redirect_data');
+            $oauthData = $request->session()->get('redirect_data');
 
-            if (Session::has('redirect_data')) {
+            if ($request->session()->has('redirect_data')) {
                 $success['redirect_url'] = $oauthData;
 
             } else {
                 $success['redirect_url'] = null;
             }
 
-            Session::forget('redirect_data');
+            $request->session()->forget('redirect_data');
 
             $success['token'] = $user->createToken('token')->accessToken;
             $success['user'] = $user;
@@ -105,9 +104,9 @@ class AuthController extends Controller
             //create access token
             $token = $user->createToken('token')->accessToken;
 
-            $oauthData = Session::get('redirect_data');
+            $oauthData = $request->session()->get('redirect_data');
 
-            if (Session::has('redirect_data')) {
+            if ($request->session()->has('redirect_data')) {
                 $success['redirect_url'] = $oauthData;
 
             } else {
@@ -117,7 +116,7 @@ class AuthController extends Controller
             $success['token'] = $token;
             $success['user'] = $user;
 
-            Session::forget('redirect_data');
+            $request->session()->forget('redirect_data');
 
 
             $request->session()->regenerate();
