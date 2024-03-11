@@ -88,9 +88,7 @@ export default {
                 this.mail = email;
 
                 this.getAddress();
-                this.getEducation();
-
-                this.loading = true;
+                this.getEducation().then(this.loading = true);
             })
         },
 
