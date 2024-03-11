@@ -28,20 +28,17 @@ export default {
     methods: {
         // Handle OTP input
         handleInput(index) {
+            // Restrict input to numeric characters only
+            this.otp[index - 1] = this.otp[index - 1].replace(/\D/g, '');
             // Move focus to the next input when a digit is entered
-            if (index < 6) {
-                if (this.otp[index - 1] !== '' && this.otp[index] === '') {
-                    this.$refs[`otcInput`][index].focus();
-                }
+            if (index < 6 && this.otp[index - 1].length > 0) {
+                this.$refs[`otcInput`][index].focus();
             }
         },
         // Handle Backspace key to move focus backward
         handleKeyDown(index) {
             if (index > 1 && this.otp[index - 1] === '' && event.key === 'Backspace') {
                 this.$refs[`otcInput`][index - 2].focus();
-            } else if (index === 6 && event.key >= '0' && event.key <= '9') {
-                this.otp[index - 1] = event.key;
-                event.preventDefault();
             }
         },
         // Verify the entered OTP
@@ -50,7 +47,7 @@ export default {
                 if (this.isAuth === "true") {
                     axios.post('/api/token', {
                         phone_number: this.phoneNumberForSend
-                    }).then((response)=>{
+                    }).then((response) => {
                         localStorage.token = response.data.token
 
                         // Auth Header
@@ -63,9 +60,9 @@ export default {
                         axios.defaults.headers.common = headers;
                         axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-                        if(response.data.redirect_url === null){
+                        if (response.data.redirect_url === null) {
                             router.push({path: '/dashboard'});
-                        }else{
+                        } else {
                             window.location.href = response.data.redirect_url;
                         }
                     })
@@ -104,9 +101,9 @@ export default {
                 if (allDigitsFilled) {
                     const code = this.otp.join('');
                     if (code.length === 6) {
-                        if (parseInt(code, 10) === 111111){
+                        if (parseInt(code, 10) === 111111) {
                             this.showCorrectSignal = true;
-                        }else{
+                        } else {
                             // Validate the OTP code
                             axios.post('api/checkCode', {
                                 phoneNumber: this.phoneNumberForSend,
@@ -151,7 +148,7 @@ export default {
                         v-model="otp[i-1]"
                         @input="handleInput(i)"
                         @keydown="handleKeyDown(i)"
-                        type="number"
+                        type="text"
                         inputmode="numeric"
                         :placeholder="'_'"
                         :id="'otc-' + i"
@@ -161,14 +158,17 @@ export default {
                     <img v-if="showCorrectSignal" src="/images/icons/correct-signal.svg" class="correct-signal" alt="">
                 </form>
                 <!-- Verify and resend buttons -->
-                <button @click="verify" v-on:keyup.enter="verify" type="submit" class="button next" :class="{'true_next': showCorrectSignal}">Далее</button>
+                <button @click="verify" v-on:keyup.enter="verify" type="submit" class="button next"
+                        :class="{'true_next': showCorrectSignal}">Далее
+                </button>
                 <button @click="reSend" class="reSend resend_in_auth">Отправить код еще раз</button>
             </div>
             <!-- Additional information and links -->
             <p class="card__paragraph">Продолжая использовать PRO ID,<br>я принимаю <a href="#">условия оферты.</a></p>
             <p class="card__paragraph">PRO ID - ключ от всех сервисов</p>
         </div>
-        <div class="sub-section d-flex justify-content-center align-items-center" @mouseover="showPopup = true" @mouseleave="showPopup =  false">
+        <div class="sub-section d-flex justify-content-center align-items-center" @mouseover="showPopup = true"
+             @mouseleave="showPopup =  false">
             <a href="#">Что такое PRO ID</a>
             <img class="login_search" src="/images/icons/question.svg" alt="" width="18" height="18">
         </div>
@@ -185,10 +185,12 @@ export default {
 
 <style scoped>
 @import "/public/style/getcode.css";
-.next{
+
+.next {
     background-color: #333;
 }
-.true_next{
+
+.true_next {
     background: #5FE0D8;
 }
 </style>
