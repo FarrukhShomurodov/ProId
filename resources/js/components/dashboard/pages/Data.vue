@@ -89,10 +89,6 @@ export default {
 
                 this.getAddress();
                 this.getEducation();
-
-                if (this.getEducation() && this.getAddress()) {
-                    this.loading = true
-                }
             })
         },
 
@@ -100,6 +96,7 @@ export default {
         async getEducation() {
             await axios.get("/api/education/").then(res => {
                 this.educations = res.data;
+                this.loading = true
             })
         },
         // Fetch user addresses
