@@ -102,6 +102,8 @@ class AuthController extends Controller
             //create user
             $user = User::query()->create($validated);
 
+            Auth::login($user);
+
             //create access token
             $token = $user->createToken('token')->accessToken;
 
