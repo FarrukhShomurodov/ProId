@@ -96,7 +96,6 @@ export default {
                     this.$router.replace('/confirmNumber');
                     localStorage.phoneNumber = this.phone_number;
                     localStorage.isAuth = this.isAuth;
-                    console.log(localStorage.isAuth);
                 });
             }
         },
