@@ -18,6 +18,8 @@ export default {
             this.phoneNumber = localStorage.phoneNumber;
             this.phoneNumberForSend = localStorage.phoneNumber;
             this.isAuth = localStorage.isAuth;
+            console.log(this.isAuth);
+
             localStorage.removeItem('phoneNumber');
             localStorage.removeItem('isAuth');
         }
