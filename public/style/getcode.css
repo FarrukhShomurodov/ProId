@@ -71,7 +71,7 @@ button {
 }
 
 .otc-form {
-    margin: 43px 0;
+    margin: 35px 0;
 }
 .otc .phone{
     margin-top: -10px;
@@ -238,6 +238,12 @@ input::-webkit-inner-spin-button {
     line-height: 20px;
     letter-spacing: 1px;
     text-align: start;
+}
+.resend_timer{
+    display: flex;
+    justify-content: end;
+    margin: 0;
+    padding: 0;
 }
 @media screen  and (max-width: 600px) {
     .popup-content{

@@ -10,6 +10,9 @@ export default {
             phoneNumberForSend: '',
             isAuth: '',
             showPopup: false,
+            resend: false,
+            resendTimer: 60,
+            timerColor: "#000000"
         };
     },
     mounted() {
@@ -25,8 +28,24 @@ export default {
 
         // Focus on the first OTP input
         this.$refs.otcInput[0].focus();
+
+        this.startResendTimer()
     },
     methods: {
+        startResendTimer() {
+            // Decrease the timer by 1 every second
+            this.resendInterval = setInterval(() => {
+                if (this.resendTimer > 0) {
+                    this.resendTimer--;
+                    if (this.resendTimer < 20) {
+                        this.timerColor = "#FF5959"
+                    }
+                } else {
+                    this.resend = true
+                    clearInterval(this.resendInterval);
+                }
+            }, 1000);
+        },
         // Handle OTP input
         handleInput(index) {
             // Restrict input to numeric characters only
@@ -75,13 +94,16 @@ export default {
         },
         // Resend OTP
         reSend() {
-            axios.post('api/sendOTP', {
-                phone_number: this.phoneNumberForSend
-            }).then(() => {
-                this.$router.replace('/confirmNumber')
-                localStorage.phoneNumber = this.phone_number;
-                localStorage.isAuth = this.isAuth;
-            })
+            if (this.resend) {
+                this.timerColor = "#000000"
+                axios.post('api/sendOTP', {
+                    phone_number: this.phoneNumberForSend
+                }).then(() => {
+                    this.$router.replace('/confirmNumber')
+                    localStorage.phoneNumber = this.phone_number;
+                    localStorage.isAuth = this.isAuth;
+                })
+            }
         },
         // Format and display the masked phone number
         phone() {
@@ -137,6 +159,7 @@ export default {
             <div class="card__txt">
                 <span>Введите код из смс.<br> Мы отправили его <br>на номер {{ this.phoneNumber }}</span>
             </div>
+            <span class="redirect_timer resend_timer" :style="{ color: timerColor }">{{ this.resendTimer }}</span>
             <!-- OTP input form -->
             <div class="otc-form">
                 <form @submit.prevent class="otc" name="one-time-code" action="#">
