@@ -100,6 +100,7 @@ export default {
                 }).then(() => {
                     this.timerColor = "#000000"
                     this.resendTimer = 60;
+                    this.startResendTimer();
                     this.$router.replace('/confirmNumber')
                     localStorage.phoneNumber = this.phone_number;
                     localStorage.isAuth = this.isAuth;
