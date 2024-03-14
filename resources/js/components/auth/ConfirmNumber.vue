@@ -95,10 +95,11 @@ export default {
         // Resend OTP
         reSend() {
             if (this.resend) {
-                this.timerColor = "#000000"
                 axios.post('api/sendOTP', {
                     phone_number: this.phoneNumberForSend
                 }).then(() => {
+                    this.timerColor = "#000000"
+                    this.resendTimer = 60;
                     this.$router.replace('/confirmNumber')
                     localStorage.phoneNumber = this.phone_number;
                     localStorage.isAuth = this.isAuth;
