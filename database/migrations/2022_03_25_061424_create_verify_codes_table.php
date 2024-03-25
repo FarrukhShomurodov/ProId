@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('phone_s_m_s', function (Blueprint $table) {
+        Schema::create('verify_codes', function (Blueprint $table) {
             $table->id();
             $table->string('phone_number');
             $table->integer('code');
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('phone_s_m_s');
+        Schema::dropIfExists('verify_codes');
     }
 };

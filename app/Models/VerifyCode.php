@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PhoneSMS extends Model
+class VerifyCode extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     * @var array<int, string>
-     */
     protected $fillable = [
         'phone_number',
-        'code'
+        'code',
+        'email'
     ];
 }

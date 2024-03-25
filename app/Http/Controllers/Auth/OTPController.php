@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use Alexvexone\LaravelOperSms\OperSmsService;
 use App\Http\Controllers\Controller;
-use App\Models\PhoneSMS;
+use App\Models\User;
+use App\Models\VerifyCode;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 
 class OTPController extends Controller
@@ -20,28 +22,42 @@ class OTPController extends Controller
      */
     public function sendOTP(Request $request): JsonResponse
     {
-            //random code
-            $code = rand(100000, 999999);
+        //validate
+        $validated = $request->validate([
+            'phone_number' => 'required|regex:/^\+?[0-9]{10,}$/',
+        ]);
 
-            //text for sent user phone number
-            $sentText = "PRO:" . $code . "– Ваш одноразовый код в PRO ID.";
+        //random code
+        $code = rand(100000, 999999);
 
-            //sending text
-            $sent = OperSmsService::send($request->phone_number, $sentText);
+        $proUser = User::query()->where('phone_number', $validated['phone_number'])->first();
 
-            if (gettype($sent) == "array") {
+        $validated['email'] = $proUser['email'];
 
-                //saving sending code in db
-                $phoneSMS = PhoneSMS::query()->create([
-                    'phone_number' => $request->phone_number,
-                    'code' => $code,
-                ]);
+        if (!empty($proUser['email'])) {
+            Mail::to($validated['email'])->send(new \App\Mail\VerifyCode($code));
+        }
 
-                //return response
-                return new JsonResponse($sent, 200);
-            } else {
-                abort(429);
-            }
+        //text for sent user phone number
+        $sentText = "PRO:" . $code . "– Ваш одноразовый код в PRO ID.";
+
+        //sending text
+        $sent = OperSmsService::send($validated['phone_number'], $sentText);
+
+        if (gettype($sent) == "array") {
+
+            //saving sending code in db
+            $VerifyCode = VerifyCode::query()->create([
+                'phone_number' => $validated['phone_number'],
+                'code' => $code,
+                'email' => $validated['email']
+            ]);
+
+            //return response
+            return new JsonResponse($VerifyCode, 200);
+        } else {
+            abort(429);
+        }
     }
 
     /**
@@ -52,7 +68,7 @@ class OTPController extends Controller
     public function checkCode(Request $request): JsonResponse
     {
         //getting sending code by phone number
-        $phone = PhoneSMS::query()->where('phone_number', '=', $request->input('phoneNumber'))->latest()->first();
+        $phone = VerifyCode::query()->where('phone_number', '=', $request->input('phoneNumber'))->latest()->first();
 
         //comparing code
         if ($phone && (int)$phone->code === (int)$request->input('code')) {
@@ -69,11 +85,11 @@ class OTPController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function deleteCode(Request $request): JsonResponse
-    {
-        $phone = PhoneSMS::query()->where('phone_number', '=', $request->input('phoneNumber'))->latest()->first();
-        $phone->delete();
-        return new JsonResponse('deleted successfully');
-    }
+//    public function deleteCode(Request $request): JsonResponse
+//    {
+//        $phone = PhoneSMS::query()->where('phone_number', '=', $request->input('phoneNumber'))->latest()->first();
+//        $phone->delete();
+//        return new JsonResponse('deleted successfully');
+//    }
 
 }

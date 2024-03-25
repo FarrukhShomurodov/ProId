@@ -29,7 +29,7 @@ Route::post('/token',[AuthController::class, 'token'])->name('token');
 // OTP
 Route::post('/sendOTP', [OTPController::class,'sendOTP']);
 Route::post('/checkCode', [OTPController::class,'checkCode']);
-Route::delete('/deleteCode', [OTPController::class,'deleteCode']);
+//Route::delete('/deleteCode', [OTPController::class,'deleteCode']);
 
 // OAuth with MyId
 Route::get('/oauth/myid/redirect',[SocialOAuthController::class, 'redirect']);
