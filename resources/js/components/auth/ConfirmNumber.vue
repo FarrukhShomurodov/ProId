@@ -65,20 +65,34 @@ export default {
         verify() {
             if (this.showCorrectSignal) {
                 if (this.isAuth === "true") {
-                    axios.post('/api/token', {
+                    axios.post('/api/login', {
                         phone_number: this.phoneNumberForSend
                     }).then((response) => {
-                        localStorage.token = response.data.token
+                        // set access_token
+                        let d = new Date();
+                        d.setTime(d.getTime() + 24 * 60 * 60 * 1000);
+                        let expires = "expires=" + d.toUTCString();
+                        document.cookie = "accessToken=" + response.data.access_token + ";" + expires + ";path=/";
 
-                        // Auth Header
-                        const headers = {
-                            'Authorization': `Bearer ` + localStorage.token,
-                            'Content-Type': 'application/json',
+                        window.axios.defaults.headers.common = {
+                            'Authorization': `Bearer ` + response.data.access_token,
                         };
 
-                        // Set auth header in axios methods
-                        axios.defaults.headers.common = headers;
-                        axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+                        if (localStorage.getItem('users_id')) {
+                            // Retrieve the array from localStorage
+                            let userIds = JSON.parse(localStorage.getItem('users_id'));
+
+                            // Push the new id into the array
+                            if(!userIds.includes(response.data.user.id)){
+                                userIds.push(response.data.user.id);
+                            }
+
+                            // Set the updated array back into localStorage
+                            localStorage.setItem('users_id', JSON.stringify(userIds));
+                        } else {
+                            // Create a new array with the id and set it into localStorage
+                            localStorage.setItem('users_id', JSON.stringify([response.data.user.id]));
+                        }
 
                         if (response.data.redirect_url === null) {
                             router.push({path: '/dashboard'});
@@ -164,7 +178,7 @@ export default {
             <span class="redirect_timer resend_timer" :style="{ color: timerColor }">{{ this.resendTimer }}</span>
             <!-- OTP input form -->
             <div class="otc-form">
-                <form @submit.prevent class="otc" name="one-time-code" action="#">
+                <form  class="otc" name="one-time-code" action="#">
                     <img class='phone' src="/images/icons/phone.png" style="width: 21px; height: 21px" alt="" srcset="">
                     <!-- Display OTP input fields -->
                     <input

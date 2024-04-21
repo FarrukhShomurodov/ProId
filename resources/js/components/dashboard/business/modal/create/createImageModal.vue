@@ -21,7 +21,7 @@ export default {
         this.show = true;
 
         // Fetch business image data on component mount
-        axios.get(`/api/pro-business-show/${this.business_id}`).then(res => {
+        axios.get(`/api/business/${this.business_id}`).then(res => {
             this.avatarUrl = res.data.image;
             this.name = res.data.name_of_business;
             this.loading = true; // Update loading state once data is fetched
@@ -55,7 +55,7 @@ export default {
                 formData.append("image", this.avatarFile);
 
                 // HTTP POST request to update the business avatar image
-                axios.post(`/api/pro-business-image/${this.business_id}`, formData).then(response => {
+                axios.post(`/api/business-image/${this.business_id}`, formData).then(response => {
                     this.avatarUrl = response.data.image;
                     this.$emit('close'); // Close the modal after successful upload
                 }).catch(error => {

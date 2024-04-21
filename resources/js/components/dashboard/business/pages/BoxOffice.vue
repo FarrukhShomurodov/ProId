@@ -42,7 +42,7 @@ export default {
     methods: {
         async fetchBoxOffice() {
             try {
-                const res = await axios.get(`/api/box-offices/${this.business_id}`);
+                const res = await axios.get(`/api/box-office-by-business/${this.business_id}`);
                 this.boxOfficeDetails = res.data;
                 this.loading = true;
             } catch (error) {
@@ -51,9 +51,10 @@ export default {
         },
         async getBankData() {
             try {
-                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`);
+                const banksResponse = await axios.get(`/api/bank-data-by-business/${this.business_id}`);
 
                 // Update bankData object with bank data using the unique id as key
+
                 const data = banksResponse.data;
                 for (let i = 0; i < data.length; i++) {
                     this.bankData[data[i].id] = {
@@ -92,7 +93,7 @@ export default {
                 <div class="d-row">
                     <p>Сервис: {{ data.service }}</p>
                     <p class="oked">Счет : {{
-                            bankData[data.bank_data_id].id === data.bank_data_id ? bankData[data.bank_data_id].name : "unalienable"
+                            bankData[data.bank_data.id].id === data.bank_data.id ? bankData[data.bank_data.id].name : "unalienable"
                         }}</p>
                 </div>
                 <div class="d-row">

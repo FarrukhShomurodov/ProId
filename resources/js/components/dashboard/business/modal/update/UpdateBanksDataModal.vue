@@ -26,7 +26,7 @@ export default {
     mounted() {
         this.show = true
         // Fetch banking data on component mount
-        axios.get(`/api/banking-data-show/${this.banking_id}`).then(res => {
+        axios.get(`/api/bank-data/${this.banking_id}`).then(res => {
             // Populate data from the API response
             const data = res.data;
             this.name = data.name
@@ -47,7 +47,7 @@ export default {
                 'name_of_banking_akkaunt': this.name_of_banking_akkaunt
             }
             // Update banking data via API
-            axios.put(`/api/banks-data/${this.banking_id}`, banks_data).then(res => {
+            axios.put(`/api/bank-data/${parseInt(this.banking_id)}`, banks_data).then(res => {
                 this.$emit('close'); // Close the modal after successful data update
             }).catch(err => {
                 this.error = err.response.data.message;

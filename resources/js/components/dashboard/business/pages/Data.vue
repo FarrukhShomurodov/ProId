@@ -44,13 +44,13 @@ export default {
             // Fetch business details and banking data from the API
 
             // Fetch business details
-            axios.get(`/api/pro-business-show/${this.business_id}`)
+            axios.get(`/api/business/${this.business_id}`)
                 .then(res => {
                     this.business_details = res.data;
                 })
 
             // Fetch banking data by business
-            axios.get(`/api/banking-data-fetch/${this.business_id}`)
+            axios.get(`/api/bank-data-by-business/${this.business_id}`)
                 .then(res => {
                     this.banking_details = res.data;
                     this.loading = true;

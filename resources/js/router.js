@@ -25,13 +25,13 @@ const routes = [
         path: '/',
         component: Login,
         name: 'login',
-        beforeEnter(to, from, next) {
-            if (token || from.name === 'dashboard'){
-                next({name: 'dashboard'})
-            }else{
-                next()
-            }
-        }
+        // beforeEnter(to, from, next) {
+        //     if (token() || from.name === 'dashboard') {
+        //         next({name: 'dashboard'})
+        //     } else {
+        //         next()
+        //     }
+        // }
     },
     // {
     //     path: '/oauth/authorize',
@@ -102,7 +102,7 @@ const routes = [
             },
         ],
         beforeEnter(to, from, next) {
-            if (token) {
+            if (token()) {
                 next()
             } else {
                 if (from.name === 'register' || from.name === 'confirmNumber') {
@@ -134,19 +134,23 @@ const router = createRouter({
     routes
 })
 
+let token = () => {
+    let value = document.cookie.match('(^|;)\\s*accessToken\\s*=\\s*([^;]+)');
+    return value ? decodeURIComponent(value.pop()) : null;
+}
 
-/// Is Admin
-let token = localStorage.token;
-const headers = {
-    'Authorization': `Bearer ` + token,
-    'Content-Type': 'application/json',
-};
+// function deleteAccessTokenCookie() {
+//     document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+// }
 
-// Guard
 router.beforeEach(async (to, from, next) => {
-    if (token) {
+    if (token() !== null) {
         try {
-            const response = await axios.get('/api/user', {headers});
+            const response = await axios.get('/api/user', {
+                headers: {
+                    'Authorization': 'Bearer ' + token()
+                }
+            });
             const isAdmin = response.data.is_admin;
             const isLogin = response.status === 200;
 
@@ -161,7 +165,7 @@ router.beforeEach(async (to, from, next) => {
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
-            localStorage.removeItem('token')
+            // deleteAccessTokenCookie()
             next({name: 'login'});
         }
     } else {

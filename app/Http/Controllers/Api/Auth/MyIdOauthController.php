@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Promise\PromiseInterface;
+use Exception;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
-class SocialOAuthController extends Controller
+class MyIdOauthController extends Controller
 {
     /**
      * @return Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application

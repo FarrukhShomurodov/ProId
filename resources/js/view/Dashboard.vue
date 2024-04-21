@@ -35,6 +35,7 @@ export default {
     data() {
         return {
             // User data
+            id: null,
             name: 'Name',
             surname: 'Surname',
             avatarUrl: null,
@@ -42,6 +43,7 @@ export default {
             // Frontend
             showUserMenu: false,
             showServiceMenu: false,
+            users: []
         }
     },
     mounted() {
@@ -57,39 +59,83 @@ export default {
     methods: {
         // Backend: Fetch user data from the API
         fetchUser() {
-            // API request to get authenticated user data
-            axios.get('/api/user').then(res => {
+            let token = () => {
+                let value = document.cookie.match('(^|;)\\s*accessToken\\s*=\\s*([^;]+)');
+                return value ? decodeURIComponent(value.pop()) : null;
+            }
+
+            axios.get('/api/user', {
+                headers: {
+                    'Authorization': 'Bearer ' + token()
+                }
+            }).then(res => {
                 const data = res.data;
 
                 // Set user data to variables
+                this.id = data.id;
                 this.name = data.name;
                 this.surname = data.surname;
                 this.avatarUrl = data.avatar;
+
+                let users = JSON.parse(localStorage.getItem('users_id'));
+
+                if (users) {
+                    for (let i = 0; i < users.length; i++) {
+                        if (users[i] !== this.id) {
+                            axios.get(`/api/get-another-user/${users[i]}`).then(res => {
+                                this.users.push(res.data)
+                            })
+                        }
+                    }
+                }
             })
         },
-        // Backend: Logout user
-        logout() {
-            axios.post('/api/logout')
-                .then(() => {
-                    // Remove token from local storage
-                    localStorage.removeItem('token');
 
-                    // // Remove cookie
-                    // const cookies = document.cookie.split(";");
-                    //
-                    // for (let i = 0; i < cookies.length; i++) {
-                    //     const cookie = cookies[i];
-                    //     const eqPos = cookie.indexOf("=");
-                    //     const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-                    //     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-                    // }
+        switchUser(id) {
+            axios.post('/api/switch-user', {user_id: id})
+                .then((res) => {
+                    let d = new Date();
+                    d.setTime(d.getTime() + 24 * 60 * 60 * 1000);
+                    let expires = "expires=" + d.toUTCString();
 
-                    location.reload()
+                    this.id = res.data.user.id
+                    document.cookie = "accessToken=" + res.data.access_token + ";" + expires + ";path=/";
+
+                    window.axios.defaults.headers.common = {
+                        'Authorization': `Bearer ` + res.data.access_token,
+                    };
+
+
+                    return window.location.reload();
                 })
                 .catch(error => {
                     console.error('Logout error:', error);
                 });
         },
+
+        // Backend: Logout user
+        logout() {
+            let users = JSON.parse(localStorage.getItem('users_id'));
+
+            if (users.length > 1) {
+                let indexOfId = users.indexOf(this.id);
+                users.splice(indexOfId, 1);
+                localStorage.setItem('users_id', JSON.stringify(users));
+
+                this.switchUser(users[0]);
+            } else {
+                axios.post('/api/logout')
+                    .then(() => {
+                        localStorage.clear();
+                        document.cookie = 'accessToken =; Path=/; Expires=Thu, 01 Jan 1980 00:00:01 GMT;';
+                        router.push('/');
+                    })
+                    .catch(error => {
+                        console.error('Logout error:', error);
+                    });
+            }
+        },
+
 
         // Frontend: Toggle user menu visibility
         showUserAccesses() {
@@ -148,6 +194,19 @@ export default {
                                                 'background-color': 'white',
                                             }"></div>
                             <h4 style="margin-top: 10px;">{{ name }}<br>{{ surname }}</h4>
+                        </div>
+                        <div class="user_data another_user" v-for="user in users" @click="switchUser(user.id)">
+                            <div class="ava" style="width: 45px; height: 45px;" :style="{
+                                                'background-image': `url(${user.avatar !== null ? '/storage/' + user.avatar : '/images/icons/dashboard/user.svg'})`,
+                                                'background-size': 'cover',
+                                                'background-position': 'center',
+                                                'background-color': 'white',
+                                            }"></div>
+                            <h4 style="margin-top: 10px;">{{ user.name }}<br>{{ user.surname }}</h4>
+                        </div>
+                        <div class="d-flex align-items-center mt-3">
+                            <img src="/images/icons/dashboard/add.svg">
+                            <button class="add_account" @click="$router.push('/')">Добавить аккаунт</button>
                         </div>
                         <nav>
                             <ul class="header_nav_list flex-column">
@@ -277,7 +336,8 @@ export default {
                     </swiper-slide>
                     <swiper-slide class="navbar__link">Подписки</swiper-slide>
                     <div class="border"></div>
-                    <swiper-slide class="navbar__link" onclick="window.location.href=' http://support.in-pro.net/help-center/categories/5/pro-id'">
+                    <swiper-slide class="navbar__link"
+                                  onclick="window.location.href=' http://support.in-pro.net/help-center/categories/5/pro-id'">
                         Поддержка
                     </swiper-slide>
                     <swiper-slide class="navbar__link" onclick="window.location.href='https://divport.in-pro.net'">

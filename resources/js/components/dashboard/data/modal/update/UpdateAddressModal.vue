@@ -32,10 +32,10 @@ export default {
     },
     mounted() {
         this.show = true;
-        axios.get(`/api/address-show/${this.address_id}`).then(res => {
+        axios.get(`/api/address/${this.address_id}`).then(res => {
             this.address = res.data.name
             this.searchQuery = res.data.name
-            this.coords = JSON.parse(res.data.coords)
+            this.coords = res.data.coords
             this.loading = true
         })
     },

@@ -34,14 +34,19 @@ export default {
     },
     methods: {
         async fetchExperienceDate() {
-            axios.get(`/api/job-show/${this.job_id}`).then(res => {
-                this.job = res.data;
-                axios.get(`/api/education-show/${this.job.education_id}`).then(res => this.education = res.data)
-            })
             try {
-                const response = await axios.get(`/api/experience/${this.job_id}`);
-                this.experiences = response.data;
+                // Make both requests concurrently
+                const [jobResponse, experienceResponse] = await Promise.all([
+                    axios.get(`/api/job/${this.job_id}`),
+                    axios.get(`/api/experience-by-job/${this.job_id}`)
+                ]);
 
+                // Handle job response
+                this.job = jobResponse.data;
+                this.education = jobResponse.data.education;
+
+                // Handle experience response
+                this.experiences = experienceResponse.data;
                 this.experienceDate = 0;
 
                 this.experiences.forEach((date) => {
@@ -52,15 +57,17 @@ export default {
                     this.experienceDate += experienceDates;
                 });
 
-                if (this.experienceDate > 0) {
-                    await axios.put(`/api/job-experience/${this.job_id}`, {
-                        'experience_count': BigInt(this.experienceDate).toString()
-                    });
-                }
+                // If experienceDate is greater than 0, update job-experience
+                // if (this.experienceDate > 0) {
+                //     await axios.put(`/api/experience/${this.job_id}`, {
+                //         'experience_count': BigInt(this.experienceDate).toString()
+                //     });
+                // }
 
                 this.loading = true;
             } catch (error) {
                 console.error("Error fetching data:", error);
+                // Handle error appropriately, e.g., set loading state or show error message
             }
         },
         formatExperienceDate(milliseconds) {
@@ -107,7 +114,7 @@ export default {
                                 parseInt(experienceDate) !== 0 ? formatExperienceDate(experienceDate) : 'отсутствует'
                             }}</p>
                     </div>
-                    <p>Образование: {{ education.hasOwnProperty('id') ? education.type : 'отсутствует' }}</p>
+                    <p>Образование: {{ education !== null ?  education.type : 'отсутствует' }}</p>
                 </section>
             </div>
         </div>
@@ -119,7 +126,7 @@ export default {
         </div>
 
         <!--Education-->
-        <div class="education_section" v-if="education.hasOwnProperty('id')">
+        <div class="education_section" v-if="education">
             <h3>Образование</h3>
             <section class="education_details d-flex flex-column justify-content-between">
                 <div class="d-flex flex_row align-items-center">

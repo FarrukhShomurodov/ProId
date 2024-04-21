@@ -78,7 +78,7 @@ export default {
                     <!-- Yandex Map for each address -->
                     <yandex-map :settings="{
                                 location: {
-                                    center:  JSON.parse(address.coords),
+                                    center:  address.coords,
                                     zoom: 10,
                                 },
                                 behaviors: ['default', 'scrollZoom'],
@@ -87,7 +87,7 @@ export default {
                         <yandex-map-default-features-layer/>
                         <yandex-map-marker
                             :settings="{
-                                        coordinates:  JSON.parse(address.coords),
+                                        coordinates:  address.coords,
                                     }"
                         >
                             <template #default>

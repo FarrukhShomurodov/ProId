@@ -41,7 +41,7 @@ export default {
             try {
 
                 // Fetch bank data from the API
-                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`);
+                const banksResponse = await axios.get(`/api/bank-data-by-business/${this.business_id}`);
 
                 // Update Vue.js data property with fetched data
                 this.bankData = banksResponse.data;
@@ -56,7 +56,9 @@ export default {
         },
         // Save function to handle the submission of data
         save() {
-            this.bank_data_id = parseInt($('#select2').val())
+            this.bank_data_id = parseInt($('#select2').val());
+            this.service = $('#select').val();
+
             const box_office_data = {
                 'business_id': this.business_id,
                 'name': this.name,
@@ -65,7 +67,7 @@ export default {
             }
 
             // HTTP POST request to save box office data
-            axios.post('/api/box-offices', box_office_data).then(res => {
+            axios.post('/api/box-office', box_office_data).then(res => {
                 this.$emit('close'); // Close the modal after successful save
             }).catch(err => {
                 this.error = err.response.data.message; // Display error message if save fails

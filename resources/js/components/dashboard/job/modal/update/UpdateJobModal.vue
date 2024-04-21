@@ -42,12 +42,12 @@ export default {
             })
 
             // Fetch job data
-            axios.get(`/api/job-show/${this.jobId}`).then(res => {
+            axios.get(`/api/job/${this.jobId}`).then(res => {
                 const data = res.data;
 
                 this.type = data.type
                 this.profession = data.profession
-                this.education_id = data.education_id ?? 'Без образования'
+                this.education_id = data.education.id ?? 'Без образования'
 
                 $('#select').val(this.type).trigger('change');
                 $('#select2').val(this.education_id).trigger('change');

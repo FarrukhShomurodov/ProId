@@ -72,7 +72,12 @@ export default {
                 const allDigitsFilled = newVal.every(digit => digit !== '');
                 if (allDigitsFilled) {
                     const code = this.otp.map(digit => digit || '0').join('');
-                    this.showCorrectSignal = parseInt(code) === this.code;
+                    axios.post('/api/send-check-verify-code-email',{
+                        email: this.email,
+                        code: code
+                    }).then(()=>{
+                        this.showCorrectSignal = true;
+                    })
                 }
             },
             deep: true,

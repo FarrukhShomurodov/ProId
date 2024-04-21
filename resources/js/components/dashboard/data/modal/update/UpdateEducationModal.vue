@@ -27,9 +27,9 @@ export default {
         this.$nextTick(() => {
             $('#select').select2();
         });
-        axios.get(`/api/education-show/${this.education_id}`).then(res => {
+        axios.get(`/api/education/${this.education_id}`).then(res => {
             const data = res.data;
-            
+
             this.type = data.type
             $('#select').val(this.type).trigger('change');
 
@@ -96,7 +96,7 @@ export default {
                     <transition name="modal">
                         <div class="modal-container modal-container-education" v-show='loading'>
                             <div class="header_modal">
-                                <h3 class="education_text">Добавить информацию об образование</h3>
+                                <h3 class="education_text">Измененить информацию об образование</h3>
                                 <img
                                     src="/images/icons/dashboard/exit.svg"
                                     @click="$emit('goBack')"

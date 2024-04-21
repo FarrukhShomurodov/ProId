@@ -22,7 +22,7 @@ export default {
         this.show = true
 
         // Fetch business data when the component is mounted
-        axios.get(`/api/pro-business-show/${this.business_id}`).then(res => {
+        axios.get(`/api/business/${this.business_id}`).then(res => {
             // Update component data with the retrieved business information
             const data = res.data;
             this.id = data.id;
@@ -51,7 +51,7 @@ export default {
                 'oked': this.oked,
                 'address': this.address,
             }
-            axios.put(`/api/pro-business/${this.id}`, data).then(res => {
+            axios.put(`/api/business/${this.id}`, data).then(res => {
                 // Close the modal after successfully saving data
                 this.$emit('close')
             }).catch(err => {

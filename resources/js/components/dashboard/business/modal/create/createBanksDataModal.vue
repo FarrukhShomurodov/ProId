@@ -30,7 +30,7 @@ export default {
                 'mfo': this.mfo,
                 'payment_account': this.payment_account,
             }
-            axios.post('/api/banks-data', banks_data).then(res => {
+            axios.post('/api/bank-data', banks_data).then(res => {
                 this.$emit('close'); // Close the modal after successful save
             }).catch(err => {
                 this.error = err.response.data.message; // Display error message if save fails

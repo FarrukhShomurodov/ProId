@@ -94,22 +94,25 @@ export default {
             console.log(this.changedPhoneNumber)
 
             // Check Phone Number from db
-            axios.post('/api/login', {
-                phone_number: this.changedPhoneNumber,
-            }).then(() => {
-                this.error = "Введенный номер уже существует."
-            }).catch(() => {
-                if(this.codeLength === 13 || this.codeLength === 12){ 
-                    this.showConfirmNumber = true
-                    this.changeNum = false;
-                    
-                    axios.post('/api/sendOTP', {
-                        phone_number: this.changedPhoneNumber
-                    });
-                } else{
-                    this.showConfirmNumber = false;
-                }
-            })
+            if (this.codeLength !== 0){
+                axios.post('/api/has-user', {
+                    phone_number: this.changedPhoneNumber,
+                }).then((res) => {
+                    console.log(res)
+                    this.error = "Введенный номер уже существует."
+                }).catch(() => {
+                    if (this.codeLength === 13 || this.codeLength === 12) {
+                        this.showConfirmNumber = true
+                        this.changeNum = false;
+
+                        axios.post('/api/sendOTP', {
+                            phone_number: this.changedPhoneNumber
+                        });
+                    } else {
+                        this.showConfirmNumber = false;
+                    }
+                })
+            }
         },
         // Resend OTP
         reSend() {

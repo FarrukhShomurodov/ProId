@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BanksData extends Model
 {
@@ -20,4 +21,9 @@ class BanksData extends Model
         'mfo',
         'payment_account',
     ];
+
+    public function business(): BelongsTo
+    {
+        return $this->belongsTo(Business::class);
+    }
 }

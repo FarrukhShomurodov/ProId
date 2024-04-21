@@ -37,6 +37,20 @@ export default {
                 axios.defaults.headers.common = headers;
                 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+                if (localStorage.getItem('users_id')) {
+                    // Retrieve the array from localStorage
+                    let userIds = JSON.parse(localStorage.getItem('users_id'));
+
+                    // Push the new id into the array
+                    userIds.push(response.data.user.id);
+
+                    // Set the updated array back into localStorage
+                    localStorage.setItem('users_id', JSON.stringify(userIds));
+                } else {
+                    // Create a new array with the id and set it into localStorage
+                    localStorage.setItem('users_id', JSON.stringify([response.data.user.id]));
+                }
+
                 if(res.data.redirect_url === null){
                     router.push({path: '/dashboard'});
                 }else{

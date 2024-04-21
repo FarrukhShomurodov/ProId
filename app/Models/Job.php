@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Job extends Model
@@ -30,5 +31,10 @@ class Job extends Model
     public function experience(): HasMany
     {
         return $this->hasMany(Experience::class, 'job_id', 'id');
+    }
+
+    public function education(): BelongsTo
+    {
+        return $this->belongsTo(Education::class);
     }
 }

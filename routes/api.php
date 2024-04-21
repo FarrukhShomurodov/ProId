@@ -1,104 +1,116 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\OTPController;
-use App\Http\Controllers\Auth\SocialOAuthController;
-use App\Http\Controllers\Dashboard\AddressController;
-use App\Http\Controllers\Dashboard\BanksDataController;
-use App\Http\Controllers\Dashboard\BoxOfficeController;
-use App\Http\Controllers\Dashboard\EducationController;
-use App\Http\Controllers\Dashboard\ExperienceController;
-use App\Http\Controllers\Dashboard\JobController;
-use App\Http\Controllers\Dashboard\MFOController;
-use App\Http\Controllers\Dashboard\BusinessController;
-use App\Http\Controllers\SendEmailController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Auth\OTPController;
+use App\Http\Controllers\Api\Auth\MyIdOauthController;
+use App\Http\Controllers\Api\Dashboard\AddressController;
+use App\Http\Controllers\Api\Dashboard\BanksDataController;
+use App\Http\Controllers\Api\Dashboard\BoxOfficeController;
+use App\Http\Controllers\Api\Dashboard\BusinessController;
+use App\Http\Controllers\Api\Dashboard\EducationController;
+use App\Http\Controllers\Api\Dashboard\ExperienceController;
+use App\Http\Controllers\Api\Dashboard\JobController;
+use App\Http\Controllers\Api\Dashboard\MFOController;
+use App\Http\Controllers\Api\SendEmailController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 // Auth
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/register', [AuthController::class,'register']);
-Route::post('/token',[AuthController::class, 'token'])->name('token');
-
+Route::post('/has-user', [AuthController::class, 'hasUser']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 // OTP
-Route::post('/sendOTP', [OTPController::class,'sendOTP']);
-Route::post('/checkCode', [OTPController::class,'checkCode']);
-//Route::delete('/deleteCode', [OTPController::class,'deleteCode']);
+Route::post('/sendOTP', [OTPController::class, 'sendOTP']);
+Route::post('/checkCode', [OTPController::class, 'checkCode']);
 
 // OAuth with MyId
-Route::get('/oauth/myid/redirect',[SocialOAuthController::class, 'redirect']);
-Route::post('/oauth/myid/callback',[SocialOAuthController::class, 'callback']);
+Route::get('/oauth/myid/redirect', [MyIdOauthController::class, 'redirect']);
+Route::post('/oauth/myid/callback', [MyIdOauthController::class, 'callback']);
 
 Route::middleware('auth:api')->group(function () {
     // Маршруты, доступные только аутентифицированным пользователям с действующим токеном
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    // User switch
+    Route::post('/switch-user', [UserController::class, 'switchUser']);
+
     // User
-    Route::put('/update-user-data', [UserController::class,'update']);
-    Route::post('/edit-phone-number', [UserController::class,'editPhoneNumber']);
+    Route::get('/user', [UserController::class, 'getUser']);
+    Route::get('/get-another-user/{id}', [UserController::class, 'show'])->whereNumber('id');
+    Route::put('/update-user-data', [UserController::class, 'update']);
+    Route::post('/edit-phone-number', [UserController::class, 'editPhoneNumber']);
 
     // Email
-    Route::post('/send-verify-code-email', [SendEmailController::class,'sendEmail']);
-    Route::post('/add-email', [UserController::class,'addEmail']);
-    Route::delete('/delete-email', [UserController::class,'deleteEmail']);
+    Route::post('/send-verify-code-email', [SendEmailController::class, 'sendEmail']);
+    Route::post('/send-check-verify-code-email',[SendEmailController::class, 'checkCode']);
+    Route::post('/add-email', [UserController::class, 'addEmail']);
+    Route::delete('/delete-email', [UserController::class, 'deleteEmail']);
 
     // User photo
-    Route::post('/upload-avatar', [UserController::class,'uploadAvatar']);
-    Route::delete('/delete-avatar', [UserController::class,'deleteAvatar']);
+    Route::post('/upload-avatar', [UserController::class, 'uploadAvatar']);
+    Route::delete('/delete-avatar', [UserController::class, 'deleteAvatar']);
 
     // Addresses
     Route::get('/address', [AddressController::class, 'fetchByUser']);
-    Route::get('/address-show/{address}', [AddressController::class, 'show']);
-    Route::post('/address', [AddressController::class, 'store']);
-    Route::put('/address/{address}', [AddressController::class, 'update']);
+    Route::apiResource('/address', AddressController::class)->except('index', 'destroy');
 
     // Business
-    Route::get('/pro-business', [BusinessController::class, 'fetchByUser']);
-    Route::get('/pro-business-show/{proBusiness}',[BusinessController::class, 'show']);
-    Route::post('/pro-business', [BusinessController::class, 'store']);
-    Route::post('/pro-business-image/{proBusiness}', [BusinessController::class, 'uploadImage']);
-    Route::put('/pro-business/{proBusiness}', [BusinessController::class, 'update']);
+    Route::get('/business', [BusinessController::class, 'fetchByUser']);
+    Route::post('/business-image/{proBusiness}', [BusinessController::class, 'uploadImage'])->whereNumber('proBusiness');
+    Route::apiResource('/business', BusinessController::class)->except('index', 'destroy');
 
     // Banks Data
-    Route::get('/banking-data-show/{banksData}', [BanksDataController::class, 'show']);
-    Route::get('/banking-data-fetch/{proBusiness}',[BanksDataController::class, 'fetchByBusiness']);
-    Route::post('/banks-data',[BanksDataController::class, 'store']);
-    Route::put('/banks-data/{banksData}',[BanksDataController::class, 'update']);
+    Route::get('/bank-data-by-business/{proBusiness}', [BanksDataController::class, 'fetchByBusiness'])->whereNumber('proBusiness');
+    Route::apiResource('/bank-data', BanksDataController::class)->except('index', 'destroy')->parameter('bank-data', 'bankData');
 
     // MFO
     Route::get('bank-data-by-mfo', [MFOController::class, 'index']);
 
     // Box Offices
-    Route::get('/box-offices/{proBusiness}', [BoxOfficeController::class, 'fetchByBusiness']);
-    Route::get('/box-offices-show/{boxOffice}', [BoxOfficeController::class, 'show']);
-    Route::get('/box-offices-disActivate/{boxOffice}', [BoxOfficeController::class, 'disActivate']);
-    Route::get('/box-offices-activate/{boxOffice}', [BoxOfficeController::class, 'activate']);
-    Route::put('/box-offices/{boxOffice}', [BoxOfficeController::class, 'update']);
-    Route::post('/box-offices', [BoxOfficeController::class, 'store']);
-    Route::delete('/box-offices/{boxOffice}', [BoxOfficeController::class, 'destroy']);
+    Route::get('/box-office-disActivate/{boxOffice}', [BoxOfficeController::class, 'disActivate'])->whereNumber('boxOffice');
+    Route::get('/box-office-activate/{boxOffice}', [BoxOfficeController::class, 'activate'])->whereNumber('boxOffice');
+    Route::get('/box-office-by-business/{proBusiness}', [BoxOfficeController::class, 'fetchByBusiness'])->whereNumber('proBusiness');
+    Route::apiResource('/box-office', BoxOfficeController::class)->parameter('box-office', 'boxOffice')->except('index');
 
     // Education
-    Route::get('/education',[EducationController::class, 'fetchByUser']);
-    Route::get('/education-show/{education}',[EducationController::class, 'show']);
-    Route::post('/education',[EducationController::class, 'store']);
-    Route::put('/education/{education}',[EducationController::class, 'update']);
+    Route::get('/education', [EducationController::class, 'fetchByUser']);
+    Route::apiResource('/education', EducationController::class)->except('index', 'destroy');
 
-    // job
-    Route::get('/job',[JobController::class, 'fetchByUser']);
-    Route::get('/job-show/{proJob}',[JobController::class, 'show']);
-    Route::post('/job',[JobController::class, 'store']);
-    Route::put('/job/{proJob}',[JobController::class, 'update']);
-    Route::put('/job-experience/{proJob}',[JobController::class, 'addExperience']);
+    // Job
+    Route::get('/job', [JobController::class, 'fetchByUser']);
+    Route::put('/job-experience/{job}', [JobController::class, 'addExperience'])->whereNumber('job');
+    Route::apiResource('/job', JobController::class)->except('index', 'destroy');
 
     // Experience
-    Route::get('/experience/{proJob}',[ExperienceController::class, 'fetchByJob']);
-    Route::get('/experience-show/{experience}',[ExperienceController::class, 'show']);
-    Route::post('/experience',[ExperienceController::class, 'store']);
-    Route::put('/experience/{experience}',[ExperienceController::class, 'update']);
+    Route::get('/experience-by-job/{proJob}', [ExperienceController::class, 'fetchByJob'])->whereNumber('proJob');
+    Route::apiResource('/experience', ExperienceController::class)->except('index', 'destroy');
+});
+
+
+Route::get('/redirect', function () {
+    $query = http_build_query([
+        'client_id' => '3',
+        'redirect_uri' => 'http://localhost:8000/api/callback',
+        'response_type' => 'code',
+        'scope' => '',
+        'state' => 'absdabsdabsdabsd',
+    ]);
+
+    return redirect('http://localhost:8000/oauth/authorize?'.$query);
+});
+
+
+Route::get('/callback', function (Request $request) {
+    $response = Http::asForm()->post('http://passport-app.test/oauth/token', [
+        'grant_type' => 'authorization_code',
+        'client_id' => '3',
+        'client_secret' => 'aG8nIvCbFG3M5Nh9DNFnNfbijQCUp7yHrMbC41iP',
+        'redirect_uri' => 'http://localhost:8000/api/callback',
+        'code' => $request->code,
+    ]);
+
+    return $response->json();
 });

@@ -4,25 +4,17 @@ import 'bootstrap';
 // Import Axios
 import axios from 'axios';
 
-// Initiliase axios
+// Initialise axios
 window.axios = axios;
 
-if(localStorage.token){
-    // Auth Header
-    const headers = {
-        'Authorization': `Bearer ` + localStorage.token,
-    };
 
-    // Set auth header in axios methods
-    window.axios.defaults.headers.common = headers
+let token = () => {
+    let value = document.cookie.match('(^|;)\\s*accessToken\\s*=\\s*([^;]+)');
+    return value ? decodeURIComponent(value.pop()) : null;
 }
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-let token = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+if(token()){
+    window.axios.defaults.headers.common = {
+        'Authorization': `Bearer ` + token(),
+    }
 }

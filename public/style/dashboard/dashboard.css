@@ -305,6 +305,24 @@ footer p {
     z-index: 9999;
 }
 
+.another_user{
+    margin-top: 10px;
+    margin-left: 0 !important;
+    cursor: pointer;
+}
+
+.another_user h4{
+    font-size: 16px;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+}
+
+.add_account{
+    margin-left: 10px;
+    font-size: 18px;
+    background: transparent;
+    border: none;
+}
 @media screen and (max-width: 1300px) {
     header {
         background-color: white;

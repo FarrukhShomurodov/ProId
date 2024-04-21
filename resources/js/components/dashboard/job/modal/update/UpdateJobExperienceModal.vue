@@ -22,7 +22,7 @@ export default {
     // Component lifecycle hook - called when the component is mounted
     mounted() {
         this.show = true;
-        axios.get(`/api/experience-show/${this.experienceId}`).then((res) => {
+        axios.get(`/api/experience/${this.experienceId}`).then((res) => {
             const data = res.data
 
             // setting data from server

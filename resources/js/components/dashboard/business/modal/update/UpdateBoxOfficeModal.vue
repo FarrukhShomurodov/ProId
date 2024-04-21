@@ -33,20 +33,21 @@ export default {
     mounted() {
         this.show = true
 
+        this.getBankData();
         // Fetch box office and bank data
         this.getboxOffice();
-        this.getBankData();
+
     },
     // Component methods
     methods: {
         // Method to fetch box office data
         async getboxOffice() {
-            const boxOfficeResponse = await axios.get(`/api/box-offices-show/${this.box_office_id}`);
+            const boxOfficeResponse = await axios.get(`/api/box-office/${this.box_office_id}`);
             // Populate data from the API response
             this.service = boxOfficeResponse.data.service
             this.name = boxOfficeResponse.data.name
             this.active = boxOfficeResponse.data.isActive === 1;
-            this.bank_data_id = boxOfficeResponse.data.bank_data_id
+            this.bank_data_id = boxOfficeResponse.data.bank_data.id
 
             $('#select').val(this.service).trigger('change');
             $('#select2').val(this.bank_data_id).trigger('change');
@@ -54,7 +55,7 @@ export default {
         // Method to fetch bank data
         async getBankData() {
             try {
-                const banksResponse = await axios.get(`/api/banking-data-fetch/${this.business_id}`);
+                const banksResponse = await axios.get(`/api/bank-data-by-business/${this.business_id}`);
 
                 // Assuming the response contains an array of objects with 'id' and 'name_of_banking_akkaunt' properties
                 this.dankData = banksResponse.data;
@@ -62,6 +63,7 @@ export default {
                 // Initialize Select2 plugin for dropdowns
                 $('#select').select2();
                 $('#select2').select2();
+
 
                 this.loading = true
             } catch (error) {
@@ -71,29 +73,31 @@ export default {
         // Method to save box office data
         save() {
             this.bank_data_id = parseInt($('#select2').val())
+            this.service = $('#select').val()
+
             const box_office_data = {
                 'name': this.name,
                 'service': this.service,
                 'bank_data_id': this.bank_data_id
             }
-            axios.put(`/api/box-offices/${this.box_office_id}`, box_office_data).then(() => this.$emit('close')).catch(err => {
+            axios.put(`/api/box-office/${this.box_office_id}`, box_office_data).then(() => this.$emit('close')).catch(err => {
                 this.error = err.response.data.message;
             });
         },
         // Method to deactivate box office
         disActivate() {
-            axios.get(`/api/box-offices-disActivate/${this.box_office_id}`).then(() => this.$emit('close'))
+            axios.get(`/api/box-office-disActivate/${this.box_office_id}`).then(() => this.$emit('close'))
         },
         // Method to activate box office
         activate() {
-            axios.get(`/api/box-offices-activate/${this.box_office_id}`).then(() => this.$emit('close'))
+            axios.get(`/api/box-office-activate/${this.box_office_id}`).then(() => this.$emit('close'))
         },
         // Method to delete box office
         destroy() {
-            axios.delete(`/api/box-offices/${this.box_office_id}`).then(() => this.$emit('close'))
+            axios.delete(`/api/box-office/${this.box_office_id}`).then(() => this.$emit('close'))
         },
         // Go Back method
-        goBack(){
+        goBack() {
             this.showAddBankingModal = false;
 
             // Fetch box office and bank data

@@ -29,7 +29,7 @@ export default {
     methods: {
         // Method to fetch  business data
         async fetchBusiness() {
-            axios.get("/api/pro-business").then(res => {
+            axios.get("/api/business").then(res => {
                 this.businessData = res.data;
 
                 this.loading = true;

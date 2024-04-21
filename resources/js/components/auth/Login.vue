@@ -58,7 +58,7 @@ export default {
 
             // Make a login request when the phone number is complete
             if (this.phone_number.length === 12) {
-                axios.post('/api/login', {
+                axios.post('/api/has-user', {
                     phone_number: this.phone_number,
                 }).then(response => {
                     if (response.data.name && response.data.surname) {

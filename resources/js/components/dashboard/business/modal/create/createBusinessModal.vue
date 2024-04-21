@@ -42,7 +42,7 @@ export default {
             // Check if the name_of_bank is not empty
             if (this.name_of_bank !== '') {
                 // Perform business and bank data creation
-                axios.post('/api/pro-business', data).then(res => {
+                axios.post('/api/business', data).then(res => {
                     const business_id = res.data.id;
                     const banks_data = {
                         'business_id': business_id,
@@ -51,7 +51,7 @@ export default {
                         'mfo': this.mfo,
                         'payment_account': this.payment_account
                     }
-                    axios.post('/api/banks-data', banks_data).then(() => {
+                    axios.post('/api/bank-data', banks_data).then(() => {
                         this.$emit('close'); // Close the modal after successful data creation
                     }).catch(err => {
                         this.error = err.response.data.message;

@@ -108,7 +108,7 @@ export default {
 
         // Generate link for get screen from yandex map
         generateMapUrl(coords) {
-            return `https://static-maps.yandex.ru/1.x/?lang=ru-RU&ll=${JSON.parse(coords)[0]},${JSON.parse(coords)[1]}&size=115,168&z=13&l=map`;
+            return `https://static-maps.yandex.ru/1.x/?lang=ru-RU&ll=${coords[0]},${coords[1]}&size=115,168&z=13&l=map`;
         },
 
         // Method to go back from subpages
@@ -272,8 +272,8 @@ export default {
                 <h3>Образование</h3>
                 <span>Храните ваши данные в едином месте</span>
                 <div class="education__blocks">
-                    <TransitionGroup name="list">
-                        <div v-for="education in educations" :key="education.id">
+                    <TransitionGroup name="list" >
+                        <div v-for="education in educations" :key="education.id" >
                             <div class="education__container">
                                 <img src="/images/icons/dashboard/edit.svg" alt=""
                                      @click="showUpdateEducationModal = true; education_id = education.id" width="25">
@@ -281,8 +281,8 @@ export default {
                                     <p> Вид: <span> {{ education.type }}</span></p>
                                     <p> {{ education.name }}</p>
                                     <p> Период: <span> {{
-                                            education.started.slice(0, 4)
-                                        }}-{{
+                                        education.started.slice(0, 4)
+                                      }}-{{
                                             education.expired == null ? 'Учусь по сей день' : education.expired.slice(0, 4)
                                         }}</span></p>
                                 </div>
