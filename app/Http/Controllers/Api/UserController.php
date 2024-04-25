@@ -52,14 +52,14 @@ class UserController extends Controller
                 }
 
                 // Logout the current user
-                Auth::logout();
+                Auth::guard('web')->logout();
             }
 
             // Create a new token for the switched user
             $accessToken = $switchedUser->createToken('token')->accessToken;
 
             // Log in the switched user
-            Auth::login($switchedUser);
+            Auth::guard('web')->login($switchedUser);
 
             // Regenerate session
             $request->session()->regenerate();

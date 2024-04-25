@@ -126,7 +126,6 @@ export default {
             } else {
                 axios.post('/api/logout')
                     .then(() => {
-                        localStorage.clear();
                         document.cookie = 'accessToken =; Path=/; Expires=Thu, 01 Jan 1980 00:00:01 GMT;';
                         router.push('/');
                     })
