@@ -25,8 +25,16 @@ export default {
                 name: this.name,
                 surname: this.surname,
             }).then((res) => {
-                // Save the token and navigate to the dashboard
-                localStorage.token = res.data.token;
+                // set access_token
+                let d = new Date();
+                d.setTime(d.getTime() + 24 * 60 * 60 * 1000);
+                let expires = "expires=" + d.toUTCString();
+                document.cookie = "accessToken=" + res.data.access_token + ";" + expires + ";path=/; SameSite=None; Secure";
+
+                window.axios.defaults.headers.common = {
+                    'Authorization': `Bearer ` + res.data.access_token,
+                };
+
                 // Auth Header
                 const headers = {
                     'Authorization': `Bearer ` + localStorage.token,
@@ -42,7 +50,7 @@ export default {
                     let userIds = JSON.parse(localStorage.getItem('users_id'));
 
                     // Push the new id into the array
-                    userIds.push(response.data.user.id);
+                    userIds.push(res.data.user.id);
 
                     // Set the updated array back into localStorage
                     localStorage.setItem('users_id', JSON.stringify(userIds));
@@ -51,9 +59,9 @@ export default {
                     localStorage.setItem('users_id', JSON.stringify([response.data.user.id]));
                 }
 
-                if(res.data.redirect_url === null){
+                if (res.data.redirect_url === null) {
                     router.push({path: '/dashboard'});
-                }else{
+                } else {
                     window.location.href = res.data.redirect_url;
                 }
             }).catch(err => {

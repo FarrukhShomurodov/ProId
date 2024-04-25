@@ -72,7 +72,7 @@ export default {
                         let d = new Date();
                         d.setTime(d.getTime() + 24 * 60 * 60 * 1000);
                         let expires = "expires=" + d.toUTCString();
-                        document.cookie = "accessToken=" + response.data.access_token + ";" + expires + ";path=/";
+                        document.cookie = "accessToken=" + response.data.access_token + ";" + expires + ";path=/; SameSite=None; Secure";
 
                         window.axios.defaults.headers.common = {
                             'Authorization': `Bearer ` + response.data.access_token,

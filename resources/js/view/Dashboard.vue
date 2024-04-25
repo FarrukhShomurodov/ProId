@@ -98,13 +98,14 @@ export default {
                     d.setTime(d.getTime() + 24 * 60 * 60 * 1000);
                     let expires = "expires=" + d.toUTCString();
 
-                    this.id = res.data.user.id
-                    document.cookie = "accessToken=" + res.data.access_token + ";" + expires + ";path=/";
+                    this.id = res.data.user.id;
+                    let cookieValue = `accessToken=${res.data.access_token}; ${expires}; path=/; SameSite=None; Secure`;
+
+                    document.cookie = cookieValue;
 
                     window.axios.defaults.headers.common = {
-                        'Authorization': `Bearer ` + res.data.access_token,
+                        'Authorization': `Bearer ${res.data.access_token}`,
                     };
-
 
                     return window.location.reload();
                 })
