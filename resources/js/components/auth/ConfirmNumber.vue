@@ -143,8 +143,12 @@ export default {
                         axios.post('api/checkCode', {
                             phoneNumber: this.phoneNumberForSend,
                             code: parseInt(code, 10)
-                        }).then(() => {
-                            this.showCorrectSignal = true;
+                        }).then((res) => {
+                            if (res.data.status){
+                                this.showCorrectSignal = true;
+                            }else {
+                                this.showCorrectSignal = false;
+                            }
                         }).catch(err => {
                             this.showCorrectSignal = false;
 
