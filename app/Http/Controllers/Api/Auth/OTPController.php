@@ -66,7 +66,7 @@ class OTPController extends Controller
         $validated = $request->validated();
 
         //getting sending code by phone number
-        $phone = VerifyCode::query()->where('phone_number', $validated)->latest()->first();
+        $phone = VerifyCode::query()->where('phone_number', $validated['phone_number'])->latest()->first();
 
         if ($phone && (int)$phone->code === (int)$request->input('code'))
             return new JsonResponse(['status' => true], Response::HTTP_OK);
