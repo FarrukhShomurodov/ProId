@@ -26,6 +26,7 @@ const routes = [
         component: Login,
         name: 'login',
         beforeEnter(to, from, next) {
+            console.log(from)
             if (from.matched[0].name === 'dashboard') {
                 next()
             } else {
