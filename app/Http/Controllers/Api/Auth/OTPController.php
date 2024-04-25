@@ -27,11 +27,13 @@ class OTPController extends Controller
         $code = rand(100000, 999999);
 
         $proUser = User::query()->where('phone_number', $validated['phone_number'])->first();
+        $validated['email'] = null;
+        if ($proUser) {
+            $validated['email'] = $proUser['email'];
 
-        $validated['email'] = $proUser['email'];
-
-        if (!empty($proUser['email'])) {
-            Mail::to($validated['email'])->send(new \App\Mail\VerifyCode($code));
+            if (!empty($proUser['email'])) {
+                Mail::to($validated['email'])->send(new \App\Mail\VerifyCode($code));
+            }
         }
 
         //text for sent user phone number
