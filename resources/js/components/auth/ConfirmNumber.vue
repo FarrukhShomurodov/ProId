@@ -140,19 +140,17 @@ export default {
                 if (allDigitsFilled) {
                     const code = this.otp.join('');
                     if (code.length === 6) {
-                        axios.post('/api/checkCode', {
-                            phoneNumber: this.phoneNumberForSend,
-                            code: parseInt(code, 10)
-                        }).then((res) => {
-                            console.log(res);
-                            console.log(res.data.status);
-                            console.log(typeof res.data.status);
+                        this.phoneNumberForSend = '998900868171'
 
-                            if (res.data.status){
-                                this.showCorrectSignal = true;
-                            }else {
-                                this.showCorrectSignal = false;
+                        axios.post('/api/checkCode', {
+                            phone_number: this.phoneNumberForSend,
+                            code: parseInt(code, 10)
+                        }, {
+                            headers: {
+                                'Accept': ' application/json '
                             }
+                        }).then((res) => {
+                            this.showCorrectSignal = !!res.data.status;
                         }).catch(err => {
                             this.showCorrectSignal = false;
 
