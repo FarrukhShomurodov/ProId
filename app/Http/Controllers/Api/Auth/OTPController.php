@@ -64,11 +64,11 @@ class OTPController extends Controller
     public function checkCode(PhoneNumberRequest $request): JsonResponse
     {
         $validated = $request->validated();
+        return response()->json($validated['phone_number']);
 
         // Getting sending code by phone number
         $phone = VerifyCode::query()->where('phone_number', '=', $validated['phone_number'])->latest()->first();
 
-        return response()->json($phone);
         if ($phone && (int)$phone->code === (int)$request->input('code')) {
             // Return JSON response with status 200
             return response()->json(['status' => true], Response::HTTP_OK);
