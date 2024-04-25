@@ -140,7 +140,7 @@ export default {
                 if (allDigitsFilled) {
                     const code = this.otp.join('');
                     if (code.length === 6) {
-                        axios.post('api/checkCode', {
+                        axios.post('/api/checkCode', {
                             phoneNumber: this.phoneNumberForSend,
                             code: parseInt(code, 10)
                         }).then((res) => {
