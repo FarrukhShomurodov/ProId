@@ -25,13 +25,17 @@ const routes = [
         path: '/',
         component: Login,
         name: 'login',
-        // beforeEnter(to, from, next) {
-        //     if (token() || from.name === 'dashboard') {
-        //         next({name: 'dashboard'})
-        //     } else {
-        //         next()
-        //     }
-        // }
+        beforeEnter(to, from, next) {
+            if (from.matched[0].name === 'dashboard') {
+                next()
+            } else {
+                if (token()) {
+                    next({name: 'dashboard'})
+                } else {
+                    next()
+                }
+            }
+        }
     },
     // {
     //     path: '/oauth/authorize',
