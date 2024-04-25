@@ -18,7 +18,7 @@ class AddressController extends Controller
      */
     public function fetchByUser(): AnonymousResourceCollection
     {
-        $user = Auth::user();
+        $user = Auth::guard('api')->user();
 
         $address = $user->address()->get();
 

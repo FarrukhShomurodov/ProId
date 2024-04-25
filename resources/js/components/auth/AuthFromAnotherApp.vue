@@ -59,12 +59,11 @@ export default {
                 axios.post('/api/login', {
                     phone_number: this.phone_number,
                 }).then(response => {
-                    console.log(response)
-                    if (response.data.name && response.data.surname) {
+                    if (response.data.user.name && response.data.user.surname) {
                         this.count++;
                         if (this.count < 5) {
-                            this.name = response.data.name;
-                            this.surname = response.data.surname;
+                            this.name = response.data.user.name;
+                            this.surname = response.data.user.surname;
                             this.notFound = '';
                             this.isAuth = true;
                             this.authAction = 'Войти';

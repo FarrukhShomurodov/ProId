@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use Alexvexone\LaravelOperSms\OperSmsService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\PhoneNumberRequest;
+use App\Models\User;
 use App\Models\VerifyCode;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 
 class OTPController extends Controller
@@ -20,48 +23,37 @@ class OTPController extends Controller
         //validate
         $validated = $request->validated();
 
-        $code = 111111;
+        //random code
+        $code = rand(100000, 999999);
 
-        //saving sending code in db
-        $VerifyCode = VerifyCode::query()->create([
-            'phone_number' => $validated['phone_number'],
-            'code' => $code,
-//            'email' => $validated['email']
-        ]);
+        $proUser = User::query()->where('phone_number', $validated['phone_number'])->first();
 
-        return new JsonResponse($VerifyCode, 200);
-//
-//        //random code
-//        $code = rand(100000, 999999);
-//
-//        $proUser = User::query()->where('phone_number', $validated['phone_number'])->first();
-//
-//        $validated['email'] = $proUser['email'];
-//
-//        if (!empty($proUser['email'])) {
-//            Mail::to($validated['email'])->send(new \App\Mail\VerifyCode($code));
-//        }
-//
-//        //text for sent user phone number
-//        $sentText = "PRO:" . $code . "– Ваш одноразовый код в PRO ID.";
-//
-//        //sending text
-//        $sent = OperSmsService::send($validated['phone_number'], $sentText);
-//
-//        if (gettype($sent) == "array") {
-//
-//            //saving sending code in db
-//            $verifyCode = VerifyCode::query()->create([
-//                'phone_number' => $validated['phone_number'],
-//                'code' => $code,
-//                'email' => $validated['email']
-//            ]);
-//
-//            //return response
-//            return new JsonResponse($verifyCode, 200);
-//        } else {
-//            abort(429);
-//        }
+        $validated['email'] = $proUser['email'];
+
+        if (!empty($proUser['email'])) {
+            Mail::to($validated['email'])->send(new \App\Mail\VerifyCode($code));
+        }
+
+        //text for sent user phone number
+        $sentText = "PRO:" . $code . "– Ваш одноразовый код в PRO ID.";
+
+        //sending text
+        $sent = OperSmsService::send($validated['phone_number'], $sentText);
+
+        if (gettype($sent) == "array") {
+
+            //saving sending code in db
+            $verifyCode = VerifyCode::query()->create([
+                'phone_number' => $validated['phone_number'],
+                'code' => $code,
+                'email' => $validated['email']
+            ]);
+
+            //return response
+            return new JsonResponse($verifyCode, 200);
+        } else {
+            abort(429);
+        }
     }
 
     /**

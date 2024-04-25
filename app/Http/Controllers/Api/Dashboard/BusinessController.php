@@ -20,7 +20,7 @@ class BusinessController extends Controller
      */
     public function fetchByUser(): AnonymousResourceCollection
     {
-        $user = Auth::user();
+        $user = Auth::guard('api')->user();
         $businesses = $user->businesses()->get();
 
         return BusinessResource::collection($businesses);

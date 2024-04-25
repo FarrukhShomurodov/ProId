@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 // Auth
 Route::post('/has-user', [AuthController::class, 'hasUser']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 // OTP
 Route::post('/sendOTP', [OTPController::class, 'sendOTP']);
@@ -45,7 +45,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Email
     Route::post('/send-verify-code-email', [SendEmailController::class, 'sendEmail']);
-    Route::post('/send-check-verify-code-email',[SendEmailController::class, 'checkCode']);
+    Route::post('/send-check-verify-code-email', [SendEmailController::class, 'checkCode']);
     Route::post('/add-email', [UserController::class, 'addEmail']);
     Route::delete('/delete-email', [UserController::class, 'deleteEmail']);
 
@@ -88,29 +88,30 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/experience-by-job/{proJob}', [ExperienceController::class, 'fetchByJob'])->whereNumber('proJob');
     Route::apiResource('/experience', ExperienceController::class)->except('index', 'destroy');
 });
-
-
-Route::get('/redirect', function () {
-    $query = http_build_query([
-        'client_id' => '3',
-        'redirect_uri' => 'http://localhost:8000/api/callback',
-        'response_type' => 'code',
-        'scope' => '',
-        'state' => 'absdabsdabsdabsd',
-    ]);
-
-    return redirect('http://localhost:8000/oauth/authorize?'.$query);
-});
-
-
-Route::get('/callback', function (Request $request) {
-    $response = Http::asForm()->post('http://passport-app.test/oauth/token', [
-        'grant_type' => 'authorization_code',
-        'client_id' => '3',
-        'client_secret' => 'aG8nIvCbFG3M5Nh9DNFnNfbijQCUp7yHrMbC41iP',
-        'redirect_uri' => 'http://localhost:8000/api/callback',
-        'code' => $request->code,
-    ]);
-
-    return $response->json();
-});
+//
+//
+//Route::get('/redirect', function () {
+//    $query = http_build_query([
+//        'client_id' => '3',
+//        'redirect_uri' => 'http://localhost:8000/api/callback',
+//        'response_type' => 'code',
+//        'scope' => '',
+//        'state' => 'absdabsdabsdabsd',
+//         'prompt' => 'consent', // "none", "consent", or "login"
+//    ]);
+//
+//    return redirect('http://localhost:8000/oauth/authorize?' . $query);
+//});
+//
+//
+//Route::get('/callback', function (Request $request) {
+//    $response = Http::asForm()->post('http://localhost:8000/oauth/token', [
+//        'grant_type' => 'authorization_code',
+//        'client_id' => '3',
+//        'client_secret' => 'aG8nIvCbFG3M5Nh9DNFnNfbijQCUp7yHrMbC41iP',
+//        'redirect_uri' => 'http://localhost:8000/api/callback',
+//        'code' => $request->code,
+//    ]);
+//
+//    return $response->json();
+//});

@@ -22,7 +22,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->user = Auth::user();
+            $this->user = Auth::guard('api')->user();
             return $next($request);
         });
     }
@@ -32,29 +32,48 @@ class UserController extends Controller
         return UserResource::make($this->user);
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function switchUser(Request $request): JsonResponse
     {
         try {
+            // Find the user to switch to
             $switchedUser = User::find($request->user_id);
 
             if (!$switchedUser) {
                 return new JsonResponse(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
             }
 
-            if ($request->user())
-                $request->user()->token()->revoke();
+            // Check if there's an authenticated user
+            if ($request->user()) {
+                // Revoke the current user's token, if it exists
+                $currentToken = $request->user()->token();
+                if ($currentToken) {
+                    $currentToken->revoke();
+                }
 
+                // Logout the current user
+                Auth::logout();
+            }
+
+            // Create a new token for the switched user
             $accessToken = $switchedUser->createToken('token')->accessToken;
 
-            return new JsonResponse(['access_token' => $accessToken, 'user' => UserResource::make($switchedUser)], Response::HTTP_OK);
+            // Log in the switched user
+            Auth::login($switchedUser);
+
+            // Regenerate session
+            $request->session()->regenerate();
+
+            // Return the access token and user information
+            return new JsonResponse([
+                'access_token' => $accessToken,
+                'user' => UserResource::make($switchedUser)
+            ], Response::HTTP_OK);
         } catch (Exception $e) {
             return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
 
     /**
      * @param $id

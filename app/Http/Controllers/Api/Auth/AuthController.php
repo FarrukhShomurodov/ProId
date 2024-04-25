@@ -11,7 +11,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,10 +28,9 @@ class AuthController extends Controller
 
         $user = User::query()->where('phone_number', $validated['phone_number'])->first();
 
-        if ($user != null){
+        if ($user != null) {
             return new JsonResponse(UserResource::make($user), Response::HTTP_OK);
-        }
-        else{
+        } else {
             return new JsonResponse('Нет аккаунта c таким номером', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
@@ -50,7 +49,6 @@ class AuthController extends Controller
 
             $user = User::query()->where('phone_number', $validated['phone_number'])->first();
 
-
             $oauthData = Session::get('redirect_data');
 
             // set oauth redirect url if it has
@@ -58,16 +56,22 @@ class AuthController extends Controller
             if (Session::has('redirect_data')) $redirectUrl = $oauthData;
             Session::forget('redirect_data');
 
-            $accessToken = $user->createToken('token')->accessToken;
+
+            if ($user) {
+                Auth::guard('web')->login($user);
+                $accessToken = $user->createToken('token')->accessToken;
+            }
+
+            $request->session()->regenerate();
 
             return new JsonResponse([
                 'access_token' => $accessToken,
                 'redirect_url' => $redirectUrl,
-                'user' => UserResource::make($user)
+                'user' => UserResource::make($user),
             ], Response::HTTP_OK);
 
         } catch (Exception $e) {
-            return new JsonResponse(['error' => 'Internal Server Error'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -92,6 +96,10 @@ class AuthController extends Controller
             if (Session::has('redirect_data')) $redirectUrl = $oauthData;
             Session::forget('redirect_data');
 
+            Auth::guard('web')->login($user);
+
+            $request->session()->regenerate();
+
             return new JsonResponse([
                 'access_token' => $accessToken,
                 'redirect_url' => $redirectUrl,
@@ -112,6 +120,8 @@ class AuthController extends Controller
     {
         try {
             $request->user()->token()->revoke();
+
+            Auth::guard('web')->logout();
 
             return response()->json(['message' => 'Logged out successfully'], Response::HTTP_OK);
         } catch (Exception $e) {
