@@ -144,6 +144,10 @@ export default {
                             phoneNumber: this.phoneNumberForSend,
                             code: parseInt(code, 10)
                         }).then((res) => {
+                            console.log(res);
+                            console.log(res.data.status);
+                            console.log(typeof res.data.status);
+
                             if (res.data.status){
                                 this.showCorrectSignal = true;
                             }else {
