@@ -83,7 +83,7 @@ export default {
                             let userIds = JSON.parse(localStorage.getItem('users_id'));
 
                             // Push the new id into the array
-                            if(!userIds.includes(response.data.user.id)){
+                            if (!userIds.includes(response.data.user.id)) {
                                 userIds.push(response.data.user.id);
                             }
 
@@ -140,19 +140,15 @@ export default {
                 if (allDigitsFilled) {
                     const code = this.otp.join('');
                     if (code.length === 6) {
-                        if (parseInt(code, 10) === 111111) {
+                        axios.post('api/checkCode', {
+                            phoneNumber: this.phoneNumberForSend,
+                            code: parseInt(code, 10)
+                        }).then(() => {
                             this.showCorrectSignal = true;
-                        } else {
-                            // Validate the OTP code
-                            axios.post('api/checkCode', {
-                                phoneNumber: this.phoneNumberForSend,
-                                code: parseInt(code, 10)
-                            }).then(() => {
-                                this.showCorrectSignal = true;
-                            }).catch(err => {
-                                this.showCorrectSignal = false;
-                            });
-                        }
+                        }).catch(err => {
+                            this.showCorrectSignal = false;
+
+                        });
                     } else {
                         this.showCorrectSignal = false;
                     }
@@ -178,7 +174,7 @@ export default {
             <span class="redirect_timer resend_timer" :style="{ color: timerColor }">{{ this.resendTimer }}</span>
             <!-- OTP input form -->
             <div class="otc-form">
-                <form  class="otc" name="one-time-code" action="#">
+                <form class="otc" name="one-time-code" action="#">
                     <img class='phone' src="/images/icons/phone.png" style="width: 21px; height: 21px" alt="" srcset="">
                     <!-- Display OTP input fields -->
                     <input
