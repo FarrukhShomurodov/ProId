@@ -65,15 +65,16 @@ class OTPController extends Controller
     {
         $validated = $request->validated();
 
-        //getting sending code by phone number
+        // Getting sending code by phone number
         $phone = VerifyCode::query()->where('phone_number', '=', $validated['phone_number'])->latest()->first();
 
         if ($phone && (int)$phone->code === (int)$request->input('code')) {
-            return new JsonResponse(['status' => true], Response::HTTP_OK);
+            // Return JSON response with status 200
+            return response()->json(['status' => true], Response::HTTP_OK);
         }
 
-        //return error
-        return new JsonResponse(['status' => false, 'message' => 'Invalid code'], Response::HTTP_FORBIDDEN);
+        // Return JSON response with status 403 (Forbidden)
+        return response()->json(['status' => false, 'message' => 'Invalid code'], Response::HTTP_FORBIDDEN);
     }
 
 }
