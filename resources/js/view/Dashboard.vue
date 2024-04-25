@@ -124,7 +124,11 @@ export default {
 
                 this.switchUser(users[0]);
             } else {
-                axios.post('/api/logout')
+                axios.post('/api/logout', {
+                    headers: {
+                        'Accept': ' application/json '
+                    }
+                })
                     .then(() => {
                         document.cookie = 'accessToken =; Path=/; Expires=Thu, 01 Jan 1980 00:00:01 GMT;';
                         router.push('/');
