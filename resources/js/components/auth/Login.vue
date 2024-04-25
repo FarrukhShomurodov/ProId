@@ -60,6 +60,10 @@ export default {
             if (this.phone_number.length === 12) {
                 axios.post('/api/has-user', {
                     phone_number: this.phone_number,
+                }, {
+                    headers: {
+                        'Accept': ' application/json '
+                    }
                 }).then(response => {
                     if (response.data.name && response.data.surname) {
                         this.count++;
@@ -76,7 +80,7 @@ export default {
                         }
                     }
                 }).catch(error => {
-                    this.notFound = error.response.data.message;
+                    this.notFound = error.response.data;
                     this.authAction = 'Создать';
                     this.auth = true;
                 });
@@ -119,7 +123,8 @@ export default {
                 </div>
                 <!-- Main form for phone number input -->
                 <form @submit.prevent class="main-form">
-                    <p :class="{ 'not-found': notFound }">{{ surname }} {{ name !== '' ? name[0] + '.' : '' }}  {{ notFound }}</p>
+                    <p :class="{ 'not-found': notFound }">{{ surname }} {{ name !== '' ? name[0] + '.' : '' }}
+                        {{ notFound }}</p>
                     <input
                         required
                         type="tel"
@@ -146,7 +151,8 @@ export default {
                 </div>
             </div>
             <!-- Bottom section with additional link -->
-            <div class="bottom d-flex justify-content-center align-items-center"  @mouseover="showPopup = true" @mouseleave="showPopup = false">
+            <div class="bottom d-flex justify-content-center align-items-center" @mouseover="showPopup = true"
+                 @mouseleave="showPopup = false">
                 <a href="#">
                     Что такое PRO ID
                 </a>
@@ -157,7 +163,7 @@ export default {
 
     <!-- Pop-up content -->
     <div class="popup-content d-flex justify-content-center align-items-center" v-if="showPopup">
-            <p>PRO ID - ключ от всех сервисов, ключ от всех сервисов ключ от всех сервисов ключ от всех сервисов.</p>
+        <p>PRO ID - ключ от всех сервисов, ключ от всех сервисов ключ от всех сервисов ключ от всех сервисов.</p>
     </div>
 
     <!-- Bottom part with disclaimers and support information -->
