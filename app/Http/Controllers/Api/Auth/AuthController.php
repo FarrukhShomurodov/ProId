@@ -119,7 +119,10 @@ class AuthController extends Controller
     public function logout(Request $request): JsonResponse
     {
         try {
-            $request->user()->token()->revoke();
+
+            if ($request->user()->token()) {
+                $request->user()->token()->revoke();
+            }
 
             Auth::guard('web')->logout();
 
