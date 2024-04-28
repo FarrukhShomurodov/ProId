@@ -88,6 +88,7 @@ class AuthController extends Controller
 
             $user = User::query()->create($validated);
 
+            Auth::guard('web')->login($user);
             $accessToken = $user->createToken('token')->accessToken;
 
             $oauthData = Session::get('redirect_data');
@@ -96,7 +97,6 @@ class AuthController extends Controller
             if (Session::has('redirect_data')) $redirectUrl = $oauthData;
             Session::forget('redirect_data');
 
-            Auth::guard('web')->login($user);
 
             $request->session()->regenerate();
 

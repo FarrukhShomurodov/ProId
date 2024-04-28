@@ -20,7 +20,7 @@ export default {
     methods: {
         // Handle user registration
         register() {
-            axios.post('api/register', {
+            axios.post('/api/register', {
                 phone_number: this.phoneNumber,
                 name: this.name,
                 surname: this.surname,
@@ -56,7 +56,7 @@ export default {
                     localStorage.setItem('users_id', JSON.stringify(userIds));
                 } else {
                     // Create a new array with the id and set it into localStorage
-                    localStorage.setItem('users_id', JSON.stringify([response.data.user.id]));
+                    localStorage.setItem('users_id', JSON.stringify([res.data.user.id]));
                 }
 
                 if (res.data.redirect_url === null) {
