@@ -67,7 +67,7 @@ a {
     background: #FFF;
     padding: 55px 45px 11px;
     width: 361px;
-    height: 460px;
+    height: 480px;
     border-radius: 20px;
     box-shadow: 0px 0px 40px -25px #000;
 }
@@ -315,4 +315,16 @@ a {
 
 .phone-number-button:hover {
     border: 2px solid #333333 !important;
+}
+
+#selectedUser{
+    display: none;
+    border: none;
+    background-color: transparent;
+    width: 200px;
+}
+
+
+#selectedUser option{
+    color: wheat !important;
 }

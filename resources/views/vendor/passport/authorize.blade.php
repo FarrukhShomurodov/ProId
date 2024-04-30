@@ -14,7 +14,7 @@
 </head>
 <body class="passport-authorize">
 @php
-    $user = \Illuminate\Support\Facades\Auth::user()
+    $user = \Illuminate\Support\Facades\Auth::user();
 @endphp
 
 <div class="login">
@@ -45,7 +45,7 @@
 
                 <!-- Select dropdown for selecting a user -->
                 <select name="selected_user" id="selectedUser">
-                    <option value="" selected>Please select a user</option>
+                    <option value="" selected>Выберите пользователя</option>
                 </select>
 
                 <p class="redirect_timer">Через <span id="second">{{ 5 }}</span> секунд вы вернетесь на сайт
@@ -83,7 +83,10 @@
         let users = JSON.parse(localStorage.getItem('users_id'));
 
         // If there are users in localStorage, populate the dropdown
-        if (users) {
+        if (users && users.length > 1) {
+            document.getElementById('selectedUser').style.display = "block"
+            document.getElementsByClassName('redirect_timer')[0].style.display = "none"
+
             // Create an option for each user
             users.forEach(userId => {
                 axios.get(`/api/get-another-user/${userId}`).then(res => {
@@ -142,30 +145,37 @@
                 console.error('Switch user error:', error);
             });
     }
-
+    //
     document.addEventListener("DOMContentLoaded", function () {
-        // Set default value in second
-        let second = 5;
+        let users = JSON.parse(localStorage.getItem('users_id'));
 
-        // Getting second element form html
-        let secondEl = document.querySelector('#second');
+        // If there are users in localStorage, populate the dropdown
+        if (users && users.length === 1) {
 
-        // Setting second value in element and decreasing value each second
-        function timer() {
-            if (second > 0) {
-                second -= 1;
-                secondEl.innerHTML = second;
-            } else {
-                clearInterval(timerInterval)
-                document.getElementById('approvalForm').submit();
+
+            // Set default value in second
+            let second = 5;
+
+            // Getting second element form html
+            let secondEl = document.querySelector('#second');
+
+            // Setting second value in element and decreasing value each second
+            function timer() {
+                if (second > 0) {
+                    second -= 1;
+                    secondEl.innerHTML = second;
+                } else {
+                    clearInterval(timerInterval)
+                    document.getElementById('approvalForm').submit();
+                }
             }
-        }
 
-        let timerInterval = setInterval(timer, 1000)
+            let timerInterval = setInterval(timer, 1000)
 
-        // Clear interval if time out
-        if (second <= 0) {
-            clearInterval(timerInterval);
+            // Clear interval if time out
+            if (second <= 0) {
+                clearInterval(timerInterval);
+            }
         }
     });
 </script>

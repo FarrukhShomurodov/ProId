@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('box_offices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('business_id')->constrained('pro_businesses');
+            $table->foreignId('business_id')->constrained('businesses');
             $table->string('name');
             $table->string('service');
             $table->foreignId('bank_data_id')->constrained('banks_data');
